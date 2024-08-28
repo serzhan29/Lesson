@@ -1,0 +1,626 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    outline: none;
+    box-sizing: border-box;
+    font-family: "Kanit", sans-serif;
+    font-weight: 300;
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+a{
+    text-decoration: none;
+}
+
+p{
+    color: black;
+}
+
+p.grey   {
+    color: #ccc;
+}
+
+img{
+    object-fit: cover;
+}
+
+body{
+    background: #09090c;
+}
+body.white{
+    background: white;
+}
+nav,
+footer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    gap: 2px;
+}
+
+nav .logo i{
+    background: #09090c;
+    padding: 8px;
+    font-size: 20px;
+    border-radius: 50%;
+}
+
+nav .nav-links,
+footer .copyright{
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+    background: #171717;
+    gap: 30px;
+    border-radius: 30px;
+}
+
+nav .nav-links a{
+    color: #fff;
+    transition: all 0.3s ease;
+    top: 0; /* Располагает меню в верхней части экрана */
+    width: 100%; /* Меню занимает всю ширину экрана */
+    padding: 10px; /* Отступы внутри меню */
+    justify-content: space-around; /* Распределение ссылок по горизонтали */
+}
+
+nav .nav-links a:hover{
+    color: #a3e635;
+}
+
+nav .nav-links .separator,
+footer .copyright .separator{
+    width: 5px;
+    height: 5px;
+    background: #a3e635;
+    border-radius: 50%;
+}
+
+nav .nav-links p,
+footer .copyright p{
+    font-size: 13px;
+}
+
+nav .login{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: #171717;
+    padding: 4px 4px 4px 14px;
+    border-radius: 50px;
+}
+
+nav .login img{
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+}
+
+nav .login a{
+    font-size: 13px;
+    color: #fff;
+}
+
+
+/* Стиль для иконки пользователя */
+.auth-links .profile img {
+    width: 30px; /* Ширина иконки (можно изменить) */
+    height: 30px; /* Высота иконки (можно изменить) */
+    border-radius: 50%; /* Округлые края иконки (если нужно) */
+}
+
+/* Дополнительный стиль при наведении на ссылку */
+.nav-links a:hover,
+.auth-links a:hover {
+    color: #007bff; /* Цвет текста при наведении */
+}
+
+
+.prompt-sec{
+    padding: 5px;
+}
+
+.prompt-sec h1{
+    color: #ccc;
+    font-size: 150px;
+    line-height: 100px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.prompt-sec .prompt-img{
+    position: relative;
+    margin-top: 34px; /* Добавляет отступ сверху для .prompt-img */
+}
+
+.prompt-sec .prompt-img img{
+    width: 100%;
+    height: 540px;
+    border-radius: 60px;
+    object-position: top center;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 1);
+}
+
+    .prompt-sec .prompt-img .tabs{
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        width: 70%;
+        bottom: -60px;
+        padding: 20px 0;
+    }
+
+.prompt-sec .prompt-img input{
+    width: 55%;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.22);
+    border-radius: 20px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    font-size: 16px;
+    padding: 16px;
+    text-align: center;
+    color: #fff;
+}
+
+.prompt-sec .prompt-img input::placeholder{
+    color: #ccc;
+}
+
+.prompt-sec .prompt-img .tabs{
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    padding: 8px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 50px;
+}
+
+.prompt-sec .prompt-img .tabs a{
+    color: #fff;
+    background: #231f1c;
+    padding: 10px;
+    width: 120px;
+    text-align: center;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.prompt-sec .prompt-img .tabs a.active,
+.prompt-sec .prompt-img .tabs a:hover{
+    color: #231f1c;
+    background: #a3e635;
+}
+
+.prompt-sec .prompt-img .tabs {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    width: 40%;
+    bottom: -60px;
+    padding: 20px 0;
+}
+
+.showcase{
+    padding: 40px 80px;
+    margin-top: 20px;
+}
+
+h3.black {
+    color:black;
+}
+
+.showcase h3{
+    color: #fff;
+    font-size: 56px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.showcase .text-sec{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    margin-bottom: 20px;
+}
+
+.showcase .text-sec p{
+    width: 100%;
+    text-align: justify;
+}
+
+.showcase .text-sec .images,
+.showcase .image-sec{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); /* Создаёт три равных колонки */
+    gap: 15px; /* Отступ между изображениями */
+}
+
+.showcase .text-sec .images img,
+.showcase .image-sec img{
+    width: 280px; /* Ширина изображения равна ширине ячейки */
+    height: 420px; /* Задаёт одинаковую высоту для всех изображений */
+    object-fit: cover; /* Сохраняет пропорции изображения и заполняет контейнер */
+    border-radius: 10px; /* Скругленные углы */
+    border: 1px solid #c5c5c5; /* Граница вокруг изображения */
+}
+
+
+
+.services .header,
+.video-sec .header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 40px 80px 0;
+}
+
+.services .header h3,
+.video-sec .header h3{
+    color: #fff;
+    font-size: 56px;
+    text-transform: uppercase;
+    width: 60%;
+}
+
+.services .service-items{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 0px;
+    padding-bottom: 40px;
+    gap: 20px; /* Отступы между элементами */
+}
+
+.services .service-items .item{
+    background: #171717;
+    padding: 20px;
+    border-radius: 40px;
+    width: 25%;
+    width: calc(25% - 20px); /* Устанавливает ширину элемента, учитывая отступы */
+    min-height: 200px; /* Устанавливает минимальную высоту элемента */
+     justify-content: space-between; /* Равномерное распределение пространства между содержимым */
+}
+
+.services .service-items .item .title{
+    display: flex;
+    align-items: center;
+    background: #2e2c29;
+    padding: 5px 20px 5px 5px;
+    gap: 10px;
+    width: fit-content;
+    border-radius: 50px;
+    margin-bottom: 30px;
+}
+
+.services .service-items .item .title .gradient{
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+}
+
+.services .service-items .item:nth-child(1) .title .gradient{
+    background-image: linear-gradient(to top, #3f51b1 0%, #5a55ae 13%, #7b5fac 25%, #8f6aae 38%, #a86aa4 50%, #cc6b8e 62%, #f18271 75%, #f3a469 87%, #f7c978 100%);
+}
+
+.services .service-items .item:nth-child(2) .title .gradient{
+    background-image: linear-gradient(to top, #4fb576 0%, #44c489 30%, #28a9ae 46%, #28a2b7 59%, #4c7788 71%, #6c4f63 86%, #432c39 100%);
+}
+
+.services .service-items .item:nth-child(3) .title .gradient {
+    background-image: linear-gradient(to right, #f83600 0%, #f9d423 100%);
+}
+
+.services .service-items .item:nth-child(4) .title .gradient {
+    background-image: linear-gradient(to top, #0fd850 0%, #f9f047 100%);
+}
+
+.services .service-items .item .desc h5{
+    text-transform: uppercase;
+    color: #fff;
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.services .service-items .item.active{
+    background: #a3e635;
+}
+
+.services .service-items .item.active .title{
+    background: #000;
+}
+
+.services .service-items .item.active .desc h5{
+    color: #000;
+}
+
+.services .service-items .item.active .desc p{
+    color: #313131;
+}
+
+.video-sec .header h3{
+    text-align: right;
+}
+
+.video-sec .video{
+    margin: 20px 0 40px;
+    padding: 0 80px;
+    position: relative;
+}
+
+.video-sec .video img{
+    width: 100%;
+    height: 420px;
+    object-fit: top center;
+    border-radius: 40px;
+}
+
+.video-sec .video button{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 100px;
+    display: flex;
+    background: rgba(86, 85, 85, 0.42);
+    backdrop-filter: blur(8.7px);
+    -webkit-backdrop-filter: blur(8.7px);
+    border: 1px solid rgba(86, 85, 85, 0.3);
+    border-radius: 50%;
+    color: #a3e635;
+    padding: 16px 16px 16px 24px;
+    cursor: pointer;
+}
+
+footer .copyright{
+    width: 100%;
+}
+
+@media screen and (max-width: 1400px) {
+
+    .prompt-sec h1{
+        font-size: 100px;
+        line-height: 90px;
+    }
+
+    .prompt-sec .prompt-img .tabs a{
+        width: 20%;
+    }
+
+    .showcase h3{
+        font-size: 40px;
+        margin-bottom: 14px;
+    }
+
+    .showcase .text-sec{
+        flex-direction: column;
+    }
+
+    .showcase .text-sec p{
+        width: 100%;
+    }
+
+    .showcase .text-sec .images,
+    .showcase .image-sec{
+        margin-left: auto;
+        grid-template-columns: repeat(4, 1fr);
+
+    }
+
+    .showcase .text-sec .images img,
+    .showcase .image-sec img{
+        width: 280px;
+    }
+
+    .services .header h3,
+    .video-sec .header h3{
+        font-size: 40px;
+        width: 75%;
+    }
+
+    .services .service-items{
+        flex-wrap: wrap;
+    }
+
+    .services .service-items .item{
+        width: 48%;
+    }
+
+}
+
+@media screen and (max-width: 992px) {
+
+    .prompt-sec h1{
+        font-size: 100px;
+        line-height: 70px;
+    }
+
+    .prompt-sec .prompt-img input{
+        top: 70%;
+        padding: 12px;
+    }
+
+    .prompt-sec .prompt-img .tabs a{
+        font-size: 14px;
+        width: 100px;
+    }
+
+    .showcase,
+    .services .service-items{
+        padding: 40px;
+    }
+
+    .showcase h3{
+        font-size: 34px;
+    }
+
+    .showcase .text-sec .images,
+    .showcase .image-sec{
+        justify-content: center;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .showcase .text-sec .images img,
+    .showcase .image-sec img{
+        width: 10%;
+    }
+
+    .services .header{
+        flex-direction: column;
+        padding: 40px 40px 0;
+    }
+
+    .services .header h3,
+    .video-sec .header h3{
+        width: 100%;
+    }
+
+    .video-sec .header{
+        flex-direction: column-reverse;
+        padding: 40px 40px 0;
+    }
+
+    .video-sec .video{
+        padding: 0 40px;
+    }
+
+    .showcase .text-sec .images img,
+    .showcase .image-sec img {
+        width: 100%; /* Изображения занимают всю доступную ширину, сохраняя соотношение сторон */
+        max-width: 200px; /* Ограничение максимальной ширины изображения */
+    }
+
+    .services .service-items .item {
+        width: 100%; /* Изображения занимают всю ширину контейнера */
+        height: 320px;
+    }
+
+    .prompt-sec .prompt-img input {
+        width: 100%; /* Полная ширина для элемента ввода */
+    }
+
+}
+
+
+/* Для экранов с шириной до 768px */
+@media screen and (max-width: 768px) {
+
+    .showcase .text-sec .images img,
+    .showcase .image-sec img {
+        width: 100%; /* Изображения занимают всю доступную ширину, сохраняя соотношение сторон */
+        max-width: 250px; /* Ограничение максимальной ширины изображения */
+        height: 270px;
+    }
+
+    .services .service-items .item {
+        width: 100%; /* Изображения занимают всю ширину контейнера */
+    }
+
+    .prompt-sec .prompt-img input {
+        width: 80%; /* Размер элемента ввода */
+    }
+
+    .prompt-sec .prompt-img .tabs a {
+        width: 29%; /* Ширина табов */
+    }
+
+    .video-sec .video button {
+        font-size: 50px; /* Размер шрифта кнопки */
+    }
+    nav .logo i{
+        padding: 6px;
+    }
+
+    nav .nav-links a{
+        font-size: 13px;
+    }
+
+    nav .nav-links p,
+    footer .copyright p{
+        font-size: 12px;
+    }
+
+    nav .login img{
+        width: 28px;
+        height: 28px;
+    }
+
+    .prompt-sec h1{
+        font-size: 62px;
+        line-height: 48px;
+        margin-top: 20px;
+    }
+
+    .prompt-sec .prompt-img input{
+        width: 80%;
+    }
+
+    .prompt-sec .prompt-img .tabs{
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        bottom: -60px;
+        padding: 20px 0;
+    }
+
+    .prompt-sec .prompt-img .tabs a{
+        width: 29%;
+    }
+
+    .services .service-items .item{
+        width: 100%;
+    }
+
+    .video-sec .video button{
+        font-size: 80px;
+    }
+
+        nav .nav-links,
+    footer .copyright {
+        transform: none; /* Убираем трансформацию */
+        left: auto; /* Сброс значения для left */
+        right: auto; /* Сброс значения для right */
+        margin: 0; /* Убираем любые отступы */
+        padding: 8px; /* Можно изменить отступы, если нужно */
+        width: 85%; /* Меню занимает всю ширину экрана */
+    }
+
+    nav .nav-links a,
+    footer .copyright p {
+        font-size: 12px; /* Регулируем размер шрифта для мобильной версии */
+    }
+
+    nav .login img {
+        width: 28px; /* Регулируем размер изображения для мобильной версии */
+        height: 28px;
+    }
+}
+
+h1 {
+    -webkit-user-select: none; /* Для браузеров на базе WebKit (Chrome, Safari) */
+    -moz-user-select: none; /* Для Firefox */
+    -ms-user-select: none; /* Для Internet Explorer/Edge */
+    user-select: none; /* Для стандартного браузерного свойства */
+}

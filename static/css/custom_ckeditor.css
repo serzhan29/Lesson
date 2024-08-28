@@ -1,0 +1,9 @@
+.cke_dialog .cke_dialog_contents {
+    width: 80% !important;  /* Увеличьте ширину окна предпросмотра */
+    height: 80% !important; /* Увеличьте высоту окна предпросмотра */
+}
+
+.cke_dialog .cke_dialog_footer {
+    display: flex;
+    justify-content: space-between;
+}

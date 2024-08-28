@@ -1,0 +1,134 @@
+/* Основной контейнер с уникальным классом */
+.lesson-main-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 45px;
+    border: 5px solid #ddd; /* Рамка вокруг основного контейнера */
+    border-radius: 20px; /* Скругление углов рамки */
+    background-color: #fff; /* Фон для основного контейнера */
+}
+
+/* Контейнер для основного контента с уникальным классом */
+.lesson-content-container {
+    flex: 3;
+    max-width: calc(100% - 340px); /* Учитываем ширину сайдбара и отступ */
+    margin-right: 20px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+/* Центрирование контента */
+.lesson-center-content {
+    margin-bottom: 20px; /* Отступ перед видео */
+}
+
+/* Секция видео и аудио с уникальным классом */
+.lesson-video-audio-section {
+    display: flex;
+    justify-content: center; /* Центрирование видео по горизонтали */
+    width: 100%;
+}
+
+video {
+    max-width: 100%;
+    height: auto; /* Подстраивает высоту видео по ширине */
+}
+
+/* Сайдбар с уникальным классом */
+.lesson-side-container {
+    flex: 1;
+    width: 300px;
+    background-color: #f0f0f0;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 0 20px 20px 0;
+}
+
+/* Стили для списка лекций */
+.lesson-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Стили для элементов списка лекций */
+.lesson-item {
+    margin-bottom: 10px;
+}
+
+/* Стили для ссылок в списке */
+.lesson-link {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #007bff;
+    font-size: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.lesson-link:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* Контейнер для ссылки возврата */
+.lesson-return-container {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Стили для ссылки возврата */
+.lesson-return-link {
+    display: inline-block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #007bff;
+    font-size: 16px;
+    background-color: #f8f9fa;
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.lesson-return-link:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+
+
+/* Мобильная адаптивность */
+@media (max-width: 768px) {
+    .lesson-main-container {
+        flex-direction: column; /* Расположение блоков в колонку */
+        padding: 20px;
+    }
+
+    .lesson-content-container {
+        max-width: 100%;
+        margin-right: 0;
+    }
+
+    .lesson-side-container {
+        width: 100%;
+        margin-top: 20px; /* Добавляем отступ сверху для сайдбара */
+        border-radius: 10px; /* Скругляем углы сайдбара */
+    }
+
+    video {
+        width: 100%; /* Видео занимает всю ширину контейнера */
+    }
+
+    .lesson-return-container {
+        bottom: 10px;
+        left: 10px;
+        transform: none;
+    }
+}

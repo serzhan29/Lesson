@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block header %}
+    {{ form.media }}  <!-- Подключение медиа для CKEditor5 -->
+{% endblock %}
+
+{% block content %}
+  {% if user.is_superuser %}
+    <h2>Редактировать Лекции</h2>
+    <ul>
+      {% for lesson in lessons %}
+        <li>
+          <a href="{% url 'lesson_update' lesson.pk %}">
+            {{ lesson.number }}. {{ lesson.title }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endblock %}

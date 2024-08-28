@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+      <div class="prompt-sec">
+        <div class="prompt-img">
+            <img src="{% static 'img/main.jpg' %}">
+            <div class="tabs">
+                <a href="#" class="active">Мәзір -></a>
+                <a href="">Жобалар</a>
+                <a href="#">Тесттер</a>
+                <a href="{% url 'author' %}">Автор</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="showcase" id="aihub">
+        <h3>ҚАЗАҚСТАН ТАРИХЫ ТУРАЛЫ КІТАПТАР</h3>
+        <div class="text-sec">
+            <p class="grey">
+                Мұнда Сіз Қазақстан тарихы бойынша түрлі материалдарды таба аласыз.
+                Біз сізге тарихты зерттеудің әртүрлі әдістемелерімен, дәрістермен және еліміздің өткенінің
+                барлық негізгі аспектілерін қамтитын сабақтармен танысуды ұсынамыз.
+                Сіз ежелгі тарихқа, ортағасырлық оқиғаларға немесе қазіргі заманғы дамуға қызығушылық танытсаңыз да,
+                бізде Қазақстан тарихына терең бойлау үшін барлық қажетті ресурстар бар.
+            </p>
+        </div>
+        <div class="image-sec">
+            <img src="{% static 'img/1.jpg' %}">
+            <img src="{% static 'img/2.jpg' %}">
+            <img src="{% static 'img/3.jpg' %}">
+            <img src="{% static 'img/4.jpg' %}">
+            <img src="{% static 'img/5.jpg' %}">
+            <img src="{% static 'img/5.jpg' %}">
+        </div>
+    </div>
+
+    <div class="services" id="services">
+        <div class="header">
+            <h3>Әдістемелер</h3>
+            <p class="grey">
+                Еліміздің бай және көпқабатты тарихын ескере отырып,
+                Қазақстан тарихы бойынша әдіснамалар әр түрлі болуы мүмкін.
+                Мұнда бірнеше мысалдар келтірілген:
+            </p>
+        </div>
+
+        <div class="service-items">
+            <div class="item">
+                <div class="title">
+                    <div class="gradient"></div>
+                    <p class="grey">Тарихнамалық әдіс</p>
+                </div>
+                <div class="desc">
+                    <p class="grey">
+                        Қазақстан туралы жазылған түрлі дереккөздер мен әдеби материалдарды талдау.
+                    </p>
+                </div>
+            </div>
+            <div class="item active">
+                <div class="title">
+                    <div class="gradient"></div>
+                    <p class="grey" >Археологиялық әдіс</p>
+                </div>
+                <div class="desc">
+                    <p class="grey" >
+                        Қазіргі Қазақстан аумағын мекендеген ежелгі мәдениеттерді
+                        зерттеу үшін археологиялық деректерді пайдалану.
+                    </p>
+                </div>
+            </div>
+            <div class="item">
+                <div class="title">
+                    <div class="gradient"></div>
+                    <p class="grey">Этнографиялық әдіс</p>
+                </div>
+                <div class="desc">
+                    <p class="grey">
+                        Қазақ халқының мәдени дәстүрлері мен әдет-ғұрыптарын зерттеу.
+                    </p>
+                </div>
+            </div>
+            <div class="item">
+                <div class="title">
+                    <div class="gradient"></div>
+                    <p class="grey">Әлеуметтік-экономикалық әдіс</p>
+                </div>
+                <div class="desc">
+                    <p class="grey">
+                        Ауыл шаруашылығын, өнеркәсіпті және сауданы дамытуды қоса алғанда,
+                        Қазақстанның тарих бойындағы экономикалық дамуын зерттеу.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/list.css' %}">
+{% if lessons %}
+    {% for lesson in lessons %}
+    <body class="white">
+      <div class="content">
+          <div class="works-list">
+              <div class="item">
+                  {% if lesson.photo %}
+                    <img src="{{ lesson.photo.url }}" alt="{{ lesson.title }}">
+                  {% endif %}
+                  <div class="details">
+                      <a href="{% url 'lesson_detail' lesson.id %}">
+                        <h3 class="black">{{ lesson.title }}</h3>
+                      </a>
+                      <div class="item-info">
+                          <div class="year-badge">Лекция {{ lesson.number }}</div>
+                      </div>
+                      <!-- Используйте фильтр safe для отображения HTML -->
+                      <p style="color: white;">{{ lesson.short_description|safe }}</p>
+
+                  </div>
+              </div>
+          </div>
+      </div>
+    </body>
+    {% endfor %}
+{% else %}
+    <h1>Пока здесь ничего не добавлено.</h1>
+{% endif %}
+
+{% endblock %}

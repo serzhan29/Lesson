@@ -1,0 +1,54 @@
+<body>
+    <header>
+        <h1>Результаты Теста</h1>
+        <nav>
+            <a href="{% url 'quiz_list' %}">Вернуться к списку тестов</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Тест: {{ quiz.title }}</h2>
+        <p><strong>Дата прохождения:</strong> {{ result.date_taken }}</p>
+        <p><strong>Общее количество вопросов:</strong> {{ quiz.questions.count }}</p>
+        <p><strong>Количество правильных ответов:</strong> {{ result.correct_answers }}</p>
+        <p><strong>Количество набранных баллов:</strong> {{ result.score }}</p>
+
+        <h3>Детали теста</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Вопрос</th>
+                    <th>Ваш ответ</th>
+                    <th>Правильные ответы</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for question in quiz.questions.all %}
+                <tr>
+                    <td>{{ question.text }}</td>
+                    <td>
+                        {% with user_answers|dict_key:question.id as answers %}
+                            {% for answer in question.answers.all %}
+                                {% if answer.id in answers %}
+                                    {{ answer.text }}{% if not forloop.last %}, {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endwith %}
+                    </td>
+                    <td>
+                        {% for answer in question.answers.all %}
+                            {% if answer.is_correct %}
+                                {{ answer.text }}{% if not forloop.last %}, {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Ваша компания. Все права защищены.</p>
+    </footer>
+</body>

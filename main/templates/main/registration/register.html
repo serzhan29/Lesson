@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<body2>
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+    <div class="container">
+        <h2>Регистрация</h2>
+        <form method="post">
+            <div class="form-group2">
+                ㅤ{% csrf_token %}
+                ㅤ{{ form.as_p }}
+            </div>
+            <button type="submit">Регистрация</button>
+        </form>
+        <div class="links">
+            <p>У Вас уже есть аккаунт? <a href="{% url 'login' %}">Войти</a></p>
+        </div>
+    </div>
+</body2>
+{% endblock %}

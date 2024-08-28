@@ -1,0 +1,103 @@
+/* Основной контейнер с уникальным классом */
+.lesson-main-container {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: flex-start !important;
+  padding: 45px !important;
+}
+
+/* Контейнер для основного контента с уникальным классом */
+.lesson-content-container {
+  flex: 1 !important;
+  max-width: 90% !important;
+  margin-right: 40px !important; /* Отступ между контентом и сайдбаром */
+}
+
+/* Центрирование контента */
+.lesson-center-content {
+  text-align: center !important;
+}
+
+/* Секция видео и аудио с уникальным классом */
+.lesson-video-audio-section {
+  margin-top: 20px !important;
+}
+
+/* Сайдбар с уникальным классом */
+.lesson-side-container {
+  width: 15% !important;
+  height: 100vh !important; /* Высота на всю высоту экрана */
+  background-color: #f0f0f0 !important; /* Светлый фон для сайдбара */
+  padding: 20px !important;
+  box-sizing: border-box !important;
+  border-radius: 0 20px 20px 0;
+  left: 0;
+  }
+
+/* Ссылка возврата с уникальным классом */
+.lesson-return-link {
+  display: block !important;
+  margin-top: 20px !important;
+  text-align: center !important;
+  font-size: 16px !important;
+  color: #007bff !important;
+  text-decoration: none !important;
+}
+
+.lesson-return-link:hover {
+  text-decoration: underline !important;
+}
+
+/* Стили для списка лекций */
+.lesson-list {
+  list-style-type: disc; /* Устанавливаем маркеры в виде точек */
+  padding-left: 20px; /* Отступ слева для маркеров */
+  margin: 0;
+}
+
+/* Стили для ссылок в списке */
+.lesson-link {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: #007bff; /* Цвет текста */
+  font-size: 15px;
+  border: 4px solid #ddd; /* Легкая граница вокруг каждого элемента */
+  border-radius: 15px; /* Скругление углов границы */
+  background-color: #fff; /* Фон элемента списка */
+  transition: background-color 0.3s, color 0.3s; /* Плавные переходы для фонового цвета и текста */
+  padding-left: 20px; /* Отступ слева для маркеров */
+
+}
+
+.lesson-link:hover {
+  background-color: #007bff; /* Фоновый цвет при наведении */
+  color: #fff; /* Цвет текста при наведении */
+}
+
+/* Контейнер для ссылки */
+.lesson-return-container {
+  position: fixed; /* Закрепляет контейнер в нижней части экрана */
+  bottom: 20px; /* Отступ от нижнего края экрана */
+  left: 50%; /* Центрирует контейнер горизонтально */
+  transform: translateX(-50%); /* Корректирует позицию, чтобы центрировать по горизонтали */
+}
+
+/* Стили для ссылки возврата */
+.lesson-return-link {
+  display: inline-block; /* Делает ссылку блочным элементом с возможностью задать размеры */
+  padding: 10px 20px; /* Внутренние отступы */
+  text-decoration: none; /* Убирает подчеркивание текста */
+  color: #007bff; /* Цвет текста */
+  font-size: 16px; /* Размер шрифта */
+  background-color: #f8f9fa; /* Светлый фон для ссылки */
+  border: 2px solid #007bff; /* Граница с цветом ссылки */
+  border-radius: 5px; /* Скругление углов */
+  transition: background-color 0.3s, color 0.3s; /* Плавные переходы для фонового цвета и текста */
+}
+
+.lesson-return-link:hover {
+  background-color: #0003; /* Фоновый цвет при наведении */
+  color: #fff; /* Цвет текста при наведении */
+}
+

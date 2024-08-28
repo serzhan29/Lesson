@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'ckeditor/ckeditor.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/detail_lesson.css' %}">
+
+<div class="lesson-main-container">
+    <div class="lesson-content-container">
+        <div class="lesson-center-content">
+            <h1>{{ lesson.title }}</h1>
+            <p class="black-text">
+                {{ lesson.description|safe }}
+            </p>
+        </div>
+        <div class="lesson-video-audio-section">
+            <!-- Здесь будет размещаться видео или аудио -->
+            <video controls>
+                <source src="path/to/your-video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <br>
+        <h1>Презентация</h1>
+        <div class="lesson-presentation-section">
+            <!-- Здесь будет размещаться презентация -->
+            <iframe src="{{ lesson.video }}" width="100%" height="400px">
+                Ваш браузер не поддерживает просмотр PDF-файлов.
+                <a href="{{ lesson.video }}">Скачайте презентацию</a> для просмотра.
+            </iframe>
+        </div>
+    </div>
+
+    <div class="lesson-side-container">
+        <ul class="lesson-list">
+            {% for i in list %}
+                <li class="lesson-item">
+                    <a href="{% url 'lesson_detail' i.id %}" class="lesson-link">{{ i.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<script src="https://cdn.ckeditor.com/ckeditor5/35.3.0/classic/ckeditor.js"></script>
+{% endblock %}
