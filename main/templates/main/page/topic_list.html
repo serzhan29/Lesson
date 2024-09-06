@@ -7,8 +7,10 @@
             <img src="{% static 'img/main.jpg' %}">
             <div class="tabs">
                 <a href="#" class="active">Мәзір -></a>
+                <a href="{% url 'books' %}">Кітаптар</a>
+                <a href="{% url 'metod' %}">Әдістемелер</a>
                 <a href="">Жобалар</a>
-                <a href="#">Тесттер</a>
+                <a href="{% url 'quiz:quiz_list' %}">Тесттер</a>
                 <a href="{% url 'author' %}">Автор</a>
             </div>
         </div>

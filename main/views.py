@@ -11,7 +11,7 @@ from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from django.contrib.auth import login, logout, authenticate
 from .forms import CustomUserCreationForm
-
+from quiz.models import Quiz
 
 class CustomLoginView(LoginView):
     template_name = 'main/registration/login.html'
@@ -76,13 +76,12 @@ def lesson_detail(request, lesson_id):
     lesson = get_object_or_404(Lesson, id=lesson_id)
     related_lessons = Lesson.objects.filter(topic=lesson.topic).exclude(id=lesson_id)
 
-    # Отладочный вывод в консоль сервера
-    print(f"Current Topic: {lesson.topic.name}")
-    print(f"Related Lessons: {[lesson.title for lesson in related_lessons]}")
+    quiz = Quiz.objects.all()
 
     return render(request, 'main/page/detail_lesson.html', {
         'lesson': lesson,
-        'list': related_lessons
+        'list': related_lessons,
+        'quiz': quiz
     })
 
 

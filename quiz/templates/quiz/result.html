@@ -1,54 +1,60 @@
-<body>
-    <header>
-        <h1>Результаты Теста</h1>
-        <nav>
-            <a href="{% url 'quiz_list' %}">Вернуться к списку тестов</a>
-        </nav>
-    </header>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/quiz/result.css' %}">
+<header>
+    <h1>Результаты Теста</h1>
+    <nav>
+        <a href="{% url 'quiz:quiz_list' %}">Вернуться к списку тестов</a>
+    </nav>
+</header>
+<pre>{{ user_answers|dictsort:"0" }}</pre>
 
-    <main>
-        <h2>Тест: {{ quiz.title }}</h2>
-        <p><strong>Дата прохождения:</strong> {{ result.date_taken }}</p>
-        <p><strong>Общее количество вопросов:</strong> {{ quiz.questions.count }}</p>
-        <p><strong>Количество правильных ответов:</strong> {{ result.correct_answers }}</p>
-        <p><strong>Количество набранных баллов:</strong> {{ result.score }}</p>
+<main>
+    <h2>Тест: {{ quiz.title }}</h2>
+    <p><strong>Дата прохождения:</strong> {{ result.completed_at }}</p>
+    <p><strong>Общее количество вопросов:</strong> {{ quiz.questions.count }}</p>
+    <p><strong>Количество набранных баллов:</strong> <span id="score">{{ result.score }}</span></p>
 
-        <h3>Детали теста</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Вопрос</th>
-                    <th>Ваш ответ</th>
-                    <th>Правильные ответы</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for question in quiz.questions.all %}
-                <tr>
-                    <td>{{ question.text }}</td>
-                    <td>
-                        {% with user_answers|dict_key:question.id as answers %}
-                            {% for answer in question.answers.all %}
-                                {% if answer.id in answers %}
-                                    {{ answer.text }}{% if not forloop.last %}, {% endif %}
-                                {% endif %}
-                            {% endfor %}
-                        {% endwith %}
-                    </td>
-                    <td>
-                        {% for answer in question.answers.all %}
-                            {% if answer.is_correct %}
-                                {{ answer.text }}{% if not forloop.last %}, {% endif %}
-                            {% endif %}
-                        {% endfor %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </main>
+    <h3>Детали теста</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Вопросы: </th>
+                <th>Правильные ответы: </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for question in quiz.questions.all %}
+            <tr>
+                <td>{{ question.text }}</td>
+                <td>
+                    {% for answer in question.answers.all %}
+                        {% if answer.is_correct %}
+                            <span class="correct">{{ answer.text }}</span>
+                            {% if not forloop.last %}, {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</main>
 
-    <footer>
-        <p>&copy; 2024 Ваша компания. Все права защищены.</p>
-    </footer>
 </body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Находим элемент с результатом
+            var scoreElement = document.getElementById('score');
+            if (scoreElement) {
+                // Получаем текстовое значение и округляем его
+                var score = parseFloat(scoreElement.textContent);
+                if (!isNaN(score)) {
+                    scoreElement.textContent = Math.floor(score);
+                }
+            }
+        });
+    </script>
+</html>
+{% endblock %}

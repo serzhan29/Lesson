@@ -19,12 +19,11 @@
         </div>
         <div class="nav-links">
             <a href="{% url 'topic_list' %}">Басты Бет</a>
-            <a href="{% url 'books' %}">Кітаптар</a>
-            <a href="{% url 'metod' %}">Әдістемелер</a>
             <a href="{% url 'lesson_list_by_topic' topic_id=1 %}">Дәрістер</a>
             {% if user.is_superuser %}
                 <a href="{% url 'admin:index' %}">Админка</a>
             {% endif %}
+            <a href="{% url 'quiz:quiz_list' %}">Тесттер</a>
         </div>
         <div class="login">
             {% if user.is_authenticated %}

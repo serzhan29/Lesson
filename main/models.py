@@ -23,6 +23,7 @@ class Lesson(models.Model):
     video = models.FileField("Видео:", upload_to='videos/', blank=True, null=True)
     photo = models.ImageField("Фото:", upload_to='photos/', blank=True, null=True)
     audio = models.FileField("Аудио:", upload_to='audio/', blank=True, null=True)
+    presentation = models.FileField("Презентация:", upload_to='presentations/', blank=True, null=True)
     url = models.URLField("Ссылка:", max_length=200, blank=True, null=True, editable=False)
 
     class Meta:

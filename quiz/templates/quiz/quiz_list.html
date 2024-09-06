@@ -1,18 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz List</title>
-</head>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<title>Список Тестов</title>
+<link rel="stylesheet" href="{% static 'css/quiz/quiz_list.css' %}">
 <body>
-    <h1>Available Quizzes</h1>
-    <ul>
-        {% for quiz in quizzes %}
-            <li>
-                <a href="{% url 'quiz:quiz_detail' quiz.pk %}">{{ quiz.title }}</a>
-            </li>
-        {% endfor %}
-    </ul>
+    <header>
+        <h1>Все Тесты</h1>
+    </header>
+    <div class="container">
+        <ul>
+            {% for quiz in quizzes %}
+                <li>
+                    <a href="{% url 'quiz:quiz_detail' quiz.pk %}">{{ quiz.title }}</a>
+                    {% if quiz.pk in completed_quiz_ids %}
+                        <span class="status"> (Вы уже сдали этот тест)</span>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>
+{% endblock %}

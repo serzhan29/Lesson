@@ -13,24 +13,28 @@
                 {{ lesson.description|safe }}
             </p>
         </div>
+        <h1>Видеоурок</h1>
         <div class="lesson-video-audio-section">
-            <!-- Здесь будет размещаться видео или аудио -->
-            <video controls>
-                <source src="path/to/your-video.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
+            {% if lesson.video and lesson.video.url %}
+                <video width="1400" height="800" controls>
+                    <source src="{{ lesson.video.url }}" type="video/mp4">
+                    Ваш браузер не поддерживает видео тег.
+                </video>
+            {% else %}
+                <p>Видео не было добавлено.</p>
+            {% endif %}
         </div>
         <br>
         <h1>Презентация</h1>
         <div class="lesson-presentation-section">
-            <!-- Здесь будет размещаться презентация -->
-            <iframe src="{{ lesson.video }}" width="100%" height="400px">
-                Ваш браузер не поддерживает просмотр PDF-файлов.
-                <a href="{{ lesson.video }}">Скачайте презентацию</a> для просмотра.
-            </iframe>
+            {% if lesson.presentation %}
+                <p>Ваш браузер не поддерживает просмотр данного формата файлов. <a href="{{ lesson.presentation.url }}">Скачайте презентацию</a> для просмотра.</p>
+            {% else %}
+                <p>Презентаций нету.</p>
+            {% endif %}
         </div>
     </div>
-
+    <!-- Список -->
     <div class="lesson-side-container">
         <ul class="lesson-list">
             {% for i in list %}
@@ -40,7 +44,36 @@
             {% endfor %}
         </ul>
     </div>
-</div>
 
+    <!-- Кнопка для открытия/закрытия меню -->
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    <!-- Скрытое меню -->
+    <div class="lesson-side2-container" id="sideMenu">
+        <ul class="lesson-list2">
+            {% for i in list %}
+                <li class="lesson-item">
+                    <a href="{% url 'lesson_detail' i.id %}" class="lesson-link">Лекця {{ i.number }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            var sideMenu = document.getElementById('sideMenu');
+            sideMenu.classList.toggle('open');
+        }
+
+        // Закрытие меню при клике вне его области
+        document.addEventListener('click', function(event) {
+            var sideMenu = document.getElementById('sideMenu');
+            var toggleButton = document.querySelector('.menu-toggle');
+
+            // Проверка: если клик был вне меню и не по кнопке, закрываем меню
+            if (!sideMenu.contains(event.target) && !toggleButton.contains(event.target)) {
+                sideMenu.classList.remove('open');
+            }
+        });
+    </script>
 <script src="https://cdn.ckeditor.com/ckeditor5/35.3.0/classic/ckeditor.js"></script>
 {% endblock %}

@@ -180,7 +180,7 @@ img{
 
 .featured .item .details p,
 .works-list .item .details p{
-    width: 700px;
+    width: auto;
     text-align: justify;
 }
 

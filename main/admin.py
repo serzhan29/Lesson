@@ -28,6 +28,6 @@ class LessonAdmin(admin.ModelAdmin):
     list_display_links = ('title', 'topic', 'number',)
     readonly_fields = ('url',)
     # Перечисляем поля, которые будут отображаться в админке в правильном формате
-    fields = ('title', 'topic', 'number', 'short_description', 'description', 'video', 'photo', 'audio', 'url')
+    fields = ('title', 'topic', 'number', 'short_description', 'description', 'video', 'photo', 'audio', 'presentation','url')
 
 admin.site.register(Lesson, LessonAdmin)
