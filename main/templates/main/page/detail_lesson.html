@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="{% static 'ckeditor/ckeditor.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/detail_lesson.css' %}">
 
+
 <div class="lesson-main-container">
     <div class="lesson-content-container">
         <div class="lesson-center-content">
@@ -25,26 +26,57 @@
             {% endif %}
         </div>
         <br>
-        <h1>Презентация</h1>
-        <div class="lesson-presentation-section">
-            {% if lesson.presentation %}
-                <p>Ваш браузер не поддерживает просмотр данного формата файлов. <a href="{{ lesson.presentation.url }}">Скачайте презентацию</a> для просмотра.</p>
-            {% else %}
-                <p>Презентаций нету.</p>
-            {% endif %}
-        </div>
-    </div>
-    <!-- Список -->
-    <div class="lesson-side-container">
-        <ul class="lesson-list">
-            {% for i in list %}
-                <li class="lesson-item">
-                    <a href="{% url 'lesson_detail' i.id %}" class="lesson-link">{{ i.title }}</a>
-                </li>
-            {% endfor %}
-        </ul>
     </div>
 
+    <!-- Контейнер для кнопок -->
+    <div class="button-container">
+      <!-- Кнопка для открытия модального окна с Word -->
+      <button id="openWordModal" class="btn btn-primary">Word бағдарламасында тапсырманы көрсету</button>
+
+      <!-- Кнопка для открытия модального окна с презентацией -->
+      <button id="openPresentationModal" class="btn btn-primary">Презентацияны көрсету</button>
+    </div>
+
+    <!-- Модальное окно для отображения задания в Word -->
+    <div id="wordModal" class="modal">
+      <div class="modal-content">
+        <span class="close-button" id="closeWordModal">&times;</span>
+        <h5 class="modal-title">Word бағдарламасындағы тапсырма</h5>
+        <div class="modal-body">
+          {% if task %}
+            <h6 class="task-title">Word бағдарламасындағы тапсырма</h6>
+            <div class="task-content">
+              {{ task.word|safe }} <!-- Фильтр safe для рендеринга iframe -->
+            </div>
+          {% else %}
+            <p>Бұл дәріс үшін қосымша тапсырмалар табылмады.</p>
+          {% endif %}
+        </div>
+        <button type="button" class="btn btn-secondary" id="closeWordModalFooter">Жабу</button>
+      </div>
+    </div>
+
+    <!-- Модальное окно для отображения презентации -->
+    <div id="presentationModal" class="modal">
+      <div class="modal-content">
+        <span class="close-button" id="closePresentationModal">&times;</span>
+        <h5 class="modal-title">Презентация</h5>
+        <div class="modal-body">
+          {% if task %}
+            <h6 class="task-title">Презентация:</h6>
+            <div class="task-content">
+              {{ task.presentation|safe }} <!-- Фильтр safe для рендеринга iframe -->
+            </div>
+          {% else %}
+            <p>Бұл дәріс үшін презентациялар табылмады.</p>
+          {% endif %}
+        </div>
+        <button type="button" class="btn btn-secondary" id="closePresentationModalFooter">Жабу</button>
+      </div>
+    </div>
+
+
+</div>
     <!-- Кнопка для открытия/закрытия меню -->
     <div class="menu-toggle" onclick="toggleMenu()">☰</div>
     <!-- Скрытое меню -->
@@ -57,6 +89,7 @@
             {% endfor %}
         </ul>
     </div>
+
 
     <script>
         function toggleMenu() {
@@ -74,6 +107,57 @@
                 sideMenu.classList.remove('open');
             }
         });
+        // Получаем элементы модальных окон и кнопки
+        const wordModal = document.getElementById('wordModal');
+        const presentationModal = document.getElementById('presentationModal');
+        const openWordModal = document.getElementById('openWordModal');
+        const openPresentationModal = document.getElementById('openPresentationModal');
+        const closeWordModal = document.getElementById('closeWordModal');
+        const closePresentationModal = document.getElementById('closePresentationModal');
+        const closeWordModalFooter = document.getElementById('closeWordModalFooter');
+        const closePresentationModalFooter = document.getElementById('closePresentationModalFooter');
+
+        // Открываем модальное окно с заданием в Word
+        openWordModal.onclick = function() {
+          wordModal.style.display = 'block';
+        }
+
+        // Открываем модальное окно с презентацией
+        openPresentationModal.onclick = function() {
+          presentationModal.style.display = 'block';
+        }
+
+        // Закрываем модальное окно с заданием в Word
+        closeWordModal.onclick = function() {
+          wordModal.style.display = 'none';
+        }
+
+        // Закрываем модальное окно с презентацией
+        closePresentationModal.onclick = function() {
+          presentationModal.style.display = 'none';
+        }
+
+        // Закрываем модальное окно с заданием в Word из футера
+        closeWordModalFooter.onclick = function() {
+          wordModal.style.display = 'none';
+        }
+
+        // Закрываем модальное окно с презентацией из футера
+        closePresentationModalFooter.onclick = function() {
+          presentationModal.style.display = 'none';
+        }
+
+        // Закрываем модальные окна при клике вне модального окна
+        window.onclick = function(event) {
+          if (event.target === wordModal) {
+            wordModal.style.display = 'none';
+          }
+          if (event.target === presentationModal) {
+            presentationModal.style.display = 'none';
+          }
+        }
+
+
     </script>
 <script src="https://cdn.ckeditor.com/ckeditor5/35.3.0/classic/ckeditor.js"></script>
 {% endblock %}

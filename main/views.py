@@ -1,7 +1,7 @@
 import os
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404
-from .models import Topic, Lesson
+from .models import Topic, Lesson, Task
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import default_storage
@@ -74,15 +74,18 @@ def lesson_list_by_topic(request, topic_id):
 @login_required
 def lesson_detail(request, lesson_id):
     lesson = get_object_or_404(Lesson, id=lesson_id)
+    # Получаем все задания, связанные с конкретной лекцией
+    task = Task.objects.filter(lesson=lesson).first()  # Если одно задание, используем first()
     related_lessons = Lesson.objects.filter(topic=lesson.topic).exclude(id=lesson_id)
-
     quiz = Quiz.objects.all()
 
     return render(request, 'main/page/detail_lesson.html', {
         'lesson': lesson,
         'list': related_lessons,
-        'quiz': quiz
+        'quiz': quiz,
+        'task': task,  # Передаем task, связанный с этой лекцией
     })
+
 
 
 @login_required
@@ -103,4 +106,8 @@ def books(request):
 
 def metod(request):
     return render(request, 'main/info/metod.html')
+
+
+def project(request):
+    return render(request, 'main/info/project.html')
 

@@ -49,33 +49,34 @@ video {
 /* ============================================================================================================== */
                                     /* Кнопка для открытия/закрытия меню */
 /* ============================================================================================================== */
+/* Иконка меню */
 .menu-toggle {
-    font-size: 34px; /* Размер иконки */
+    font-size: 40px; /* Размер иконки */
     cursor: pointer; /* Курсор-рука при наведении */
     position: fixed; /* Фиксируем позицию */
-    top: 100px; /* Отступ сверху */
-    left: 98%; /* Отступ слева */
-    z-index: 2000; /* Поверх других элементов */
+    top: 85px; /* Отступ сверху */
+    left: 0; /* Перемещаем влево от края экрана */
+    z-index: 900; /* Поверх других элементов */
+    user-select: none; /* Убираем возможность выделения текста */
 }
 
 /* Основной контейнер бокового меню */
 .lesson-side2-container {
     position: fixed;
     width: 250px; /* Ширина контейнера */
-    position: fixed; /* Фиксируем позицию */
-    left: -250px; /* Скрываем за пределами экрана */
+    right: -250px; /* Скрываем за пределами экрана справа */
     top: 0; /* Прижимаем к верхнему краю */
     height: 100%; /* Занимает всю высоту страницы */
-    background-color: white; /* Темный фон */
+    background-color: #239ADE ; /* Темный фон */
     padding: 20px; /* Внутренние отступы */
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3); /* Тень для эффекта глубины */
     box-sizing: border-box; /* Включаем padding в ширину и высоту */
-    transition: left 0.3s ease; /* Плавное появление меню */
+    transition: right 0.3s ease; /* Плавное появление меню */
 }
 
 /* Положение открытого меню */
 .lesson-side2-container.open {
-    left: 0; /* Перемещаем на экран */
+    right: 0; /* Перемещаем на экран */
 }
 
 /* Список элементов меню */
@@ -93,7 +94,7 @@ video {
 /* Ссылка в меню */
 .lesson-link2 {
     text-decoration: none; /* Убираем подчеркивание ссылок */
-    color: black; /* Белый цвет текста */
+    color: black; /* Черный цвет текста */
     font-size: 18px; /* Размер шрифта */
     display: block; /* Ссылка занимает всю ширину */
     padding: 10px 15px; /* Внутренние отступы */
@@ -124,15 +125,22 @@ video {
 /* Стили для ссылок в списке */
 .lesson-link {
     display: block;
-    padding: 10px;
+    padding: 14px;
     text-decoration: none;
-    color: #007bff;
-    font-size: 15px;
+    color: #3723DE;
+    font-size: 17px; /* Увеличенный размер шрифта */
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 8px;
     background-color: #fff;
     transition: background-color 0.3s, color 0.3s;
+
+    /* Центрирование */
+    margin: 0 auto; /* Центрирует блок по горизонтали */
+    text-align: center; /* Центрирует текст внутри блока */
+    max-width: 300px; /* Устанавливает максимальную ширину для центровки */
 }
+
+
 
 .lesson-link:hover {
     background-color: #007bff;
@@ -198,6 +206,144 @@ video {
 
 .lesson-presentation-section a:hover {
     text-decoration: underline;
+}
+
+/*==================================Modal window ================================================================ */
+
+/* Основные стили для модального окна */
+.modal {
+  display: none; /* Скрываем модальное окно по умолчанию */
+  position: fixed;
+  z-index: 1000; /* Модальное окно должно быть поверх других элементов */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* Прокрутка, если контент выходит за пределы экрана */
+  background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 5% auto; /* Отступы для центрирования модального окна */
+  padding: 20px;
+  border-radius: 5px; /* Скругление углов */
+  width: 80%; /* Ширина модального окна */
+  max-width: 1200px; /* Максимальная ширина модального окна */
+  box-sizing: border-box; /* Включаем паддинги и бордеры в ширину и высоту */
+  height: auto; /* Высота будет автоматически подстраиваться под содержимое */
+  max-height: 90vh; /* Максимальная высота модального окна */
+  overflow: auto; /* Прокрутка внутри модального окна, если контент превышает высоту */
+}
+
+/* Стили для заголовка задания */
+.task-title {
+  margin-bottom: 20px; /* Отступ снизу для заголовка задания */
+  font-size: 1.2rem; /* Размер шрифта заголовка задания */
+}
+
+/* Стили для контейнера задания */
+.task-content {
+  margin-top: 20px; /* Отступ сверху перед содержимым задания */
+  padding: 20px; /* Внутренний отступ для контейнера задания */
+  background-color: #f9f9f9; /* Легкий фон для контейнера задания */
+  border: 1px solid #ddd; /* Граница для контейнера задания */
+  border-radius: 5px; /* Скругление углов контейнера задания */
+}
+
+/* Стили для размещения содержимого по центру */
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: calc(100% - 60px); /* Высота с учетом отступов для кнопок */
+  overflow: auto; /* Прокрутка, если контент превышает высоту */
+}
+
+/* Заголовок модального окна */
+.modal-title {
+  margin: 0;
+  font-size: 1.5rem; /* Размер шрифта заголовка */
+}
+
+/* Кнопка закрытия */
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 5px; /* Уменьшаем расстояние от края */
+  font-size: 5rem; /* Размер кнопки закрытия */
+  cursor: pointer;
+  color: red; /* Цвет кнопки закрытия */
+}
+
+/* Кнопка открытия модального окна */
+.btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+}
+
+/* Кнопки внутри модального окна */
+.btn-primary {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+/* Кнопки футера */
+#closeModalFooter {
+  background-color: black;
+  color: green;
+}
+
+/* Стили для контейнера с двумя кнопками */
+.button-container {
+  display: flex;
+  flex-direction: column; /* Вертикальное размещение кнопок */
+  gap: 10px; /* Расстояние между кнопками */
+  margin: 20px 0; /* Отступы сверху и снизу контейнера кнопок */
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+  .modal-content {
+    padding: 10px;
+    width: 90%;
+    height: auto; /* Автоматическая высота под контент */
+  }
+
+  .modal-title {
+    font-size: 1.2rem;
+  }
+
+  .close-button {
+    top: 5px;
+    right: 3px;
+    font-size: 5rem;
+  }
+
+  .btn {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+
+  /* Стили для ворд-документов и презентаций */
+  .modal-content iframe, /* Если используется iframe */
+  .modal-content img,    /* Если показываются изображения */
+  .modal-content object {
+    max-width: 100%; /* Автоматическое изменение размера под модальное окно */
+    max-height: 100vh; /* Уменьшение высоты контента */
+    height: 200px;     /* Сохранение пропорций */
+    width: 300px;      /* Растягивание до ширины модального окна */
+  }
 }
 
 /* ============================================================================================================== */

@@ -1,0 +1,26 @@
+.project-info {
+    background-color: #e9ecef;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 600px;
+    font-family: Arial, sans-serif;
+}
+
+.project-info h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.project-info p {
+    font-size: 18px;
+    color: #555;
+    text-align: center;
+}
+
+.project-info p strong {
+    color: #000;
+}

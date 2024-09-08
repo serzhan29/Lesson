@@ -2,17 +2,20 @@
 
 {% block content %}
 {% load static %}
-<h1 style="color: white;">Профиль пользователя</h1>
-<p style="color: white;">Имя пользователя: {{ user.username }}</p>
-<p style="color: white;"а>Email: {{ user.email }}</p>
-<p style="color: white;">Имя: {{ user.first_name }}</p>
-<p style="color: white;">Фамилия: {{ user.last_name }}</p>
-<p style="color: white;">Дата регистрации: {{ user.date_joined }}</p>
+<link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}">
+<div class="profile-container">
+    <h1>Пайдаланушы профилі</h1>
+    <p><strong>Username</strong> {{ user.username }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Аты:</strong> {{ user.first_name }}</p>
+    <p><strong>Тегі:</strong> {{ user.last_name }}</p>
+    <p><strong>Тіркелген күні:</strong> {{ user.date_joined }}</p>
 
-{% if user.is_authenticated %}
-    <a href="{% url 'logout' %}">Выход с аккунта</a>
-{% else %}
-    <a href="{% url 'login' %}">Войти</a>
-    <a href="{% url 'register' %}">Регистрация</a>
-{% endif %}
+    {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}" class="btn btn-danger">Шығу</a>
+    {% else %}
+        <a href="{% url 'login' %}" class="btn btn-primary">Кіру</a>
+        <a href="{% url 'register' %}" class="btn btn-secondary">Тіркеу</a>
+    {% endif %}
+</div>
 {% endblock %}

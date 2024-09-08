@@ -17,7 +17,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 CSRF_COOKIE_SECURE=False
 CSRF_COOKIE_HTTPONLY=False
-CSRF_TRUSTED_ORIGINS=['https://22bf-2-134-190-239.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS=['https://7d71-2-134-186-155.ngrok-free.app']
 
 # Application definition
 
@@ -65,6 +65,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'app.wsgi.application'
 
+AUTH_USER_MODEL = 'main.CustomUser'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -72,7 +73,7 @@ WSGI_APPLICATION = 'app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'lesson',
+        'NAME': 'db-lesson',
         'USER': 'root',
         'PASSWORD': 'kalikali123',
         'HOST': 'localhost',
@@ -174,7 +175,7 @@ CKEDITOR_CONFIGS = {
         'toolbar': 'YourCustomToolbarConfig',  # put selected toolbar config here
         # 'toolbarGroups': [{ 'name': 'document', 'groups': [ 'mode', 'document', 'doctools' ] }],
         'height': 500,
-        'width': 600,
+        'width': 800,
         'filebrowserWindowHeight': 825,
         'filebrowserWindowWidth': 1040,
         'contentsCss': [
@@ -197,7 +198,7 @@ CKEDITOR_CONFIGS = {
             'clipboard',
             'dialog',
             'dialogui',
-            'elementspath'
+            'elementspath',
         ]),
     }
 }
@@ -307,4 +308,3 @@ JAZZMIN_SETTINGS = {
     "language_chooser": False,
 }
 
-CKEDITOR_5_USER_LANGUAGE = True

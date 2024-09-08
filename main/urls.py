@@ -14,4 +14,5 @@ urlpatterns = [
     path('author/', views.author, name='author'),
     path('metod/', views.metod, name='metod'),
     path('books/', views.books, name='books'),
+    path('project/', views.project, name='project'),
 ]
