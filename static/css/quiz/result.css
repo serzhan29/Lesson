@@ -1,0 +1,140 @@
+/* Основные стили для body */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Стили для header */
+header {
+    background-color: #0056b3;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    text-align: center;
+}
+
+/* Стили для заголовка в header */
+header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+/* Стили для навигации */
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Стили для основного контента */
+main {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Стили для заголовков второго уровня */
+h2 {
+    font-size: 24px;
+    color: #333;
+    margin-top: 0;
+}
+
+/* Стили для параграфов */
+p {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+/* Стили для таблиц */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+/* Стили для ячеек таблицы */
+table th, table td {
+    padding: 12px;
+    text-align: left;
+}
+
+/* Стили для заголовков таблицы */
+table th {
+    background-color: #0056b3;
+    color: white;
+    font-size: 18px;
+}
+
+/* Стили для строк таблицы */
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Стили для спанов внутри таблицы */
+table td span {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Стили для правильных ответов */
+span.correct {
+    background-color: #28a745;
+    color: white;
+}
+
+/* Стили для неправильных ответов */
+span.incorrect {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Стили для заголовков третьего уровня */
+h3 {
+    margin-top: 40px;
+    font-size: 22px;
+    color: #0056b3;
+}
+
+/* Мобильная адаптивность */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 24px;
+    }
+
+    nav a {
+        display: block;
+        margin: 5px 0;
+    }
+
+    main {
+        padding: 15px;
+    }
+
+    table th, table td {
+        padding: 8px;
+    }
+
+    table td span {
+        font-size: 14px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    h3 {
+        font-size: 18px;
+    }
+}
