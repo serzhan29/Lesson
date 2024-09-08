@@ -31,10 +31,18 @@
     <!-- Контейнер для кнопок -->
     <div class="button-container">
       <!-- Кнопка для открытия модального окна с Word -->
-      <button id="openWordModal" class="btn btn-primary">Word бағдарламасында тапсырманы көрсету</button>
-
-      <!-- Кнопка для открытия модального окна с презентацией -->
+      {% if task %}
+        <a href="{% url 'task_detail' task.id %}">
+            <button class="btn btn-primary">Word бағдарламасында тапсырманы көрсету</button>
+        </a>
+      {% else %}
+         <p>Ничего не добавлено.</p>
+      {% endif %}
       <button id="openPresentationModal" class="btn btn-primary">Презентацияны көрсету</button>
+      <button id="openWordModal" style="pointer-events: none; cursor: default;
+      -webkit-user-select: none;-moz-user-select: none;-ms-user-select: none; "
+              class="btn btn-primary">
+      </button>
     </div>
 
     <!-- Модальное окно для отображения задания в Word -->
@@ -55,7 +63,6 @@
         <button type="button" class="btn btn-secondary" id="closeWordModalFooter">Жабу</button>
       </div>
     </div>
-
     <!-- Модальное окно для отображения презентации -->
     <div id="presentationModal" class="modal">
       <div class="modal-content">

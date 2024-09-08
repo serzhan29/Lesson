@@ -5,7 +5,7 @@
 <body2>
 <link rel="stylesheet" href="{% static 'css/login.css' %}">
     <div class="container">
-        <h2>Вход</h2>
+        <h2>Аккаунтқа кіру</h2>
         <form method="post">
             {% csrf_token %}
             <div class="form-group2">
@@ -16,10 +16,10 @@
                 {{ form.password.label_tag }}
                 {{ form.password }}
             </div>
-            <button type="submit">Login</button>
+            <button type="submit">Кіру</button>
         </form>
         <div class="links">
-            <p>У Вас нету аккаунта? <a href="{% url 'register' %}">Зарегистрируйтесь</a></p>
+            <p>Сізде аккаунт жоқ па? <a href="{% url 'register' %}">Тіркелу</a></p>
         </div>
     </div>
 </body2>

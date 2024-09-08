@@ -15,4 +15,5 @@ urlpatterns = [
     path('metod/', views.metod, name='metod'),
     path('books/', views.books, name='books'),
     path('project/', views.project, name='project'),
+    path('tasks/<int:task_id>/', views.task_detail, name='task_detail'),
 ]

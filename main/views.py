@@ -111,3 +111,9 @@ def metod(request):
 def project(request):
     return render(request, 'main/info/project.html')
 
+@login_required
+def task_detail(request, task_id):
+    task = get_object_or_404(Task, id=task_id)  # Получаем конкретное задание
+    return render(request, 'main/info/word.html', {
+        'task': task
+    })

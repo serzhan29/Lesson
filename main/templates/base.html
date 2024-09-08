@@ -30,8 +30,8 @@
             {% if user.is_authenticated %}
                 <a href="{% url 'logout' %}">Шығу</a>
             {% else %}
-                <a href="{% url 'login' %}">Кіру</a>
                 <a href="{% url 'register' %}">Тіркелу</a>
+                <a href="{% url 'login' %}">Кіру</a>
             {% endif %}
             <a href="{% url 'profile' %}"><img src="{% static 'img/login.JPG' %}"></a>
         </div>

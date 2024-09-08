@@ -1,10 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
 
-</body>
-</html>
+{% block content %}
+<button onclick="goBack()" class="btn-back">Алдыңғы бет</button>
+<link rel="stylesheet" type="text/css" href="{% static 'css/word.css' %}">
+    <div class="task-container">
+        {% if task %}
+            <div class="task-content">
+                {% if task %}
+                    {{ task.word|safe }}
+                {% endif %}
+            </div>
+        {% else %}
+            <p>Бұл дәріс үшін қосымша тапсырмалар табылмады.</p>
+        {% endif %}
+    </div>
+<script>
+function goBack() {
+    window.history.back();
+}
+</script>
+
+{% endblock %}

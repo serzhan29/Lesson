@@ -6,16 +6,16 @@
 <body2>
     <link rel="stylesheet" href="{% static 'css/register.css' %}">
     <div class="container">
-        <h2>Регистрация</h2>
+        <h2>Тіркелу</h2>
         <form method="post">
             <div class="form-group2">
                 ㅤ{% csrf_token %}
                 ㅤ{{ form.as_p }}
             </div>
-            <button type="submit">Регистрация</button>
+            <button type="submit">Тіркелу</button>
         </form>
         <div class="links">
-            <p>У Вас уже есть аккаунт? <a href="{% url 'login' %}">Войти</a></p>
+            <p>Сізде аккаунт бар па? <a href="{% url 'login' %}">Войти</a></p>
         </div>
     </div>
 </body2>

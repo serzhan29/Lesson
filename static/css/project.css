@@ -25,3 +25,56 @@
 .custom-content strong {
     color: #000;
 }
+
+/* Мобильная адаптация */
+@media (max-width: 1200px) {
+    .custom-content {
+        padding: 30px; /* Уменьшение отступов для экранов средних размеров */
+        margin: 30px auto; /* Уменьшение отступов сверху и снизу */
+    }
+
+    .custom-content h1 {
+        font-size: 36px; /* Уменьшение размера шрифта заголовка */
+        margin-bottom: 30px; /* Уменьшение отступа снизу */
+    }
+
+    .custom-content p {
+        font-size: 24px; /* Уменьшение размера шрифта для текста */
+        margin-bottom: 20px; /* Уменьшение отступа снизу */
+    }
+}
+
+@media (max-width: 768px) {
+    .custom-content {
+        padding: 20px; /* Уменьшение отступов для маленьких экранов */
+        margin: 20px auto; /* Уменьшение отступов сверху и снизу */
+        max-width: 100%; /* Установка максимальной ширины в 100% */
+    }
+
+    .custom-content h1 {
+        font-size: 28px; /* Уменьшение размера шрифта заголовка */
+        margin-bottom: 20px; /* Уменьшение отступа снизу */
+    }
+
+    .custom-content p {
+        font-size: 18px; /* Уменьшение размера шрифта для текста */
+        margin-bottom: 15px; /* Уменьшение отступа снизу */
+    }
+}
+
+@media (max-width: 480px) {
+    .custom-content {
+        padding: 15px; /* Уменьшение отступов для очень маленьких экранов */
+        margin: 10px auto; /* Уменьшение отступов сверху и снизу */
+    }
+
+    .custom-content h1 {
+        font-size: 24px; /* Уменьшение размера шрифта заголовка */
+        margin-bottom: 15px; /* Уменьшение отступа снизу */
+    }
+
+    .custom-content p {
+        font-size: 16px; /* Уменьшение размера шрифта для текста */
+        margin-bottom: 10px; /* Уменьшение отступа снизу */
+    }
+}
