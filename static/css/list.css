@@ -506,6 +506,9 @@ footer p{
     .content .container .about>p{
         font-size: 13px;
     }
+    .works-list .item h3 {
+        font-size: 20px;
+    }
 
 }
 
@@ -555,6 +558,9 @@ footer p{
     .content .container img{
         width: 100%;
         height: auto;
+    }
+    .works-list .item h3 {
+        font-size: 20px;
     }
 
 }

@@ -7,7 +7,7 @@ from django.contrib.auth.models import AbstractUser
 
 
 class Topic(models.Model):
-    name = models.CharField("Название урока:", max_length=200)
+    name = models.CharField("Сабақтың атауы:", max_length=200)
     photo = models.ImageField("Фото:", upload_to='photos/', blank=True, null=True)
     description = RichTextUploadingField("Описание урока", blank=True)
 
@@ -20,16 +20,16 @@ class Topic(models.Model):
 
 
 class Lesson(models.Model):
-    title = models.CharField("Название лекции:", max_length=200)
+    title = models.CharField("Дәрістің атауы:", max_length=200)
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='lessons')
-    number = models.IntegerField("Номер лекции")
-    short_description = RichTextUploadingField("Краткое описание:", blank=True)
-    description = RichTextUploadingField("Полное описание:", blank=True)
+    number = models.IntegerField("Дәріс нөмірі")
+    short_description = RichTextUploadingField("Қысқаша сипаттама:", blank=True)
+    description = RichTextUploadingField("Толық сипаттама:", blank=True)
     video = models.FileField("Видео:", upload_to='videos/', blank=True, null=True)
     photo = models.ImageField("Фото:", upload_to='photos/', blank=True, null=True)
     audio = models.FileField("Аудио:", upload_to='audio/', blank=True, null=True)
     presentation = models.FileField("Презентация:", upload_to='presentations/', blank=True, null=True)
-    url = models.URLField("Ссылка:", max_length=200, blank=True, null=True, editable=False)
+    url = models.URLField("Сілтеме:", max_length=200, blank=True, null=True, editable=False)
 
     class Meta:
         verbose_name = "Дәрістер"
@@ -59,9 +59,9 @@ class LessonForm(forms.ModelForm):
 
 class Task(models.Model):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
-    word = models.CharField("Задание в Word:", max_length=200)
-    presentation = models.CharField("Задание в PowerPoint:", max_length=200)
-    url = models.URLField("Ссылка:", max_length=200, blank=True, null=True, editable=False)
+    word = models.CharField("Word бағдарламасындағы тапсырма:", max_length=200)
+    presentation = models.CharField("PowerPoint бағдарламасындағы тапсырма:", max_length=200)
+    url = models.URLField("Сілтеме:", max_length=200, blank=True, null=True, editable=False)
 
     class Meta:
         verbose_name = "Қосымша материал"
@@ -80,9 +80,9 @@ class Task(models.Model):
 
 
 class CustomUser(AbstractUser):
-    phone_number = models.CharField("Телефонный номер: ", max_length=15, blank=True, null=True)
+    phone_number = models.CharField("Телефон нөмірі: ", max_length=15, blank=True, null=True)
     photo = models.ImageField("Фото: ", upload_to='user_photos/', blank=True, null=True)
-    birth_date = models.DateField("День рождение: ", blank=True, null=True)
+    birth_date = models.DateField("Туған күн: ", blank=True, null=True)
 
     def __str__(self):
         return self.username

@@ -1,0 +1,25 @@
+<!-- take_quiz.html -->
+<form method="post">
+    {% csrf_token %}
+    <h2>{{ quiz.title }}</h2>
+
+    {% for field in form %}
+        <div class="form-group">
+            <label>{{ field.label_tag }}</label>
+            {{ field }}
+        </div>
+    {% endfor %}
+
+    <button type="submit" class="btn btn-primary">Отправить ответы</button>
+</form>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+<script>
+    // Логика для перестановки
+    var sortable = new Sortable(document.getElementById('sortable'), {
+        animation: 150,
+        onEnd: function (evt) {
+            // Здесь обработка и сохранение порядка элементов
+        }
+    });
+</script>

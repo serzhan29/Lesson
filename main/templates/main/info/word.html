@@ -4,21 +4,33 @@
 {% block content %}
 <button onclick="goBack()" class="btn-back">Алдыңғы бет</button>
 <link rel="stylesheet" type="text/css" href="{% static 'css/word.css' %}">
-    <div class="task-container">
-        {% if task %}
-            <div class="task-content">
-                {% if task %}
-                    {{ task.word|safe }}
-                {% endif %}
-            </div>
-        {% else %}
-            <p>Бұл дәріс үшін қосымша тапсырмалар табылмады.</p>
-        {% endif %}
-    </div>
+
+
+<div class="task-container">
+    {% if task %}
+        <div class="task-content">
+            {% if task %}
+                {{ task.word|safe }}
+            {% endif %}
+        </div>
+    {% else %}
+        <p>Бұл дәріс үшін қосымша тапсырмалар табылмады.</p>
+    {% endif %}
+</div>
+
 <script>
 function goBack() {
     window.history.back();
 }
-</script>
 
+// Показать иконку загрузки при начале загрузки страницы
+document.addEventListener("DOMContentLoaded", function() {
+    var loadingIcon = document.getElementById("loading-icon");
+    loadingIcon.style.display = "block"; // Показать иконку
+
+    window.addEventListener("load", function() {
+        loadingIcon.style.display = "none"; // Скрыть иконку после загрузки
+    });
+});
+</script>
 {% endblock %}

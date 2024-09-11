@@ -1,48 +1,55 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/quiz/result.css' %}">
-<header>
-    <h1>Результаты Теста</h1>
-    <nav>
-        <a href="{% url 'quiz:quiz_list' %}">Вернуться к списку тестов</a>
-    </nav>
-</header>
-<pre>{{ user_answers|dictsort:"0" }}</pre>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест Нәтижелері</title>
+    <link rel="stylesheet" href="{% static 'css/quiz/result.css' %}">
+</head>
+<body class="quiz-result-body">
+    <header class="quiz-result-header">
+        <h1>Тест Нәтижелері</h1>
+        <nav class="quiz-result-nav">
+            <a href="{% url 'quiz:quiz_list' %}">Тесттер тізіміне оралу</a>
+        </nav>
+    </header>
+    <main class="quiz-result-main">
+        <pre>{{ user_answers|dictsort:"0" }}</pre>
 
-<main>
-    <h2>Тест: {{ quiz.title }}</h2>
-    <p><strong>Дата прохождения:</strong> {{ result.completed_at }}</p>
-    <p><strong>Общее количество вопросов:</strong> {{ quiz.questions.count }}</p>
-    <p><strong>Количество набранных баллов:</strong> <span id="score">{{ result.score }}</span></p>
+        <h2>Тест: {{ quiz.title }}</h2>
+        <p><strong>Өту күні:</strong> {{ result.completed_at }}</p>
+        <p><strong>Сұрақтардың жалпы саны:</strong> {{ quiz.questions.count }}</p>
+        <p><strong>Алынған балл саны:</strong> <span id="score">{{ result.score }}</span></p>
 
-    <h3>Детали теста</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Вопросы: </th>
-                <th>Правильные ответы: </th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for question in quiz.questions.all %}
-            <tr>
-                <td>{{ question.text }}</td>
-                <td>
-                    {% for answer in question.answers.all %}
-                        {% if answer.is_correct %}
-                            <span class="correct">{{ answer.text }}</span>
-                            {% if not forloop.last %}, {% endif %}
-                        {% endif %}
-                    {% endfor %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</main>
+        <h3>Детали теста</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Сұрақтар: </th>
+                    <th>Дұрыс жауаптар: </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for question in quiz.questions.all %}
+                <tr>
+                    <td>{{ question.text }}</td>
+                    <td>
+                        {% for answer in question.answers.all %}
+                            {% if answer.is_correct %}
+                                <span class="quiz-result-correct">{{ answer.text }}</span>
+                                {% if not forloop.last %} {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
 
-</body>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Находим элемент с результатом
@@ -56,5 +63,6 @@
             }
         });
     </script>
+</body>
 </html>
 {% endblock %}

@@ -1,95 +1,162 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    margin: 0;
-    padding: 0;
+/* Основной контейнер для списка тестов */
+.custom-container {
+    padding: 20px;
+    background-color: #f9f9f9;
 }
 
-header {
-    background-color: #4CAF50;
-    color: white;
-    padding: 1em 0;
-    text-align: center;
-}
-
-h1 {
-    margin: 0;
-}
-
-.container {
-    width: 90%;
-    margin: auto;
-    padding: 2em 0;
-}
-
-ul {
+/* Список тестов */
+.custom-quiz-list {
     list-style-type: none;
     padding: 0;
+    margin: 0;
 }
 
-li {
-    background: white;
-    margin: 10px 0;
-    padding: 15px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.custom-quiz-list li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.custom-quiz-list a {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.custom-quiz-list a:hover {
+    text-decoration: underline;
+}
+
+/* Статус завершенного теста */
+.custom-quiz-status {
+    font-size: 16px;
+    color: #28a745;
+}
+
+/* Основной стиль для заголовка страницы */
+.custom-header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    font-size: 24px;
+}
+
+/* Основной стиль модального окна */
+.custom-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1050;
+}
+
+/* Стиль для диалогового окна модального окна */
+.custom-modal-dialog {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 500px;
+    margin: 0;
+}
+
+/* Стиль для крупного диалогового окна */
+.custom-modal-dialog-lg {
+    max-width: 700px;
+}
+
+/* Стиль для центрирования диалогового окна */
+.custom-modal-dialog-centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Стиль для контента модального окна */
+.custom-modal-content {
+    position: relative;
+    padding: 20px;
+}
+
+/* Стиль для заголовка модального окна */
+.custom-modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
 }
 
-a {
-    text-decoration: none;
-    color: #333;
-    font-size: 1.1em;
-    font-weight: bold;
-    transition: color 0.3s;
+/* Стиль для кнопки закрытия */
+.custom-modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #000;
+    cursor: pointer;
 }
 
-a:hover {
-    color: #4CAF50;
+/* Стиль для тела модального окна */
+.custom-modal-body {
+    padding: 20px 0;
 }
 
-.status {
-    color: #ff0000; /* Красный цвет для выделения */
-    font-style: italic;
+/* Стиль для футера модального окна */
+.custom-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 10px;
 }
 
-footer {
-    text-align: center;
-    padding: 1em 0;
-    background-color: #4CAF50;
-    color: white;
+/* Основной стиль для кнопок */
+.custom-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
 }
 
-/* Медиазапросы для адаптации под мобильные устройства */
+/* Стиль для кнопки "Начать тест" */
+.custom-btn-primary {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.custom-btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Стиль для кнопки "Отмена" */
+.custom-btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.custom-btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Адаптивность */
 @media (max-width: 768px) {
-    .container {
-        width: 95%;
-        padding: 1em 0;
+    .custom-modal-dialog {
+        padding: 20px;
     }
 
-    li {
-        flex-direction: column;
-        align-items: flex-start;
+    .custom-modal-title {
+        font-size: 18px;
     }
 
-    a {
-        font-size: 1em;
-    }
-}
-
-@media (max-width: 480px) {
-    li {
-        font-size: 0.9em;
-        padding: 10px;
-    }
-
-    a {
-        font-size: 0.9em;
-    }
-
-    .status {
-        font-size: 0.8em;
+    .custom-btn {
+        font-size: 14px;
     }
 }

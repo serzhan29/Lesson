@@ -102,9 +102,11 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LANGUAGES = [
-    ('ru', ('Russian')),
+    ('kk', 'Қазақша'),  # Казахский язык
+    ('ru', 'Russian'),
 ]
-LANGUAGE_CODE = 'ru'
+
+LANGUAGE_CODE = 'kk'
 
 TIME_ZONE = 'Asia/Almaty'
 
@@ -206,11 +208,11 @@ CKEDITOR_CONFIGS = {
 #=============Jazzmin================#
 JAZZMIN_SETTINGS = {
     # title of the window (Will default to current_admin_site.site_title if absent or None)
-    "site_title": "Админ панель",
+    "site_title": "Админ",
     # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    "site_header": "Админ панель",
+    "site_header": "Админ",
     # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    "site_brand": "Library",
+    "site_brand": "Админ",
     # Logo to use for your site, must be present in static files, used for brand on top left
     "site_logo": "/logo/logo.jpg",
     # Logo to use for your site, must be present in static files, used for login form logo (defaults to site_logo)
@@ -221,8 +223,8 @@ JAZZMIN_SETTINGS = {
     "site_logo_classes": "img-circle",
     # Relative path to a favicon for your site, will default to site_logo if absent (ideally 32x32 px)
     "site_icon": None,
-    "welcome_sign": "Добро пожаловать в админку",     # Welcome text on the login screen
-    "copyright": "Тулепбек Сержан", # Copyright on the footer
+    "welcome_sign": "Админ қош келдіңіз",     # Welcome text on the login screen
+    "copyright": "", # Copyright on the footer
     "search_model": ["auth.User", "auth.Group"],
     # Field name on user model that contains avatar ImageField/URLField/Charfield or a callable that receives the user
     "user_avatar": None,
@@ -233,8 +235,8 @@ JAZZMIN_SETTINGS = {
 
     # Links to put along the top menu
     "topmenu_links": [
-        {"name": "Главная страница",  "url": "topic_list", "permissions": ["auth.view_user"]},
-        {"name": "Помощь", "url": "https://github.com/serzhan29", "new_window": True},
+        {"name": "Басты бет",  "url": "topic_list", "permissions": ["auth.view_user"]},
+        {"name": "Көмек", "url": "https://github.com/serzhan29", "new_window": True},
         # model admin to link to (Permissions checked against model)
         {"model": "auth.User"},
         # App with dropdown menu to all its models pages (Permissions checked against models)

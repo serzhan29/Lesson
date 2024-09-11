@@ -4,25 +4,45 @@
 <title>{{ quiz.title }}</title>
 <link rel="stylesheet" href="{% static 'css/quiz/test.css' %}">
 
-<body>
-    <h1>{{ quiz.title }}</h1>
-    <form method="post">
-        {% csrf_token %}
-        {% for question in questions %}
-            <h2>{{ question.text }}</h2>
-            {% for answer in question.answers.all %}
-                <div>
-                    {% if quiz.allow_multiple_answers %}
-                        <input type="checkbox" name="{{ question.id }}" value="{{ answer.id }}" id="answer_{{ answer.id }}">
-                    {% else %}
-                        <input type="radio" name="{{ question.id }}" value="{{ answer.id }}" id="answer_{{ answer.id }}">
-                    {% endif %}
-                    <label for="answer_{{ answer.id }}">{{ answer.text }}</label>
+<div class="quiz-modal" id="quizModal">
+  <div class="quiz-modal-dialog modal-lg modal-dialog-centered">
+    <div class="quiz-modal-content">
+      <div class="quiz-modal-header">
+        <h5 class="quiz-modal-title">{{ quiz.title }}</h5>
+      </div>
+      <div class="quiz-modal-body">
+        <form id="quizForm" method="post">
+            {% csrf_token %}
+            {% for question in questions %}
+                <div class="quiz-question" id="question_{{ question.id }}" {% if forloop.first == false %}style="display:none;"{% endif %}>
+                    <h2 class="quiz-h2">{{ question.text }}</h2>
+                    {% for answer in question.answers.all %}
+                        <div>
+                            {% if quiz.allow_multiple_answers %}
+                                <input type="checkbox" class="quiz-input" name="question_{{ question.id }}" value="{{ answer.id }}" id="answer_{{ answer.id }}">
+                            {% else %}
+                                <input type="radio" class="quiz-input" name="question_{{ question.id }}" value="{{ answer.id }}" id="answer_{{ answer.id }}">
+                            {% endif %}
+                            <label class="quiz-label" for="answer_{{ answer.id }}">{{ answer.text }}</label>
+                        </div>
+                    {% endfor %}
                 </div>
             {% endfor %}
-        {% endfor %}
-        <button type="submit">Submit</button>
-    </form>
-</body>
-</html>
+            <div class="quiz-modal-footer">
+              <button type="button" id="prevQuestion" class="quiz-button quiz-btn-secondary" disabled>Артқа</button>
+              <button type="button" id="nextQuestion" class="quiz-button quiz-btn-primary">Алға</button>
+              <button type="submit" id="submitQuiz" class="quiz-button quiz-btn-success" style="display:none;">Жіберу</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Таймер -->
+<div id="quiz-timer">Уақыт қалды: 30:00</div>
+
+
+<script src="{% static 'js/times.js' %}"></script>
+<script src="{% static 'js/quizLogic.js' %}"></script>
 {% endblock %}

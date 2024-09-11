@@ -1,146 +1,158 @@
-/* Основные стили для body */
-body {
+/* Базовые стили для страницы */
+.quiz-body {
     font-family: 'Arial', sans-serif;
-    background-color: #e9ecef;
-    margin: 20;
-    padding: 0;
-}
-
-/* Стили для контейнера с тестом */
-.container {
-    max-width: 900px;
-    margin: 30px auto;
-    padding: 30px;
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    border: 1px solid #ddd;
-
-}
-
-/* Стили для заголовка страницы */
-h1 {
-    font-size: 32px;
-    color: #343a40;
-    text-align: center;
+    background-color: #f4f7f6;
     margin: 0;
-    padding-bottom: 20px;
-    border-bottom: 2px solid #007bff;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    user-select: none; /* Запрещает выделение текста на всей странице */
 }
 
-/* Стили для заголовков вопросов */
-h2 {
-    font-size: 24px;
-    color: #495057;
-    margin-top: 20px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #dee2e6;
-}
-
-/* Стили для блоков с вариантами ответов */
-div {
-    margin: 15px 0;
-    padding: 10px;
-    border: 1px solid #ced4da;
+/* Таймер */
+#quiz-timer {
+    position: fixed;
+    top: 450px;
+    right: 720px;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
     border-radius: 8px;
-    background-color: #f8f9fa;
-}
-
-/* Стили для чекбоксов и радиокнопок */
-input[type="checkbox"], input[type="radio"] {
-    margin-right: 12px;
-    cursor: pointer;
-    width: 20px;
-    height: 20px;
-    vertical-align: middle;
-}
-
-/* Стили для меток вариантов ответов */
-label {
     font-size: 18px;
-    color: #495057;
+    font-weight: bold;
+    user-select: none; /* Запрещает выделение текста в таймере */
 }
 
-/* Стили для кнопки отправки формы */
-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 6px;
-    font-size: 18px;
-    cursor: pointer;
+/* Стили для модального окна */
+.quiz-modal {
     display: block;
-    margin: 30px auto;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+    user-select: none; /* Запрещает выделение текста в модальном окне */
 }
 
-/* Стили для кнопки при наведении */
-button:hover {
+.quiz-modal-dialog {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+}
+
+.quiz-modal-content {
+    padding: 30px;
+}
+
+.quiz-modal-header {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.quiz-modal-title {
+    font-size: 24px;
+    color: #333;
+    font-weight: 600;
+    user-select: none; /* Запрещает выделение текста в заголовке модального окна */
+}
+
+.quiz-modal-body {
+    padding-top: 20px;
+}
+
+.quiz-modal-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/* Вопросы */
+.quiz-question {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fafafa;
+    margin-bottom: 20px;
+    user-select: none; /* Запрещает выделение текста в вопросах */
+}
+
+.quiz-question h2 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+    user-select: none; /* Запрещает выделение текста в заголовках вопросов */
+}
+
+/* Ответы */
+.quiz-question div {
+    margin-bottom: 10px;
+}
+
+input[type="checkbox"].quiz-input,
+input[type="radio"].quiz-input {
+    margin-right: 10px;
+}
+
+label.quiz-label {
+    font-size: 16px;
+    color: #555;
+    user-select: none; /* Запрещает выделение текста в метках ответов */
+}
+
+/* Кнопки */
+button.quiz-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    user-select: none; /* Запрещает выделение текста на кнопках */
+}
+
+button.quiz-btn-primary {
+    background-color: #007bff;
+    color: #fff;
+}
+
+button.quiz-btn-primary:hover {
     background-color: #0056b3;
-    transform: scale(1.05);
 }
 
-/* Мобильная адаптивность */
+button.quiz-btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+button.quiz-btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+button.quiz-btn-success {
+    background-color: #28a745;
+    color: #fff;
+}
+
+button.quiz-btn-success:hover {
+    background-color: #218838;
+}
+
+/* Адаптивность */
 @media (max-width: 768px) {
-    .container {
-        padding: 15px;
-        margin: 10px;
+    .quiz-modal-dialog {
+        padding: 20px;
     }
 
-    h1 {
-        font-size: 28px;
-    }
-
-    h2 {
-        font-size: 20px;
-    }
-
-    label {
-        font-size: 16px;
-        display: block;
-        margin: 10px 0;
-    }
-
-    input[type="checkbox"], input[type="radio"] {
-        width: 20px;
-        height: 20px;
-    }
-
-    button {
-        font-size: 16px;
-        padding: 10px 20px;
-    }
-}
-
-/* Очень маленькие экраны */
-@media (max-width: 480px) {
-    .container {
-        padding: 10px;
-        margin: 5px;
-    }
-
-    h1 {
-        font-size: 24px;
-    }
-
-    h2 {
+    .quiz-h2 {
         font-size: 18px;
     }
 
-    label {
+    button.quiz-button {
         font-size: 14px;
-        margin: 8px 0;
     }
 
-    input[type="checkbox"], input[type="radio"] {
-        width: 18px;
-        height: 18px;
-    }
-
-    button {
-        font-size: 14px;
-        padding: 8px 16px;
+    #quiz-timer {
+        right: 85px;
     }
 }

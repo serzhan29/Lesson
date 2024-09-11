@@ -1,24 +1,31 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<title>Список Тестов</title>
-<link rel="stylesheet" href="{% static 'css/quiz/quiz_list.css' %}">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тесттер Тізімі</title>
+    <link rel="stylesheet" href="{% static 'css/quiz/quiz_list.css' %}">
+</head>
 <body>
-    <header>
-        <h1>Все Тесты</h1>
+    <header class="custom-header">
+        <h1>Барлық Тесттер</h1>
     </header>
-    <div class="container">
-        <ul>
+    <div class="custom-container">
+        <ul class="custom-quiz-list">
             {% for quiz in quizzes %}
                 <li>
-                    <a href="{% url 'quiz:quiz_detail' quiz.pk %}">{{ quiz.title }}</a>
+                    <a href="{% url 'quiz:quiz_detail' quiz.pk %}" class="quiz-link" data-quiz-id="{{ quiz.pk }}">{{ quiz.title }}</a>
                     {% if quiz.pk in completed_quiz_ids %}
-                        <span class="status"> (Вы уже сдали этот тест)</span>
+                        <span class="custom-quiz-status"> (Сіз бұл тестті тапсырдыңыз)</span>
                     {% endif %}
                 </li>
             {% endfor %}
         </ul>
     </div>
+
 </body>
 </html>
 {% endblock %}

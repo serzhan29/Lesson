@@ -3,7 +3,7 @@ from .models import Quiz, Question, Answer, UserQuizResult
 from django.contrib.auth.decorators import login_required
 from main.models import Lesson
 from django.utils import timezone
-
+from .forms import AnswerForm
 
 def quiz_list(request):
     quizzes = Quiz.objects.all()
@@ -72,6 +72,45 @@ def quiz_result(request, quiz_id):
         'correct_answers_count': correct_answers_count,
     }
     return render(request, 'quiz/result.html', context)
+
+
+def take_quiz(request, quiz_id):
+    quiz = Quiz.objects.get(id=quiz_id)
+    questions = quiz.questions.all()
+
+    if request.method == 'POST':
+        form = AnswerForm(request.POST, questions=questions)
+        if form.is_valid():
+            score = 0
+            for question in questions:
+                if question.question_type == 'text':
+                    user_answer = form.cleaned_data[f'question_{question.id}']
+                    correct_answers = question.answers.filter(is_correct=True)
+                    # Проверка правильности ответа (упрощенный пример)
+                    if user_answer in [ans.text for ans in correct_answers]:
+                        score += 1
+                elif question.question_type == 'table':
+                    # Логика для проверки таблицы
+                    table_answer_1 = form.cleaned_data[f'table_row1_{question.id}']
+                    table_answer_2 = form.cleaned_data[f'table_row2_{question.id}']
+                    # Здесь можно проверять правильность заполнения таблицы
+                elif question.question_type == 'reorder':
+                    # Логика для перестановки
+                    user_reorder = form.cleaned_data[f'reorder_{question.id}']
+                    # Проверяем перестановку с правильным порядком
+
+            # Сохраняем результат
+            UserQuizResult.objects.create(
+                user=request.user,
+                quiz=quiz,
+                score=score,
+                completed_at=timezone.now()
+            )
+            return redirect('quiz_result', quiz_id=quiz.id)
+    else:
+        form = AnswerForm(questions=questions)
+
+    return render(request, 'take_quiz.html', {'quiz': quiz, 'form': form})
 
 
 
