@@ -5,13 +5,17 @@ from main.models import Lesson
 from django.utils import timezone
 from .forms import AnswerForm
 
+@login_required
 def quiz_list(request):
     quizzes = Quiz.objects.all()
     user = request.user
+
+    # Получаем идентификаторы завершенных викторин
     completed_quiz_ids = UserQuizResult.objects.filter(user=user).values_list('quiz_id', flat=True)
+
     return render(request, 'quiz/quiz_list.html', {
-                                                    'quizzes': quizzes,
-                                                   'completed_quiz_ids': completed_quiz_ids,
+        'quizzes': quizzes,
+        'completed_quiz_ids': completed_quiz_ids,
     })
 
 
@@ -28,16 +32,19 @@ def quiz_detail(request, pk):
         total_questions = questions.count()
         correct_answers = 0
 
+        # Проверка выбранных ответов
         for question in questions:
-            selected_answers = request.POST.getlist(str(question.id))
+            selected_answers = request.POST.getlist(f'question_{question.id}')
             correct_answers += sum(1 for answer in question.answers.filter(is_correct=True) if str(answer.id) in selected_answers)
 
         score = (correct_answers / total_questions) * 100
 
+        # Сохранение результата теста
         UserQuizResult.objects.create(
             user=request.user,
             quiz=quiz,
             score=score,
+            completed_at=timezone.now(),
         )
 
         return redirect('quiz:quiz_result', quiz_id=quiz.pk)
