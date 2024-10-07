@@ -15,6 +15,7 @@
                 {{ lesson.description|safe }}
             </p>
         </div>
+        <!--
         <h1>Видеоурок</h1>
         <div class="lesson-video-audio-section">
             {% if lesson.video and lesson.video.url %}
@@ -26,146 +27,141 @@
                 <p>Видео не было добавлено.</p>
             {% endif %}
         </div>
+         -->
         <br>
     </div>
 
     <!-- Контейнер для кнопок -->
     <div class="button-container">
-      <!-- Кнопка для открытия модального окна с Word -->
-      {% if task %}
-        <a href="{% url 'task_detail' task.id %}">
-            <button class="btn btn-primary">Word бағдарламасында тапсырманы көрсету</button>
-        </a>
-      {% else %}
-         <p>Ничего не добавлено.</p>
-      {% endif %}
-      <button id="openPresentationModal" class="btn btn-primary">Презентацияны көрсету</button>
-      <button id="openWordModal" style="pointer-events: none; cursor: default;
-      -webkit-user-select: none;-moz-user-select: none;-ms-user-select: none; "
-              class="btn btn-primary">
-      </button>
+        {% if task %}
+            <a href="{% url 'task_detail' task.id %}">
+                <button class="btn btn-primary">Word бағдарламасында тапсырманы көрсету</button>
+            </a>
+        {% else %}
+            <p>Ничего не добавлено.</p>
+        {% endif %}
+        <button id="openPresentationModal" class="btn btn-primary">Презентацияны көрсету</button>
+        <button id="openVideoModal" class="btn btn-primary">Видеоны көрсету</button> <!-- Добавлена кнопка для видео -->
     </div>
 
-    <!-- Модальное окно для отображения задания в Word -->
-    <div id="wordModal" class="modal">
-      <div class="modal-content">
-        <span class="close-button" id="closeWordModal">&times;</span>
-        <h5 class="modal-title">Word бағдарламасындағы тапсырма</h5>
-        <div class="modal-body">
-          {% if task %}
-            <h6 class="task-title">Word бағдарламасындағы тапсырма</h6>
-            <div class="task-content">
-              {{ task.word|safe }} <!-- Фильтр safe для рендеринга iframe -->
-            </div>
-          {% else %}
-            <p>Бұл дәріс үшін қосымша тапсырмалар табылмады.</p>
-          {% endif %}
-        </div>
-        <button type="button" class="btn btn-secondary" id="closeWordModalFooter">Жабу</button>
-      </div>
-    </div>
+
     <!-- Модальное окно для отображения презентации -->
     <div id="presentationModal" class="modal">
-      <div class="modal-content">
-        <span class="close-button" id="closePresentationModal">&times;</span>
-        <h5 class="modal-title">Презентация</h5>
-        <div class="modal-body">
-          {% if task %}
-            <h6 class="task-title">Презентация:</h6>
-            <div class="task-content">
-              {{ task.presentation|safe }} <!-- Фильтр safe для рендеринга iframe -->
+        <div class="modal-content">
+            <span class="close-button" id="closePresentationModal">&times;</span>
+            <h5 class="modal-title">Презентация</h5>
+            <div class="modal-body">
+                {% if task %}
+                    <h6 class="task-title">Презентация:</h6>
+                    <div class="task-content">
+                        {{ task.presentation|safe }} <!-- Фильтр safe для рендеринга iframe -->
+                    </div>
+                {% else %}
+                    <p>Бұл дәріс үшін презентациялар табылмады.</p>
+                {% endif %}
             </div>
-          {% else %}
-            <p>Бұл дәріс үшін презентациялар табылмады.</p>
-          {% endif %}
+            <button type="button" class="btn btn-secondary" id="closePresentationModalFooter">Жабу</button>
         </div>
-        <button type="button" class="btn btn-secondary" id="closePresentationModalFooter">Жабу</button>
-      </div>
     </div>
 
+    <!-- Новое модальное окно для видео -->
+    <div id="videoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeVideoModal">&times;</span>
+            <h5 class="modal-title">Видеоурок</h5>
+            <div class="modal-body">
+                {% if lesson.video_url %}
+                    <iframe width="100%" height="500" src="{{ lesson.video_url }}" frameborder="0" allowfullscreen></iframe>
+                {% else %}
+                    <p>Видео не было добавлено.</p>
+                {% endif %}
+            </div>
+            <button type="button" class="btn btn-secondary" id="closeVideoModalFooter">Жабу</button>
+        </div>
+    </div>
 
 </div>
-    <!-- Кнопка для открытия/закрытия меню -->
-    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-    <!-- Скрытое меню -->
-    <div class="lesson-side2-container" id="sideMenu">
-        <ul class="lesson-list2">
-            {% for i in list %}
-                <li class="lesson-item">
-                    <a href="{% url 'lesson_detail' i.id %}" class="lesson-link">Лекця {{ i.number }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
+<!-- Кнопка для открытия/закрытия меню -->
+<div class="menu-toggle" onclick="toggleMenu()">☰</div>
+<!-- Скрытое меню -->
+<div class="lesson-side2-container" id="sideMenu">
+    <ul class="lesson-list2">
+        {% for i in list %}
+            <li class="lesson-item">
+                <a href="{% url 'lesson_detail' i.id %}" class="lesson-link">Лекця {{ i.number }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
 
+<script>
+    function toggleMenu() {
+        var sideMenu = document.getElementById('sideMenu');
+        sideMenu.classList.toggle('open');
+    }
 
-    <script>
-        function toggleMenu() {
-            var sideMenu = document.getElementById('sideMenu');
-            sideMenu.classList.toggle('open');
+    document.addEventListener('click', function(event) {
+        var sideMenu = document.getElementById('sideMenu');
+        var toggleButton = document.querySelector('.menu-toggle');
+        if (!sideMenu.contains(event.target) && !toggleButton.contains(event.target)) {
+            sideMenu.classList.remove('open');
         }
+    });
 
-        // Закрытие меню при клике вне его области
-        document.addEventListener('click', function(event) {
-            var sideMenu = document.getElementById('sideMenu');
-            var toggleButton = document.querySelector('.menu-toggle');
+    const wordModal = document.getElementById('wordModal');
+    const presentationModal = document.getElementById('presentationModal');
+    const videoModal = document.getElementById('videoModal');
+    const openWordModal = document.getElementById('openWordModal');
+    const openPresentationModal = document.getElementById('openPresentationModal');
+    const openVideoModal = document.getElementById('openVideoModal'); // Добавляем новую кнопку для открытия видео
+    const closeWordModal = document.getElementById('closeWordModal');
+    const closePresentationModal = document.getElementById('closePresentationModal');
+    const closeVideoModal = document.getElementById('closeVideoModal'); // Закрытие модального окна для видео
+    const closeWordModalFooter = document.getElementById('closeWordModalFooter');
+    const closePresentationModalFooter = document.getElementById('closePresentationModalFooter');
+    const closeVideoModalFooter = document.getElementById('closeVideoModalFooter'); // Закрытие из футера
 
-            // Проверка: если клик был вне меню и не по кнопке, закрываем меню
-            if (!sideMenu.contains(event.target) && !toggleButton.contains(event.target)) {
-                sideMenu.classList.remove('open');
-            }
-        });
-        // Получаем элементы модальных окон и кнопки
-        const wordModal = document.getElementById('wordModal');
-        const presentationModal = document.getElementById('presentationModal');
-        const openWordModal = document.getElementById('openWordModal');
-        const openPresentationModal = document.getElementById('openPresentationModal');
-        const closeWordModal = document.getElementById('closeWordModal');
-        const closePresentationModal = document.getElementById('closePresentationModal');
-        const closeWordModalFooter = document.getElementById('closeWordModalFooter');
-        const closePresentationModalFooter = document.getElementById('closePresentationModalFooter');
 
-        // Открываем модальное окно с заданием в Word
-        openWordModal.onclick = function() {
-          wordModal.style.display = 'block';
-        }
+    openPresentationModal.onclick = function() {
+        presentationModal.style.display = 'block';
+    }
 
-        // Открываем модальное окно с презентацией
-        openPresentationModal.onclick = function() {
-          presentationModal.style.display = 'block';
-        }
+    openVideoModal.onclick = function() {
+        videoModal.style.display = 'block'; // Открываем модальное окно для видео
+    }
 
-        // Закрываем модальное окно с заданием в Word
-        closeWordModal.onclick = function() {
-          wordModal.style.display = 'none';
-        }
 
-        // Закрываем модальное окно с презентацией
-        closePresentationModal.onclick = function() {
-          presentationModal.style.display = 'none';
-        }
+    closePresentationModal.onclick = function() {
+        presentationModal.style.display = 'none';
+    }
 
-        // Закрываем модальное окно с заданием в Word из футера
-        closeWordModalFooter.onclick = function() {
-          wordModal.style.display = 'none';
-        }
+    closeVideoModal.onclick = function() {
+        videoModal.style.display = 'none'; // Закрываем модальное окно для видео
+    }
 
-        // Закрываем модальное окно с презентацией из футера
-        closePresentationModalFooter.onclick = function() {
-          presentationModal.style.display = 'none';
-        }
+    closeWordModalFooter.onclick = function() {
+        wordModal.style.display = 'none';
+    }
 
-        // Закрываем модальные окна при клике вне модального окна
-        window.onclick = function(event) {
-          if (event.target === wordModal) {
+    closePresentationModalFooter.onclick = function() {
+        presentationModal.style.display = 'none';
+    }
+
+    closeVideoModalFooter.onclick = function() {
+        videoModal.style.display = 'none'; // Закрываем через футер
+    }
+
+    window.onclick = function(event) {
+        if (event.target === wordModal) {
             wordModal.style.display = 'none';
-          }
-          if (event.target === presentationModal) {
-            presentationModal.style.display = 'none';
-          }
         }
-
-
-    </script>
+        if (event.target === presentationModal) {
+            presentationModal.style.display = 'none';
+        }
+        if (event.target === videoModal) {
+            videoModal.style.display = 'none'; // Закрываем при клике вне окна
+        }
+    }
+</script>
 <script src="https://cdn.ckeditor.com/ckeditor5/35.3.0/classic/ckeditor.js"></script>
 {% endblock %}

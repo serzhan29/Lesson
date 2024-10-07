@@ -42,7 +42,42 @@
 <!-- Таймер -->
 <div id="quiz-timer">Уақыт қалды: 30:00</div>
 
-
 <script src="{% static 'js/times.js' %}"></script>
 <script src="{% static 'js/quizLogic.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const questions = document.querySelectorAll('.quiz-question');
+    let currentQuestionIndex = 0;
+
+    const prevButton = document.getElementById('prevQuestion');
+    const nextButton = document.getElementById('nextQuestion');
+    const submitButton = document.getElementById('submitQuiz');
+
+    function showQuestion(index) {
+        questions.forEach((question, i) => {
+            question.style.display = i === index ? 'block' : 'none';
+        });
+        prevButton.disabled = index === 0;
+        nextButton.style.display = index === questions.length - 1 ? 'none' : 'inline-block';
+        submitButton.style.display = index === questions.length - 1 ? 'inline-block' : 'none';
+    }
+
+    prevButton.addEventListener('click', function () {
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            showQuestion(currentQuestionIndex);
+        }
+    });
+
+    nextButton.addEventListener('click', function () {
+        if (currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            showQuestion(currentQuestionIndex);
+        }
+    });
+
+    showQuestion(currentQuestionIndex);
+});
+
+</script>
 {% endblock %}
