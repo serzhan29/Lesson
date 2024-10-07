@@ -23,10 +23,15 @@ class Question(models.Model):
         ('reorder', 'Перестановка'),
         # Можно добавить другие типы вопросов
     ]
+    CHECK_TYPES = [
+        ('auto', 'Автоматическая проверка'),
+        ('manual', 'Ручная проверка'),
+    ]
 
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='questions', default=1)
     text = models.CharField("Сұрақ", max_length=500)
     question_type = models.CharField("Сұрақ түрі", max_length=50, choices=QUESTION_TYPES)
+    check_type = models.CharField("Тип проверки", max_length=50, choices=CHECK_TYPES, default='auto')
 
     def __str__(self):
         return self.text
@@ -36,12 +41,10 @@ class Question(models.Model):
         verbose_name_plural = "Тест сұрақтары"
 
 
-
 class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers', default=1)
     text = models.CharField("Жауап", max_length=255, blank=True, null=True)
     is_correct = models.BooleanField("Дұрыс жауап", default=False)
-    # Добавляем поле для ответов, требующих текстовых полей или таблиц
     filled_cells = models.JSONField("Толтырылған ұяшықтар", blank=True, null=True)
     reordered_items = models.JSONField("Қайта реттелген элементтер", blank=True, null=True)
 
@@ -53,11 +56,28 @@ class Answer(models.Model):
         verbose_name_plural = "Жауаптар"
 
 
+class UserQuizAnswer(models.Model):
+    """Модель для хранения ответов студентов"""
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="quiz_answers")
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="user_answers")
+    answer_text = models.TextField("Ответ студента", blank=True, null=True)  # Поле для текстового ответа
+    submitted_at = models.DateTimeField("Дата отправки", auto_now_add=True)
+    is_correct = models.BooleanField("Ответ верный", blank=True, null=True)  # Может быть null, если ответ проверяется вручную
+    checked_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="checked_answers")
+    checked_at = models.DateTimeField("Дата проверки", blank=True, null=True)  # Дата проверки преподавателем
+
+    class Meta:
+        verbose_name = "Ответ студента"
+        verbose_name_plural = "Ответы студентов"
+
+    def __str__(self):
+        return f"Ответ {self.user.username} на вопрос {self.question.text}"
+
 
 class UserQuizResult(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
-    score = models.FloatField("Баллы")
+    score = models.FloatField("Баллы", blank=True, null=True)  # Можно оставить пустым, пока тест не будет проверен полностью
     completed_at = models.DateTimeField("Дата завершения", default=timezone.now)
 
     class Meta:
@@ -65,6 +85,4 @@ class UserQuizResult(models.Model):
         verbose_name_plural = "Тест нәтижелері"
 
     def __str__(self):
-        return f"{self.user.username} - {self.quiz.title} - {self.score}"
-
-    
+        return f"{self.user.username} - {self.quiz.title} - {self.score if self.score is not None else 'Не проверен'}"

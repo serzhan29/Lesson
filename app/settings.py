@@ -1,25 +1,17 @@
 import os
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-j)mesn=u5x*b5#+48jx-qg+eabhicmj##!9=c#oa*47+j2clto'
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+
 CSRF_COOKIE_SECURE=False
 CSRF_COOKIE_HTTPONLY=False
-CSRF_TRUSTED_ORIGINS=['https://7d71-2-134-186-155.ngrok-free.app']
-
-# Application definition
+CSRF_TRUSTED_ORIGINS=['https://7ba4-89-218-157-234.ngrok-free.app']
 
 INSTALLED_APPS = [
     'jazzmin',
@@ -33,6 +25,8 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'main',
     'quiz',
+    'task',
+    'task.templatetags',
 ]
 
 MIDDLEWARE = [
@@ -67,9 +61,6 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 AUTH_USER_MODEL = 'main.CustomUser'
 
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -82,9 +73,6 @@ DATABASES = {
     }
 }
 
-
-# Password validation
-# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -102,14 +90,13 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LANGUAGES = [
-    ('kk', 'Қазақша'),  # Казахский язык
+    ('kk', 'Қазақша'),
     ('ru', 'Russian'),
 ]
 
 LANGUAGE_CODE = 'kk'
 
 TIME_ZONE = 'Asia/Almaty'
-
 
 USE_I18N = True
 
@@ -118,16 +105,13 @@ USE_TZ = True
 LOGIN_URL = 'login'  # URL для перенаправления, если пользователь не авторизован
 LOGOUT_REDIRECT_URL = 'topic_list'  # URL для перенаправления после выхода
 LOGIN_REDIRECT_URL = 'topic_list'
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
 
+# Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -177,14 +161,13 @@ CKEDITOR_CONFIGS = {
         'toolbar': 'YourCustomToolbarConfig',  # put selected toolbar config here
         # 'toolbarGroups': [{ 'name': 'document', 'groups': [ 'mode', 'document', 'doctools' ] }],
         'height': 500,
-        'width': 800,
+        'width': 700,
         'filebrowserWindowHeight': 825,
         'filebrowserWindowWidth': 1040,
         'contentsCss': [
                     'static/css/custom_ckeditor.css',  # Подключение вашего CSS файла
                 ],
-        # 'toolbarCanCollapse': True,
-        # 'mathJaxLib': '//cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML',
+
         'tabSpaces': 4,
         'extraPlugins': ','.join([
             'uploadimage', # the upload image feature
