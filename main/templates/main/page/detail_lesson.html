@@ -11,7 +11,7 @@
         <div class="lesson-center-content">
             <h1>{{ lesson.title }}</h1>
             <br>
-            <p class="black-text">
+            <p >
                 {{ lesson.description|safe }}
             </p>
         </div>
@@ -31,8 +31,8 @@
         <br>
     </div>
 
-    <!-- Контейнер для кнопок -->
-    <div class="button-container">
+    <!-- Контейнер для кнопок с классом fixed-buttons -->
+    <div class="button-container fixed-buttons">
         {% if task %}
             <a href="{% url 'task_detail' task.id %}">
                 <button class="btn btn-primary">Word бағдарламасында тапсырманы көрсету</button>
@@ -41,8 +41,9 @@
             <p>Ничего не добавлено.</p>
         {% endif %}
         <button id="openPresentationModal" class="btn btn-primary">Презентацияны көрсету</button>
-        <button id="openVideoModal" class="btn btn-primary">Видеоны көрсету</button> <!-- Добавлена кнопка для видео -->
+        <button id="openVideoModal" class="btn btn-primary">Видеоны көрсету</button>
     </div>
+
 
 
     <!-- Модальное окно для отображения презентации -->
