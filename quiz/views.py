@@ -52,7 +52,6 @@ def quiz_detail(request, pk):
     return render(request, 'quiz/quiz_detail.html', {'quiz': quiz, 'questions': questions})
 
 
-
 @login_required
 def quiz_result(request, quiz_id):
     quiz = get_object_or_404(Quiz, pk=quiz_id)
@@ -67,9 +66,26 @@ def quiz_result(request, quiz_id):
 
     # Подсчитываем количество правильных ответов
     correct_answers_count = 0
+    detailed_answers = []  # Список для хранения деталей ответов
     for question in quiz.questions.all():
         correct_answers = set(answer.id for answer in question.answers.filter(is_correct=True))
-        if set(user_answers.get(question.id, [])) == correct_answers:
+        user_selected_answers = set(user_answers.get(question.id, []))
+
+        # Подготовим тексты ответов пользователя
+        user_answers_text = []
+        if user_selected_answers:
+            user_answers_text = [answer.text for answer in question.answers.filter(id__in=user_selected_answers)]
+
+        # Добавляем информацию о вопросе и ответах
+        detailed_answers.append({
+            'question': question,
+            'user_answers': user_selected_answers,
+            'user_answers_text': user_answers_text,  # Добавляем текст выбранных ответов
+            'correct_answers': correct_answers,
+            'is_correct': user_selected_answers == correct_answers,
+        })
+
+        if user_selected_answers == correct_answers:
             correct_answers_count += 1
 
     context = {
@@ -77,6 +93,7 @@ def quiz_result(request, quiz_id):
         'result': result,
         'user_answers': user_answers,
         'correct_answers_count': correct_answers_count,
+        'detailed_answers': detailed_answers,  # Добавляем детализированные ответы
     }
     return render(request, 'quiz/result.html', context)
 

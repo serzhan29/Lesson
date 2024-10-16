@@ -17,30 +17,27 @@
         </nav>
     </header>
     <main class="quiz-result-main">
-        <pre>{{ user_answers|dictsort:"0" }}</pre>
-
         <h2>Тест: {{ quiz.title }}</h2>
         <p><strong>Өту күні:</strong> {{ result.completed_at }}</p>
         <p><strong>Сұрақтардың жалпы саны:</strong> {{ quiz.questions.count }}</p>
         <p><strong>Алынған балл саны:</strong> <span id="score">{{ result.score }}</span></p>
 
-        <h3>Детали теста</h3>
+        <h3>Тестілеу мәліметтері</h3>
         <table>
             <thead>
                 <tr>
-                    <th>Сұрақтар: </th>
-                    <th>Дұрыс жауаптар: </th>
+                    <th>Сұрақтар:</th>
+                    <th>Дұрыс жауаптар:</th>
                 </tr>
             </thead>
             <tbody>
-                {% for question in quiz.questions.all %}
+                {% for detail in detailed_answers %}
                 <tr>
-                    <td>{{ question.text }}</td>
+                    <td>{{ detail.question.text }}</td>
                     <td>
-                        {% for answer in question.answers.all %}
+                        {% for answer in detail.question.answers.all %}
                             {% if answer.is_correct %}
-                                <span class="quiz-result-correct">{{ answer.text }}</span>
-                                {% if not forloop.last %} {% endif %}
+                                <span class="quiz-result-correct">{{ answer.text }}</span><br>
                             {% endif %}
                         {% endfor %}
                     </td>
@@ -52,10 +49,8 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Находим элемент с результатом
             var scoreElement = document.getElementById('score');
             if (scoreElement) {
-                // Получаем текстовое значение и округляем его
                 var score = parseFloat(scoreElement.textContent);
                 if (!isNaN(score)) {
                     scoreElement.textContent = Math.floor(score);
