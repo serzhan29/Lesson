@@ -48,3 +48,57 @@
 .profile-container a.btn-danger {
     background-color: #dc3545;
 }
+
+/* Стили для фотографии пользователя */
+.user-photo {
+    display: block;
+    width: 150px; /* Фиксированная ширина */
+    height: 150px; /* Фиксированная высота */
+    object-fit: cover; /* Обрезка изображения, чтобы заполнить квадрат */
+    border: 2px solid #007bff; /* Обводка вокруг изображения */
+    border-radius: 8px; /* Закругленные углы для более современного вида */
+    margin: 20px auto; /* Отступ сверху и снизу, выравнивание по центру */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Тень для глубины */
+}
+
+/* Стили для полей ввода формы */
+.form-group {
+    margin-bottom: 15px; /* Отступ между полями */
+}
+
+.form-control {
+    width: 100%; /* Ширина 100% */
+    padding: 10px; /* Внутренние отступы */
+    border: 1px solid #ccc; /* Обводка */
+    border-radius: 4px; /* Закругленные углы */
+    font-size: 16px; /* Размер шрифта */
+    box-sizing: border-box; /* Учитывать обводку и отступы в размере */
+}
+
+/* Стили для кнопок в форме */
+#edit-form button {
+    width: 100%; /* Кнопки на всю ширину */
+    padding: 10px; /* Внутренние отступы */
+    font-size: 16px; /* Размер шрифта */
+    border: none; /* Без обводки */
+    border-radius: 5px; /* Закругленные углы */
+    cursor: pointer; /* Указатель при наведении */
+    transition: background-color 0.3s ease; /* Плавный переход цвета */
+}
+
+/* Стиль для кнопки сохранения */
+#edit-form button.btn-success {
+    background-color: #28a745; /* Зеленый фон для кнопки сохранения */
+    color: #fff; /* Белый текст */
+}
+
+/* Стиль для кнопки сохранения при наведении */
+#edit-form button.btn-success:hover {
+    background-color: #218838; /* Более темный зеленый при наведении */
+}
+
+/* Стиль для кнопки редактирования */
+#edit-btn {
+    width: auto; /* Автоширина */
+    padding: 10px 20px; /* Отступы */
+}

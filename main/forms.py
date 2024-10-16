@@ -33,3 +33,9 @@ class CustomUserCreationForm(UserCreationForm):
         self.fields['password1'].help_text = 'Құпия сөзде кем дегенде 8 таңба болуы керек және тек сандардан тұрмауы тиіс.'
         self.fields['password2'].help_text = 'Тексеру үшін жоғарыдағы құпия сөзді енгізіңіз.'
 
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser  # Используйте CustomUser вместо User
+        fields = ['username', 'email', 'first_name', 'last_name', 'middle_name', 'phone_number', 'birth_date', 'photo']  # Добавьте все нужные поля

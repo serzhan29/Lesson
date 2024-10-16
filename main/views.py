@@ -1,7 +1,7 @@
 import os
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404
-from .models import Topic, Lesson, Task
+from .models import Topic, Lesson, Task, CustomUser
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import default_storage
@@ -12,6 +12,9 @@ from django.shortcuts import redirect
 from django.contrib.auth import login, logout, authenticate
 from .forms import CustomUserCreationForm
 from quiz.models import Quiz
+from .forms import UserProfileForm
+
+
 
 class CustomLoginView(LoginView):
     template_name = 'main/registration/login.html'
@@ -77,27 +80,39 @@ def lesson_detail(request, lesson_id):
     # Получаем все задания, связанные с конкретной лекцией
     task = Task.objects.filter(lesson=lesson).first()  # Если одно задание, используем first()
     related_lessons = Lesson.objects.filter(topic=lesson.topic).exclude(id=lesson_id)
-    quiz = Quiz.objects.all()
+    quizzes = lesson.quizzes.all()  # Получаем тесты, связанные с этой лекцией
 
     return render(request, 'main/page/detail_lesson.html', {
         'lesson': lesson,
         'list': related_lessons,
-        'quiz': quiz,
+        'quizzes': quizzes,  # Передаем связанные тесты
         'task': task,  # Передаем task, связанный с этой лекцией
     })
 
 
 
+
 @login_required
 def profile_view(request):
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=request.user)  # Обрабатывайте файлы
+        if form.is_valid():
+            form.save()
+            return redirect('profile')  # Перенаправление на страницу профиля после сохранения
+    else:
+        form = UserProfileForm(instance=request.user)
+
     context = {
-        'user': request.user
+        'user': request.user,
+        'form': form
     }
     return render(request, 'main/info/profile.html', context)
 
-
 def author(request):
-    return render(request, 'main/info/author.html')
+    user = get_object_or_404(CustomUser, id=1)
+    return render(request, 'main/info/author.html',{
+        'user':user,
+    })
 
 
 def books(request):
