@@ -1,12 +1,3 @@
-*{
-    margin: 0;
-    padding: 0;
-    outline: none;
-    box-sizing: border-box;
-    font-family: "Kanit", sans-serif;
-    font-weight: 300;
-}
-
 html{
     scroll-behavior: smooth;
 }
@@ -40,12 +31,13 @@ footer{
     justify-content: space-between;
     padding: 10px;
     gap: 2px;
+    font-size: 20px;
 }
 
 nav .logo i{
     background: white;
     padding: 8px;
-    font-size: 20px;
+    font-size: 25px;
     border-radius: 50%;
 }
 
@@ -111,8 +103,8 @@ nav .login a{
 
 /* Стиль для иконки пользователя */
 .auth-links .profile img {
-    width: 30px; /* Ширина иконки (можно изменить) */
-    height: 30px; /* Высота иконки (можно изменить) */
+    width: 35px; /* Ширина иконки (можно изменить) */
+    height: 35px; /* Высота иконки (можно изменить) */
     border-radius: 50%; /* Округлые края иконки (если нужно) */
 }
 
@@ -234,6 +226,8 @@ h3.black {
     text-transform: uppercase;
     text-align: center;
     margin-bottom: 50px;
+    align-items: center;
+    justify-content: center;
 }
 
 .showcase .text-sec{
@@ -258,7 +252,7 @@ h3.black {
 
 .showcase .text-sec .images img,
 .showcase .image-sec img{
-    width: 450px; /* Ширина изображения равна ширине ячейки */
+    width: 380px; /* Ширина изображения равна ширине ячейки */
     height: 400px; /* Задаёт одинаковую высоту для всех изображений */
     object-fit: cover; /* Сохраняет пропорции изображения и заполняет контейнер */
     border-radius: 20px; /* Скругленные углы */
@@ -371,7 +365,7 @@ h3.black {
 .video-sec .video img{
     width: 100%;
     height: 420px;
-    object-fit: top center;
+    object-fit: center;
     border-radius: 40px;
 }
 
@@ -429,7 +423,7 @@ footer .copyright{
 
     .showcase .text-sec .images img,
     .showcase .image-sec img{
-        width: 280px;
+        width: 260px;
     }
 
     .services .header h3,
@@ -596,30 +590,10 @@ footer .copyright{
         font-size: 80px;
     }
 
-        nav .nav-links,
-    footer .copyright {
-        transform: none; /* Убираем трансформацию */
-        left: auto; /* Сброс значения для left */
-        right: auto; /* Сброс значения для right */
-        margin: 0; /* Убираем любые отступы */
-        padding: 8px; /* Можно изменить отступы, если нужно */
-        width: 75%; /* Меню занимает всю ширину экрана */
-    }
-
-    nav .nav-links a,
-    footer .copyright p {
-        font-size: 12px; /* Регулируем размер шрифта для мобильной версии */
-    }
-
     nav .login img {
         width: 28px; /* Регулируем размер изображения для мобильной версии */
         height: 28px;
     }
 }
 
-h1 {
-    -webkit-user-select: none; /* Для браузеров на базе WebKit (Chrome, Safari) */
-    -moz-user-select: none; /* Для Firefox */
-    -ms-user-select: none; /* Для Internet Explorer/Edge */
-    user-select: none; /* Для стандартного браузерного свойства */
-}
+

@@ -24,7 +24,8 @@
             {% if user.is_superuser %}
                 <a href="{% url 'admin:index' %}">Админка</a>
             {% endif %}
-            <a href="{% url 'quiz:quiz_list' %}">Тесттер</a>
+            <!-- <a href="{% url 'quiz:quiz_list' %}">Тесттер</a> -->
+
         </div>
         <div class="login">
             {% if user.is_authenticated %}
@@ -33,7 +34,9 @@
                 <a href="{% url 'register' %}">Тіркелу</a>
                 <a href="{% url 'login' %}">Кіру</a>
             {% endif %}
-            <a href="{% url 'profile' %}"><img src="{% static 'img/login.JPG' %}"></a>
+            <a href="{% url 'profile' %}">
+                <img src="{% if user.photo %}{{ user.photo.url }}{% else %}{% static 'img/login.JPG' %}{% endif %}" alt="Фото пользователя">
+            </a>
         </div>
     </nav>
 

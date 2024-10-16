@@ -2,12 +2,55 @@
 
 {% block content %}
 {% load static %}
+<head>
+    <!-- Подключение Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
 <link rel="stylesheet" type="text/css" href="{% static 'css/author.css' %}">
-<div class="project-info">
-    <h2>Жоба жетекшісі</h2>
-    <p>
-        Жоба жетекшісі: <strong>Исаев Мухтар Сеитханулы</strong>, тарих ғылымдарының PhD докторы.
-    </p>
-</div>
+<div class="portfolio">
+    <div class="portfolio-header">
+        {% if user.photo %}
+            <img src="{{ user.photo.url }}" alt="Author's Photo" class="author-photo">
+        {% else %}
+            <p>Фото жоқ</p> <!-- Можно заменить на изображение по умолчанию -->
+            <!-- <img src="{% static 'images/default_author_photo.jpg' %}" alt="Default Photo" class="author-photo"> -->
+        {% endif %}
+        <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+        <p class="title">Тарих ғылымдарының PhD докторы</p>
+    </div>
 
+    <div class="portfolio-content">
+        <div class="section">
+            <h3>Жеке мәліметтер</h3>
+            <p><strong>Туған күн:</strong> {{ user.birth_date|date:"d F, Y" }}</p>
+            <p><strong>Телефон нөмірі:</strong> {{ user.phone_number }}</p>
+            <p><strong>Электронды пошта:</strong> {{ user.email }}</p>
+        </div>
+
+        <div class="section">
+            <h3>Білімі</h3>
+            <p><strong>PhD, Тарих ғылымдары</strong> — ҚазҰУ, 2010</p>
+            <p><strong>Магистр, Тарих</strong> — ЕҰУ, 2005</p>
+        </div>
+
+        <div class="section">
+            <h3>Жұмыс тәжірибесі</h3>
+            <ul>
+                <li><strong> Профессор</strong>, Тарих факультеті, ҚазҰУ (2015 - қазіргі уақытқа дейін)</li>
+                <li><strong> Аға оқытушы</strong>, ЕҰУ (2010 - 2015)</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h3>Мамандық және Дағдылар</h3>
+            <ul class="skills">
+                <li>Тарих ғылымдары</li>
+                <li>Зерттеу жұмыстары</li>
+                <li>Дәріс оқу</li>
+                <li>Ғылыми мақалалар жазу</li>
+            </ul>
+        </div>
+        <div class="section">
+    </div>
+</div>
 {% endblock %}

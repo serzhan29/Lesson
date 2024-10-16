@@ -2,6 +2,8 @@
 
 {% block content %}
 {% load static %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
       <div class="prompt-sec">
         <div class="prompt-img">
             <img src="{% static 'img/main.jpg' %}">
@@ -19,7 +21,7 @@
     <div class="showcase" id="aihub">
         <h3 style="color: black">ҚАЗАҚСТАН ТАРИХЫ ТУРАЛЫ ФАКТІЛЕР</h3>
         <div class="text-sec">
-            <p >
+            <p>
                 Қазақстан тарихы – Орталық Азиядағы ең ежелгі және бай тарихқа ие мемлекеттердің бірі.
                 Бұл елдің тарихы мыңдаған жылдар бойы қалыптасқан, оның ішінде сақтар, ғұндар,
                 түркілер және қыпшақтар сынды көптеген көшпелі халықтардың мәдениеті мен өркениеті ерекше орын алады.
@@ -39,11 +41,6 @@
     <div class="services" id="services">
         <div class="header">
             <h3 style="color: black;">Әдістемелер</h3>
-            <p>
-                Еліміздің бай және көпқабатты тарихын ескере отырып,
-                Қазақстан тарихы бойынша әдіснамалар әр түрлі болуы мүмкін.
-                Мұнда бірнеше мысалдар келтірілген:
-            </p>
         </div>
 
         <div class="service-items">
@@ -61,10 +58,10 @@
             <div class="item active">
                 <div class="title">
                     <div class="gradient"></div>
-                    <p class="grey" >Археологиялық әдіс</p>
+                    <p class="grey">Археологиялық әдіс</p>
                 </div>
                 <div class="desc">
-                    <p class="grey" >
+                    <p class="grey">
                         Қазіргі Қазақстан аумағын мекендеген ежелгі мәдениеттерді
                         зерттеу үшін археологиялық деректерді пайдалану.
                     </p>
@@ -81,19 +78,69 @@
                     </p>
                 </div>
             </div>
-            <div class="item">
-                <div class="title">
-                    <div class="gradient"></div>
-                    <p class="grey">Әлеуметтік-экономикалық әдіс</p>
-                </div>
-                <div class="desc">
-                    <p class="grey">
-                        Ауыл шаруашылығын, өнеркәсіпті және сауданы дамытуды қоса алғанда,
-                        Қазақстанның тарих бойындағы экономикалық дамуын зерттеу.
-                    </p>
-                </div>
-            </div>
+
         </div>
     </div>
+<style>
+.trust-block {
+    padding: 40px 20px;
+    background-color: #f9f9f9; /* Цвет фона для блока доверия */
+    border-radius: 10px; /* Закругление углов */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Тень для блока */
+}
+
+.trust-icons {
+    display: flex;
+    justify-content: center;
+    gap: 40px; /* Расстояние между иконками */
+}
+
+.trust-item {
+    text-align: center; /* Центрирование текста под иконками */
+}
+
+.trust-item p {
+    margin-top: 10px; /* Отступ сверху для текста */
+    color: #333; /* Цвет текста */
+}
+
+
+</style>
+    <!-- Блок доверия -->
+    <div class="trust-block" style="text-align: center; margin-top: 50px;">
+        <h3 style="color: black;">Неге бізді таңдау керек?</h3>
+        <div class="trust-icons" style="display: flex; justify-content: center; gap: 40px; margin-top: 20px;">
+            <div class="trust-item">
+                <i class="fas fa-thumbs-up" style="font-size: 40px; color: #4CAF50;"></i>
+                <p>Жоғары сапалы материалдар</p>
+            </div>
+            <div class="trust-item">
+                <i class="fas fa-check-circle" style="font-size: 40px; color: #FF9800;"></i>
+                <p>Тексерілген материалдар</p>
+            </div>
+            <div class="trust-item">
+                <i class="fas fa-book-open" style="font-size: 40px; color: #2196F3;"></i>
+                <p>Кең ауқымды ақпарат</p>
+            </div>
+        </div>
+        <p style="font-size: 18px; margin-top: 20px;">
+            Біздің сайттағы барлық материалдар жоғары сапада дайындалған.
+            Сіз тек ең үздік ақпараттарды,
+            және Қазақстан тарихының маңызды аспектілерін таба аласыз.
+            Біздің көзқарасымыз бен тәсіліміз – білімді таратуды арттыру және
+            еліміздің бай тарихымен танысу.
+        </p>
+        <p style="font-size: 18px;">
+            Біз сенімді дереккөздерден алынған ақпараттарды ұсынамыз,
+            және біздің мақсатымыз – Сізге Қазақстан тарихын
+            терең түсінуге көмектесу.
+        </p>
+    </div>
+
+
 </body>
+
 {% endblock %}
+
+<!-- Подключение Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">

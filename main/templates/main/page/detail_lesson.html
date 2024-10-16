@@ -1,49 +1,42 @@
 {% extends 'base.html' %}
-{% load static %}
 
 {% block content %}
+{% load static %}
 <link rel="stylesheet" href="{% static 'ckeditor/ckeditor.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/detail_lesson.css' %}">
-
 
 <div class="lesson-main-container">
     <div class="lesson-content-container">
         <div class="lesson-center-content">
             <h1>{{ lesson.title }}</h1>
             <br>
-            <p >
-                {{ lesson.description|safe }}
-            </p>
+            <p>{{ lesson.description|safe }}</p>
         </div>
-        <!--
-        <h1>Видеоурок</h1>
-        <div class="lesson-video-audio-section">
-            {% if lesson.video and lesson.video.url %}
-                <video width="1400" height="800" controls>
-                    <source src="{{ lesson.video.url }}" type="video/mp4">
-                    Ваш браузер не поддерживает видео тег.
-                </video>
-            {% else %}
-                <p>Видео не было добавлено.</p>
-            {% endif %}
-        </div>
-         -->
         <br>
     </div>
 
-    <!-- Контейнер для кнопок с классом fixed-buttons -->
-    <div class="button-container fixed-buttons">
-        {% if task %}
-            <a href="{% url 'task_detail' task.id %}">
-                <button class="btn btn-primary">Word бағдарламасында тапсырманы көрсету</button>
-            </a>
-        {% else %}
-            <p>Ничего не добавлено.</p>
-        {% endif %}
-        <button id="openPresentationModal" class="btn btn-primary">Презентацияны көрсету</button>
-        <button id="openVideoModal" class="btn btn-primary">Видеоны көрсету</button>
-    </div>
+<!-- Контейнер для кнопок с классом fixed-buttons -->
+<div class="button-container fixed-buttons">
+    {% if task %}
+        <a href="{% url 'task_detail' task.id %}">
+            <button class="btn btn-primary">Word бағдарламасында тапсырманы көрсету</button>
+        </a>
+    {% else %}
+        <p>Ештеңе қосылмаған.</p>
+    {% endif %}
 
+    <button id="openPresentationModal" class="btn btn-primary">Презентацияны көрсету</button>
+    <button id="openVideoModal" class="btn btn-primary">Видеоны көрсету</button>
+    <button id="openQuestionModal" class="btn btn-primary">Бақылау сұрақтарын көрсету</button>
+
+    {% for quiz in quizzes %}
+        <a href="{% url 'quiz:quiz_detail' quiz.id %}">
+            <button class="btn btn-secondary">{{ quiz.title }}  тест</button>  <!-- Ссылка на тест -->
+        </a>
+    {% empty %}
+        <p>Бұл лекцияға тесттер жоқ.</p> <!-- Сообщение, если тестов нет -->
+    {% endfor %}
+</div>
 
 
     <!-- Модальное окно для отображения презентации -->
@@ -54,18 +47,15 @@
             <div class="modal-body">
                 {% if task %}
                     <h6 class="task-title">Презентация:</h6>
-                    <div class="task-content">
-                        {{ task.presentation|safe }} <!-- Фильтр safe для рендеринга iframe -->
-                    </div>
+                    <div class="task-content">{{ task.presentation|safe }}</div>
                 {% else %}
                     <p>Бұл дәріс үшін презентациялар табылмады.</p>
                 {% endif %}
             </div>
-            <button type="button" class="btn btn-secondary" id="closePresentationModalFooter">Жабу</button>
         </div>
     </div>
 
-    <!-- Новое модальное окно для видео -->
+    <!-- Модальное окно для видео -->
     <div id="videoModal" class="modal">
         <div class="modal-content">
             <span class="close-button" id="closeVideoModal">&times;</span>
@@ -77,11 +67,25 @@
                     <p>Видео не было добавлено.</p>
                 {% endif %}
             </div>
-            <button type="button" class="btn btn-secondary" id="closeVideoModalFooter">Жабу</button>
         </div>
     </div>
 
+    <!-- Модальное окно для вопросов -->
+    <div id="questionModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeQuestionModal">&times;</span>
+            <h5 class="modal-title">Бақылау сұрақтары</h5>
+            <div class="modal-body">
+                {% if lesson.question %}
+                    <div class="question-content">{{ lesson.question|safe }}</div>
+                {% else %}
+                    <p>Бұл дәріс үшін сұрақтар табылмады.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 </div>
+
 <!-- Кнопка для открытия/закрытия меню -->
 <div class="menu-toggle" onclick="toggleMenu()">☰</div>
 <!-- Скрытое меню -->
@@ -109,60 +113,65 @@
         }
     });
 
-    const wordModal = document.getElementById('wordModal');
+    // Модальные окна
     const presentationModal = document.getElementById('presentationModal');
     const videoModal = document.getElementById('videoModal');
-    const openWordModal = document.getElementById('openWordModal');
+    const questionModal = document.getElementById('questionModal');
+
     const openPresentationModal = document.getElementById('openPresentationModal');
-    const openVideoModal = document.getElementById('openVideoModal'); // Добавляем новую кнопку для открытия видео
-    const closeWordModal = document.getElementById('closeWordModal');
+    const openVideoModal = document.getElementById('openVideoModal');
+    const openQuestionModal = document.getElementById('openQuestionModal');
+
     const closePresentationModal = document.getElementById('closePresentationModal');
-    const closeVideoModal = document.getElementById('closeVideoModal'); // Закрытие модального окна для видео
-    const closeWordModalFooter = document.getElementById('closeWordModalFooter');
-    const closePresentationModalFooter = document.getElementById('closePresentationModalFooter');
-    const closeVideoModalFooter = document.getElementById('closeVideoModalFooter'); // Закрытие из футера
+    const closeVideoModal = document.getElementById('closeVideoModal');
+    const closeQuestionModal = document.getElementById('closeQuestionModal');
 
-
+    // Открытие модальных окон
     openPresentationModal.onclick = function() {
         presentationModal.style.display = 'block';
     }
 
     openVideoModal.onclick = function() {
-        videoModal.style.display = 'block'; // Открываем модальное окно для видео
+        videoModal.style.display = 'block';
     }
 
+    openQuestionModal.onclick = function() {
+        questionModal.style.display = 'block';
+    }
 
+    // Закрытие модальных окон
     closePresentationModal.onclick = function() {
         presentationModal.style.display = 'none';
     }
 
     closeVideoModal.onclick = function() {
-        videoModal.style.display = 'none'; // Закрываем модальное окно для видео
+        videoModal.style.display = 'none';
     }
 
-    closeWordModalFooter.onclick = function() {
-        wordModal.style.display = 'none';
+    closeQuestionModal.onclick = function() {
+        questionModal.style.display = 'none';
     }
 
-    closePresentationModalFooter.onclick = function() {
-        presentationModal.style.display = 'none';
-    }
-
-    closeVideoModalFooter.onclick = function() {
-        videoModal.style.display = 'none'; // Закрываем через футер
-    }
-
+    // Закрытие модальных окон при клике вне их границ
     window.onclick = function(event) {
-        if (event.target === wordModal) {
-            wordModal.style.display = 'none';
-        }
         if (event.target === presentationModal) {
             presentationModal.style.display = 'none';
         }
         if (event.target === videoModal) {
-            videoModal.style.display = 'none'; // Закрываем при клике вне окна
+            videoModal.style.display = 'none';
+        }
+        if (event.target === questionModal) {
+            questionModal.style.display = 'none';
         }
     }
+        // Инициализация CKEditor для поля "Бақылау сұрақтары"
+    ClassicEditor
+        .create(document.querySelector('.question-content'))
+        .catch(error => {
+            console.error(error);
+        });
 </script>
-<script src="https://cdn.ckeditor.com/ckeditor5/35.3.0/classic/ckeditor.js"></script>
+
+<script type="text/javascript" src="{% static "staticfiles/ckeditor/ckeditor-init.js" %}"></script>
+<script type="text/javascript" src="{% static "staticfiles/ckeditor/ckeditor/ckeditor.js" %}"></script>
 {% endblock %}

@@ -1,26 +1,63 @@
-.project-info {
-    background-color: #e9ecef;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+.portfolio {
+    width: 80%;
+    margin: 0 auto;
+    background-color: #f9f9f9;
     padding: 20px;
-    margin: 20px auto;
-    max-width: 600px;
-    font-family: Arial, sans-serif;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.project-info h2 {
-    font-size: 24px;
+.portfolio-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.author-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 28px;
+    margin: 10px 0;
+}
+
+.title {
+    font-size: 18px;
+    color: #777;
+}
+
+.portfolio-content .section {
+    margin-bottom: 30px;
+}
+
+.section h3 {
+    font-size: 22px;
     color: #333;
     margin-bottom: 15px;
-    text-align: center;
+    border-bottom: 2px solid #eaeaea;
+    padding-bottom: 5px;
 }
 
-.project-info p {
-    font-size: 18px;
+.section p, .section ul {
+    font-size: 16px;
     color: #555;
-    text-align: center;
+    margin: 5px 0;
 }
 
-.project-info p strong {
-    color: #000;
+.skills {
+    list-style: none;
+    padding-left: 0;
+}
+
+.skills li {
+    background-color: #efefef;
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 5px;
+    border-radius: 4px;
+    font-size: 14px;
 }
