@@ -20,7 +20,9 @@ class LessonAdminForm(forms.ModelForm):
         fields = '__all__'
         widgets = {
             'description': CKEditorUploadingWidget (),
-            'short_description': CKEditorUploadingWidget ()  # Добавил для короткого описания
+            'short_description': CKEditorUploadingWidget (),
+            'question': CKEditorUploadingWidget (),
+            'glossary': CKEditorUploadingWidget (),
 
         }
 
@@ -31,7 +33,7 @@ class LessonAdmin(admin.ModelAdmin):
     list_display_links = ('title', 'topic', 'number',)
     readonly_fields = ('url',)
     # Перечисляем поля, которые будут отображаться в админке в правильном формате
-    fields = ('title', 'topic', 'number', 'short_description', 'description', 'video',
+    fields = ('title', 'topic', 'number', 'short_description', 'description', 'question','glossary', 'video',
               'photo', 'audio',
               'presentation','url', 'presentation_url', 'video_url',
               )
@@ -50,7 +52,7 @@ admin.site.register(Task, TaskAdmin)
 class CustomUserAdmin(UserAdmin):
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
-        (_('Personal info'), {'fields': ('first_name', 'last_name', 'email', 'phone_number', 'photo', 'birth_date')}),
+        (_('Personal info'), {'fields': ('first_name', 'last_name', 'middle_name','email', 'phone_number', 'photo', 'birth_date')}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )

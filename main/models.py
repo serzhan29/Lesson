@@ -32,6 +32,8 @@ class Lesson(models.Model):
     url = models.URLField("Сілтеме:", max_length=200, blank=True, null=True, editable=False)
     video_url = models.URLField("Видеоға сілтеме", blank=True, null=True, default='/embed/')
     presentation_url = models.URLField("Презентацияға сілтеме", blank=True, null=True)
+    question = RichTextUploadingField("Бақылау сұрақтары:", blank=True)
+    glossary = RichTextUploadingField("Глоссарий:", blank=True)
 
     class Meta:
         verbose_name = "Дәрістер"
@@ -53,6 +55,8 @@ class Lesson(models.Model):
 class LessonForm(forms.ModelForm):
     description = forms.CharField(widget=CKEditorUploadingWidget())
     short_description = forms.CharField(widget=CKEditorUploadingWidget())
+    question = forms.CharField(widget=CKEditorUploadingWidget())
+    glossary = forms.CharField(widget=CKEditorUploadingWidget())
 
     class Meta:
         model = Lesson
@@ -85,6 +89,7 @@ class CustomUser(AbstractUser):
     phone_number = models.CharField("Телефон нөмірі: ", max_length=15, blank=True, null=True)
     photo = models.ImageField("Фото: ", upload_to='user_photos/', blank=True, null=True)
     birth_date = models.DateField("Туған күн: ", blank=True, null=True)
+    middle_name = models.CharField('Әкесінің аты: ', max_length=100, blank=True, null=True)
 
     def __str__(self):
         return self.username
