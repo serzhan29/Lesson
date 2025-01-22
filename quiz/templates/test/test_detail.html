@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <style>
+        /* Основной стиль страницы */
+        .quiz-form {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-form h1 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* Стиль для каждого вопроса */
+        .question {
+            margin-bottom: 30px;
+        }
+
+        .question h3 {
+            font-size: 1.5rem;
+            color: #0056b3;
+            margin-bottom: 15px;
+        }
+
+        /* Стиль для каждого ответа */
+        .answer {
+            margin-bottom: 15px;
+        }
+
+        .answer label {
+            font-size: 1rem;
+            color: #555;
+            margin-right: 10px;
+        }
+
+        .answer input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        .answer input[type="text"]:focus {
+            border-color: #0056b3;
+            outline: none;
+        }
+
+        /* Кнопка отправки */
+        button[type="submit"] {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.25rem;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        /* Мобильная адаптивность */
+        @media (max-width: 768px) {
+            .quiz-form {
+                padding: 20px;
+            }
+
+            .quiz-form h1 {
+                font-size: 1.5rem;
+            }
+
+            .answer input[type="text"] {
+                font-size: 0.9rem;
+            }
+
+            button[type="submit"] {
+                font-size: 1rem;
+            }
+        }
+    </style>
+
+    <form method="POST" class="quiz-form">
+        {% csrf_token %}
+        <h1>{{ test.name }}</h1>
+
+        {% for item in questions_and_answers %}
+            <div class="question">
+                <h3>{{ item.question.name }}</h3>
+
+                {% for answer in item.answers %}
+                    <div class="answer">
+                        <label for="answer_{{ item.question.id }}_{{ answer.id }}">
+                            {{ answer.placeholder }}:
+                        </label>
+                        <input type="text" id="answer_{{ item.question.id }}_{{ answer.id }}" name="answer_text_{{ item.question.id }}">
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+        <button type="submit">Отправить ответы</button>
+    </form>
+
+{% endblock %}

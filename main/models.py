@@ -30,8 +30,9 @@ class Lesson(models.Model):
     audio = models.FileField("Аудио:", upload_to='audio/', blank=True, null=True)
     presentation = models.FileField("Презентация:", upload_to='presentations/', blank=True, null=True)
     url = models.URLField("Сілтеме:", max_length=200, blank=True, null=True, editable=False)
-    video_url = models.URLField("Видеоға сілтеме", blank=True, null=True, default='/embed/')
-    presentation_url = models.URLField("Презентацияға сілтеме", blank=True, null=True)
+    video_url = models.URLField("Видеоға сілтеме", blank=True, null=True, default='https://www.youtube.com/embed/g-XlulPAV8E')
+    presentation_url = models.CharField("Презентацияға сілтеме 1", max_length=500, blank=True, null=True,)
+    presentation_urls = models.CharField("Презентацияға сілтеме 2", max_length=500,blank=True, null=True,)
     question = RichTextUploadingField("Бақылау сұрақтары:", blank=True)
     glossary = RichTextUploadingField("Глоссарий:", blank=True)
 

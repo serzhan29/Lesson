@@ -24,6 +24,8 @@
             {% if user.is_superuser %}
                 <a href="{% url 'admin:index' %}">Админка</a>
             {% endif %}
+            <a href="{% url 'quiz:test_list' %}">Все тесты</a>
+            <a href="{% url 'quiz:all_student_responses' %}">Все ответы</a>
             <!-- <a href="{% url 'quiz:quiz_list' %}">Тесттер</a> -->
 
         </div>

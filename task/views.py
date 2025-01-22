@@ -8,13 +8,21 @@ from django.contrib.auth.decorators import login_required
 def assignment_list(request):
     """Список всех заданий"""
     assignments = Assignment.objects.all()
-    submissions = StudentSubmission.objects.filter(student=request.user)
-    submitted_assignments = submissions.values_list('assignment_id', flat=True)  # ID заданий, которые студент уже сдал
+
+    # Фильтруем только те submissions, у которых задания существуют
+    submissions = StudentSubmission.objects.filter(
+        student=request.user,
+        assignment__isnull=False
+    )
+
+    # Получаем ID заданий, которые студент уже сдал
+    submitted_assignments = submissions.values_list('assignment_id', flat=True)
 
     return render(request, 'task/task_list.html', {
         'assignments': assignments,
         'submitted_assignments': submitted_assignments
     })
+
 
 
 @login_required
@@ -23,7 +31,17 @@ def assignment_view(request, assignment_id):
     assignment = get_object_or_404(Assignment, id=assignment_id)
     questions = assignment.questions.all()
 
+    # Проверка, существует ли уже отправка для этого задания
+    existing_submission = StudentSubmission.objects.filter(
+        assignment=assignment,
+        student=request.user
+    ).first()
+
     if request.method == "POST":
+        if existing_submission:
+            messages.warning(request, 'Вы уже отправили ответы на это задание.')
+            return redirect('assignment_list')
+
         # Создаем объект StudentSubmission
         submission = StudentSubmission.objects.create(
             assignment=assignment,
@@ -48,5 +66,6 @@ def assignment_view(request, assignment_id):
         'assignment': assignment,
         'questions': questions,
     })
+
 
 

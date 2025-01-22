@@ -42,6 +42,7 @@ class Question(models.Model):
 
 
 class Answer(models.Model):
+    text = models.CharField("Текст",max_length=255, blank=True, null=True)
     question = models.ForeignKey(Question, related_name='answers', on_delete=models.CASCADE, verbose_name="Сұрақ")
     answer_text = models.TextField(verbose_name="Жауап")
 

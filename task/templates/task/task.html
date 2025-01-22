@@ -13,7 +13,7 @@
 
         {% for question in questions %}
             <div class="question-block">
-                <h3>{{ question.question_text }}</h3>
+                <h3>{{ question.question_text }} "answer_{{ question.id }}"</h3>
                 <input type="text" name="answer_{{ question.id }}" placeholder="Ваш ответ">
             </div>
         {% endfor %}

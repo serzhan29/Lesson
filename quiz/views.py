@@ -1,9 +1,11 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Quiz, Question, Answer, UserQuizResult
+from .models import Quiz, Question, Answer, UserQuizResult, Points
 from django.contrib.auth.decorators import login_required
-from main.models import Lesson
 from django.utils import timezone
 from .forms import AnswerForm
+from django.views.decorators.http import require_POST
+from django.contrib import messages
+from django.conf import settings
+
 
 @login_required
 def quiz_list(request):
@@ -137,5 +139,194 @@ def take_quiz(request, quiz_id):
     return render(request, 'take_quiz.html', {'quiz': quiz, 'form': form})
 
 
+#===============================MultuAnswer TEST ==============================================
+
+def test_success(request):
+    return render(request, 'test/test_success.html')
 
 
+# Страница с отображением всех тестов
+def test_list(request):
+    tests = Tests.objects.all()
+    return render(request, 'test/test_list.html', {'tests': tests})
+
+
+from django.shortcuts import get_object_or_404, redirect, render
+from django.http import Http404
+from django.contrib.auth.decorators import login_required
+from .models import Tests, MultyTest, TestResponse2
+
+@login_required
+def test_detail(request, test_id):
+    # Получаем тест или возвращаем 404
+    test = get_object_or_404(Tests, id=test_id)
+
+    # Проверяем, сдавал ли пользователь тест
+    if TestResponse2.objects.filter(student=request.user, test=test).exists():
+        # Если уже сдавал, перенаправляем на страницу благодарности
+        return redirect('quiz:test_success')
+
+    # Получаем все вопросы теста
+    multy_tests = test.tests.all()
+
+    # Подготавливаем данные вопросов и ответов
+    questions_and_answers = []
+    for multy_test in multy_tests:
+        answers = multy_test.answers.all()
+        questions_and_answers.append({
+            'question': multy_test,
+            'answers': answers
+        })
+
+    if request.method == 'POST':
+        # Обрабатываем ответы
+        for multy_test in multy_tests:
+            # Получаем ответы на текущий вопрос
+            answers = request.POST.getlist(f'answer_text_{multy_test.id}')
+            if answers:
+                # Создаем отдельную запись для каждого вопроса
+                TestResponse2.objects.create(
+                    student=request.user,
+                    test=test,
+                    multy_test=multy_test,
+                    response_data=answers  # Сохраняем ответы как JSON
+                )
+
+        # Перенаправляем на страницу благодарности
+        return redirect('quiz:test_success')
+
+    return render(request, 'test/test_detail.html', {
+        'test': test,
+        'questions_and_answers': questions_and_answers
+    })
+
+
+@login_required
+def all_student_responses(request):
+    # Получаем все ответы студентов для всех тестов и группируем их по студенту и тесту
+    responses = TestResponse2.objects.all().select_related('student', 'test').order_by('student', 'test')
+
+
+    # Создаем словарь для группировки ответов по студентам
+    student_responses = {}
+    for response in responses:
+        if response.student not in student_responses:
+            student_responses[response.student] = {}
+
+        if response.test not in student_responses[response.student]:
+            student_responses[response.student][response.test] = {
+                'responses': [],  # Список ответов
+                'score': None,  # Здесь будет оценка
+            }
+
+        # Добавляем ответ к соответствующему студенту и тесту
+        student_responses[response.student][response.test]['responses'].append(response)
+
+    # Получаем все вопросы (MultyTest) для отображения
+    questions = MultyTest.objects.all()
+
+    # Теперь добавляем информацию о баллах (оценках) для каждого студента и теста
+    for student in student_responses:
+        for test in student_responses[student]:
+            # Получаем оценку для студента и теста
+            score = Points.objects.filter(user=student, test=test).first()
+            # Если оценка существует, сохраняем её в словарь
+            if score:
+                student_responses[student][test]['score'] = score.score  # Сохраняем только оценку
+            else:
+                student_responses[student][test]['score'] = None  # Если оценки нет, то сохраняем None
+
+    # Если запрос POST (т.е. форма отправлена)
+    if request.method == 'POST':
+        student_id = request.POST.get('student_id')
+        test_id = request.POST.get('test_id')
+        score_value = request.POST.get('score')
+
+        student = request.user.__class__.objects.get(id=student_id)  # Получаем студента
+        test = Tests.objects.get(id=test_id)  # Получаем тест
+
+        # Получаем существующую оценку для этого студента и теста
+        existing_score = Points.objects.filter(user=student, test=test).first()
+
+        if existing_score:
+            # Если оценка существует, обновляем её
+            existing_score.score = score_value
+            existing_score.save()
+            messages.success(request, "Оценка успешно обновлена.")
+        else:
+            # Если оценки нет, создаем новую
+            Points.objects.create(user=student, test=test, score=score_value)
+            messages.success(request, "Оценка успешно добавлена.")
+
+        # После обновления/добавления оценки перенаправляем на ту же страницу
+        return redirect('quiz:all_student_responses')  # Можно использовать название пути, как у вас в urls
+
+    return render(request, 'test/all_student_responses.html', {
+        'student_responses': student_responses,
+        'questions': questions,
+        'score' : score,
+    })
+
+@login_required
+@require_POST
+def add_or_update_score(request):
+    # Получаем ID теста и оценку из POST-запроса
+    test_id = request.POST.get('test_id')
+    score = request.POST.get('score')
+
+    # Логируем данные для отладки
+    print(f"DEBUG: test_id={test_id}, score={score}")
+
+    # Получаем текущего пользователя (студента)
+    student = request.user
+
+    if test_id and score:
+        # Проверка, является ли строка числом и положительным целым числом
+        if score.isdigit() and int(score) > 0:
+            score = int(score)  # Преобразуем в целое число
+            test = get_object_or_404(Tests, id=test_id)
+
+            # Используем метод update_or_create для создания или обновления записи в модели Points
+            point, created = Points.objects.update_or_create(
+                user=student,
+                test=test,
+                defaults={'score': score}
+            )
+
+            # Сообщение об успешном добавлении или обновлении
+            messages.success(request, f"Оценка успешно {'добавлена' if created else 'обновлена'} для {student.username} - {test.name}.")
+        else:
+            # Если введена некорректная оценка
+            messages.error(request, "Некорректная оценка. Введите положительное целое число.")
+    else:
+        # Если не все поля заполнены
+        messages.error(request, "Все поля должны быть заполнены.")
+
+    # Перенаправляем обратно на страницу с ответами студентов
+    return redirect('quiz:all_student_responses')
+
+
+
+
+
+@login_required
+def student_response_detail(request, response_id):
+    # Получаем ответ студента по ID
+    response = get_object_or_404(TestResponse2, id=response_id)
+
+    # Получаем информацию о тесте и вопросах с ответами
+    test = response.test
+    multy_test = response.multy_test
+    selected_answers = response.selected_answers.all()  # Множественные выбранные ответы
+    response_text = response.response_text  # Текстовый ответ
+
+    # Преобразуем ответы в более удобный формат для отображения, если нужно
+    selected_answers_list = [answer.name for answer in selected_answers]
+
+    return render(request, 'test/student_response_detail.html', {
+        'response': response,
+        'test': test,
+        'multy_test': multy_test,
+        'selected_answers': selected_answers_list,  # Передаем список названий выбранных ответов
+        'response_text': response_text  # Текстовый ответ
+    })

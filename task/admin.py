@@ -18,7 +18,6 @@ class AssignmentAdmin(admin.ModelAdmin):
     list_display = ('title', 'created_by', 'created_at')  # Поля, которые будут отображаться в списке
     inlines = [QuestionInline]  # Включаем вопросы в задание
 
-# Для модели StudentSubmission (Отправленные задания)
 class StudentAnswerInline(admin.TabularInline):
     model = StudentAnswer
     extra = 0  # Не добавлять пустые поля
@@ -28,4 +27,5 @@ class StudentSubmissionAdmin(admin.ModelAdmin):
     list_display = ('student', 'assignment', 'submitted_at')  # Показывать студента, задание и время отправки
     inlines = [StudentAnswerInline]  # Включаем ответы студента
 
+admin.site.register(Answer)
 

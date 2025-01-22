@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+{% load custom_filters %}
+
+{% block content %}
+  <div class="container my-5 student-responses">
+    <h2 class="text-center text-primary mb-5">Ответы студентов на тесты</h2>
+
+    {% for student, tests in student_responses.items %}
+      <div class="student-response mb-5 shadow-sm rounded p-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="text-primary">{{ student.first_name }} {{ student.last_name }}</h3> <!-- Имя студента -->
+
+          <!-- Форма для добавления или редактирования оценки -->
+          <form method="post" action="{% url 'quiz:add_or_update_score' %}">
+              {% csrf_token %}
+              <input type="hidden" name="student_id" value="{{ user.id }}">  <!-- ID студента -->
+              <div>
+                <label for="test_id">Тест:</label>
+                <select name="test_id" id="test_id">
+                  {% for test in tests %}
+                    <option value="{{ test.id }}">{{ test.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div>
+                {{ student_responses.name }}
+                <label for="score">Оценка:</label>
+                <input type="number" name="score" value="{{ student_responses.score }}"  id="score" min="1" required>
+              </div>
+              <button type="submit" class="btn btn-primary">Добавить/Обновить оценку</button>
+            </form>
+
+        </div>
+
+        {% for test, data in tests.items %}
+          <h4 class="text-secondary">{{ test.name }}</h4> <!-- Название теста -->
+
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover">
+              <thead class="thead-dark">
+                <tr>
+                  <th>Вопрос</th>
+                  <th>Ответы студента</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for response in data.responses %}
+                  <tr>
+                    <td>
+                      {% for question in questions %}
+                        {% if question.id == response.multy_test.id %}
+                          <strong>{{ question.name }}</strong>  <!-- Название вопроса -->
+                        {% endif %}
+                      {% endfor %}
+                    </td>
+
+                    <td>
+                      {% for question in questions %}
+                        {% if question.id == response.multy_test.id %}
+                          {% for answer in response.multy_test.answers.all %}
+                            <!-- Показать ответ студента рядом с placeholder -->
+                            <div class="answer-wrapper mb-2">
+                              <strong class="answer-placeholder">{{ answer.placeholder }}:</strong>
+                              <span class="student-answer">{{ response.response_data|get_item2:forloop.counter0 }}</span>  <!-- Ответ студента по индексу -->
+                            </div>
+                          {% endfor %}
+                        {% endif %}
+                      {% endfor %}
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          <hr class="my-4">
+        {% endfor %}
+      </div>
+    {% endfor %}
+  </div>
+
+  <style>
+    /* Стиль для контейнера с ответами студентов */
+    .student-responses {
+      font-family: 'Arial', sans-serif;
+      color: #333;
+    }
+
+    .student-response h3 {
+      color: #007bff;  /* Цвет для имени студента */
+    }
+
+    .student-response h4 {
+      color: #6c757d;  /* Цвет для названия теста */
+      font-weight: 600;
+    }
+
+    .table-responsive {
+      margin-top: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    table th, table td {
+      padding: 12px;
+      text-align: left;
+    }
+
+    table th {
+      background-color: #343a40;
+      color: white;
+      font-weight: bold;
+    }
+
+    table tbody tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    /* Стили для ответов студента */
+    .answer-wrapper {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .answer-placeholder {
+      font-weight: bold;
+      color: #28a745;  /* Зеленый для подсказок */
+      margin-right: 10px;
+    }
+
+    .student-answer {
+      font-weight: bold;
+      color: #007bff;  /* Синий для самих ответов */
+    }
+
+    /* Разделители между тестами */
+    hr.my-4 {
+      border-top: 2px solid #007bff;
+    }
+
+    .mb-4 {
+      margin-bottom: 20px;
+    }
+
+    /* Стили для формы */
+    form.d-flex {
+      display: flex;
+      align-items: center;
+    }
+
+    form select, form input, form button {
+      margin-right: 10px;
+    }
+
+    form button {
+      margin-right: 0;
+    }
+  </style>
+{% endblock %}

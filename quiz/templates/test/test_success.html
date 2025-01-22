@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  <div class="container my-5">
+    <div class="success-message">
+      <h1 class="text-center text-success">Жауаптарыңыз сәтті жіберілді!</h1>
+      <p class="text-center">Тесті өтуіңіз үшін рахмет. Сіздің күш-жігеріңіз бағаланады!</p>
+    </div>
+    <div class="text-center mt-4">
+      <a href="/" class="btn btn-primary btn-lg">Басты бетке оралу</a>
+    </div>
+  </div>
+
+  <style>
+    .success-message {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      background-color: #f9f9f9;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #28a745;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1.25rem;
+      color: #6c757d;
+      margin-bottom: 20px;
+    }
+
+    .btn-primary {
+      padding: 12px 30px;
+      font-size: 1.2rem;
+      background-color: #007bff;
+      border-radius: 8px;
+      color: white;
+      text-decoration: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+      text-decoration: none;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+  </style>
+{% endblock %}

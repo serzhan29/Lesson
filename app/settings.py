@@ -8,10 +8,9 @@ SECRET_KEY = 'django-insecure-j)mesn=u5x*b5#+48jx-qg+eabhicmj##!9=c#oa*47+j2clto
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
 CSRF_COOKIE_SECURE=False
 CSRF_COOKIE_HTTPONLY=False
-CSRF_TRUSTED_ORIGINS=['https://7ba4-89-218-157-234.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS=['https://cf48-149-27-36-125.ngrok-free.app']
 
 INSTALLED_APPS = [
     'jazzmin',
@@ -21,6 +20,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "debug_toolbar",
     'ckeditor',
     'ckeditor_uploader',
     'main',
@@ -37,6 +37,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'app.urls'
@@ -101,6 +102,12 @@ TIME_ZONE = 'Asia/Almaty'
 USE_I18N = True
 
 USE_TZ = True
+
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    # ...
+]
 
 LOGIN_URL = 'login'  # URL для перенаправления, если пользователь не авторизован
 LOGOUT_REDIRECT_URL = 'topic_list'  # URL для перенаправления после выхода

@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <style>
+        .test-container {
+            padding: 50px 0;
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card img {
+            height: 200px;
+            object-fit: cover;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .card-body {
+            background-color: #f8f9fa;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+
+        .card-text {
+            font-size: 0.875rem;
+            color: #6c757d;
+            margin-bottom: 20px;
+        }
+
+        .btn-primary {
+            background-color: white;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: white;
+            border-color: #0056b3;
+        }
+
+        .card-deck {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+
+        @media (max-width: 576px) {
+            .card-deck {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+
+    <div class="container test-container">
+        <h1 class="text-center mb-4">Все тесты</h1>
+        <div class="card-deck">
+            {% for test in tests %}
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ test.name }}</h5>
+                        <p class="card-text">Описание теста или дополнительные детали могут быть здесь.</p>
+                        <a href="{% url 'quiz:test_detail' test.id %}" class="btn btn-primary">Перейти к тесту</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

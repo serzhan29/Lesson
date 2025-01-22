@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Quiz, Question, Answer, UserQuizResult
+from .models import (Quiz, Question, Answer, UserQuizResult,
+                     MultyAnswer, MultyTest, TestResponse2, Tests, Points)
 
 
 class AnswerInline(admin.TabularInline):
@@ -28,5 +29,17 @@ class QuestionAdmin(admin.ModelAdmin):
 @admin.register(UserQuizResult)
 class ResultAdmin(admin.ModelAdmin):
     list_display = ['user', 'quiz', 'score', 'completed_at']
+
+
+@admin.register(Points)
+class PointsAdmin(admin.ModelAdmin):
+    list_display = ['user', 'test', 'score']
+    list_filter = ['user', 'test', 'score']
+
+
+admin.site.register(MultyTest)
+admin.site.register(MultyAnswer)
+admin.site.register(TestResponse2)
+admin.site.register(Tests)
 
 

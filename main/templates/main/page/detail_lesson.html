@@ -26,6 +26,7 @@
     {% endif %}
 
     <button id="openPresentationModal" class="btn btn-primary">Презентацияны көрсету</button>
+    <button id="openPresentationModal2" class="btn btn-primary">Презентация 2 көрсету</button>
     <button id="openVideoModal" class="btn btn-primary">Видеоны көрсету</button>
     <button id="openQuestionModal" class="btn btn-primary">Бақылау сұрақтарын көрсету</button>
 
@@ -38,16 +39,33 @@
     {% endfor %}
 </div>
 
-
     <!-- Модальное окно для отображения презентации -->
     <div id="presentationModal" class="modal">
         <div class="modal-content">
             <span class="close-button" id="closePresentationModal">&times;</span>
             <h5 class="modal-title">Презентация</h5>
             <div class="modal-body">
-                {% if task %}
+                {% if lesson.presentation_urls %}
                     <h6 class="task-title">Презентация:</h6>
-                    <div class="task-content">{{ task.presentation|safe }}</div>
+                    <div class="task-content">{{ lesson.presentation_url|safe }}</div>
+                {% else %}
+                    <p>Бұл дәріс үшін презентациялар табылмады.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для второй презентации -->
+    <div id="presentationModal2" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closePresentationModal2">&times;</span>
+            <h5 class="modal-title">Тапсырмалар</h5>
+            <div class="modal-body">
+                {% if lesson.presentation_urls %}
+                    <h6 class="task-title">Презентация 2:</h6>
+                    <div class="task-content">
+                        {{ lesson.presentation_urls|safe}}
+                    </div>
                 {% else %}
                     <p>Бұл дәріс үшін презентациялар табылмады.</p>
                 {% endif %}
@@ -115,20 +133,27 @@
 
     // Модальные окна
     const presentationModal = document.getElementById('presentationModal');
+    const presentationModal2 = document.getElementById('presentationModal2');
     const videoModal = document.getElementById('videoModal');
     const questionModal = document.getElementById('questionModal');
 
     const openPresentationModal = document.getElementById('openPresentationModal');
+    const openPresentationModal2 = document.getElementById('openPresentationModal2');
     const openVideoModal = document.getElementById('openVideoModal');
     const openQuestionModal = document.getElementById('openQuestionModal');
 
     const closePresentationModal = document.getElementById('closePresentationModal');
+    const closePresentationModal2 = document.getElementById('closePresentationModal2');
     const closeVideoModal = document.getElementById('closeVideoModal');
     const closeQuestionModal = document.getElementById('closeQuestionModal');
 
     // Открытие модальных окон
     openPresentationModal.onclick = function() {
         presentationModal.style.display = 'block';
+    }
+
+    openPresentationModal2.onclick = function() {
+        presentationModal2.style.display = 'block';
     }
 
     openVideoModal.onclick = function() {
@@ -144,6 +169,10 @@
         presentationModal.style.display = 'none';
     }
 
+    closePresentationModal2.onclick = function() {
+        presentationModal2.style.display = 'none';
+    }
+
     closeVideoModal.onclick = function() {
         videoModal.style.display = 'none';
     }
@@ -157,6 +186,9 @@
         if (event.target === presentationModal) {
             presentationModal.style.display = 'none';
         }
+        if (event.target === presentationModal2) {
+            presentationModal2.style.display = 'none';
+        }
         if (event.target === videoModal) {
             videoModal.style.display = 'none';
         }
@@ -164,7 +196,8 @@
             questionModal.style.display = 'none';
         }
     }
-        // Инициализация CKEditor для поля "Бақылау сұрақтары"
+
+    // Инициализация CKEditor для поля "Бақылау сұрақтары"
     ClassicEditor
         .create(document.querySelector('.question-content'))
         .catch(error => {
