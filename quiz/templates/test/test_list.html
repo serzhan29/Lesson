@@ -68,14 +68,14 @@
     </style>
 
     <div class="container test-container">
-        <h1 class="text-center mb-4">Все тесты</h1>
+        <h1 class="text-center mb-4">Барлық тесттер</h1>
         <div class="card-deck">
             {% for test in tests %}
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">{{ test.name }}</h5>
-                        <p class="card-text">Описание теста или дополнительные детали могут быть здесь.</p>
-                        <a href="{% url 'quiz:test_detail' test.id %}" class="btn btn-primary">Перейти к тесту</a>
+                        <p class="card-text">Тест сипаттамасы немесе қосымша мәліметтер осында болуы мүмкін.</p>
+                        <a href="{% url 'quiz:test_detail' test.id %}" class="btn btn-primary">Тестке өтіңіз</a>
                     </div>
                 </div>
             {% endfor %}

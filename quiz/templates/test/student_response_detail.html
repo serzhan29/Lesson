@@ -1,16 +1,16 @@
 
 
 {% block content %}
-  <h2>Ответы на тест: {{ response.test }}</h2>
-  <p><strong>Дата сдачи:</strong> {{ response.submitted_at }}</p>
+  <h2>Тестке жауаптар: {{ response.test }}</h2>
+  <p><strong>Тапсыру күні:</strong> {{ response.submitted_at }}</p>
 
-  <h3>Ответы студента:</h3>
+  <h3>Студенттің жауаптары:</h3>
   <ul>
     {% for question, answer in selected_answers.items %}
       <li><strong>{{ question }}:</strong> {{ answer }}</li>
     {% endfor %}
   </ul>
 
-  <h4>Дополнительные данные:</h4>
+  <h4>Қосымша деректер:</h4>
   <pre>{{ response_data|json_script }}</pre>
 {% endblock %}

@@ -3,7 +3,7 @@
 
 {% block content %}
   <div class="container my-5 student-responses">
-    <h2 class="text-center text-primary mb-5">Ответы студентов на тесты</h2>
+    <h2 class="text-center text-primary mb-5">Студенттердің тесттерге жауаптары</h2>
 
     {% for student, tests in student_responses.items %}
       <div class="student-response mb-5 shadow-sm rounded p-4">
@@ -24,10 +24,10 @@
               </div>
               <div>
                 {{ student_responses.name }}
-                <label for="score">Оценка:</label>
+                <label for="score">Баға:</label>
                 <input type="number" name="score" value="{{ student_responses.score }}"  id="score" min="1" required>
               </div>
-              <button type="submit" class="btn btn-primary">Добавить/Обновить оценку</button>
+              <button type="submit" class="btn btn-primary">Бағалауды қосу / жаңарту</button>
             </form>
 
         </div>
@@ -39,8 +39,8 @@
             <table class="table table-bordered table-striped table-hover">
               <thead class="thead-dark">
                 <tr>
-                  <th>Вопрос</th>
-                  <th>Ответы студента</th>
+                  <th>Сұрақ</th>
+                  <th>Студенттің жауаптары</th>
                 </tr>
               </thead>
               <tbody>
