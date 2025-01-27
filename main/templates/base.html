@@ -6,46 +6,118 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css">
     <link rel="icon" href="{% static 'logo/1.png' %}" type="image/x-icon">
     <title>ҚАЗАҚСТАН ТАРИХЫ</title>
 </head>
 
 <body>
+    <!-- Навигация -->
+    <nav class="nav container">
+        <a href="{% url 'topic_list' %}" class="nav__logo">KZTARIH</a>
+        <div class="nav__menu" id="nav-menu">
+            <ul class="nav__list">
+                <li class="nav__item">
+                    <a href="{% url 'lesson_list_by_topic' topic_id=1 %}" class="nav__link">
+                        <span>Дәрістер</span>
+                    </a>
+                </li>
+                {% if user.is_superuser %}
+                <li class="nav__item">
+                    <a href="{% url 'admin:index' %}" class="nav__link">
+                        <i class="ri-arrow-right-up-line"></i>
+                        <span>Админка</span>
+                    </a>
+                </li>
+                {% endif %}
+                <li class="nav__item">
+                    <a href="{% url 'quiz:test_list' %}" class="nav__link">
+                        <i class="ri-arrow-right-up-line"></i>
+                        <span>Барлық тесттер</span>
+                    </a>
+                </li>
+                {% if user.is_superuser %}
+                <li class="nav__item">
+                    <a href="{% url 'quiz:all_student_responses' %}" class="nav__link">
+                        <i class="ri-arrow-right-up-line"></i>
+                        <span>Барлық жауаптар</span>
+                    </a>
+                </li>
+                {% endif %}
+                {% if user.is_authenticated %}
+                {% else %}
+                    <li class="nav__item">
+                        <a href="{% url 'register' %}" class="nav__link">
+                            <span>Тіркелу</span>
+                        </a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="{% url 'login' %}" class="nav__link">
+                            <span>Кіру</span>
+                        </a>
+                    </li>
+                {% endif %}
+                    <li class="nav__item">
+                        <a href="{% url 'profile' %}" class="nav__link">
+                            <span>Профиль</span>
+                        </a>
+                    </li>
+            </ul>
+            <!-- Социальные ссылки -->
+            <!--
+            <div class="nav__social">
+                <a href="https://www.instagram.com/" target="_blank" class="nav__social-link">
+                    <i class="ri-instagram-line"></i>
+                </a>
+                <a href="https://github.com/" target="_blank" class="nav__social-link">
+                    <i class="ri-github-line"></i>
+                </a>
+                <a href="https://dribbble.com/" target="_blank" class="nav__social-link">
+                    <i class="ri-dribbble-line"></i>
+                </a>
+                <a href="https://www.linkedin.com/" target="_blank" class="nav__social-link">
+                    <i class="ri-linkedin-box-line"></i>
+                </a>
+            </div>-->
+            <!-- Закрытие меню -->
+            <div class="nav__close" id="nav-close">
+                <i class="ri-close-large-line" style="color: red;"></i>
+            </div>
+        </div>
+        <!-- Переключение меню -->
+        <div class="nav__toggle" id="nav-toggle">
+            <i class="ri-menu-line" style="color: black;"></i>
+        </div>
 
-    <nav id="free-trial">
-        <div class="logo">
-            <i class="ri-bard-fill"></i>
-        </div>
-        <div class="nav-links">
-            <a href="{% url 'topic_list' %}">Басты Бет</a>
-            <a href="{% url 'lesson_list_by_topic' topic_id=1 %}">Дәрістер</a>
-            {% if user.is_superuser %}
-                <a href="{% url 'admin:index' %}">Админка</a>
-            {% endif %}
-            <a href="{% url 'quiz:test_list' %}">Барлық тесттер</a>
-            {% if user.is_superuser %}
-                <a href="{% url 'quiz:all_student_responses' %}">Барлық жауаптар</a>
-            {% endif %}
-            <!-- <a href="{% url 'quiz:quiz_list' %}">Тесттер</a> -->
-
-        </div>
-        <div class="login">
-            {% if user.is_authenticated %}
-                <a href="{% url 'logout' %}">Шығу</a>
-            {% else %}
-                <a href="{% url 'register' %}">Тіркелу</a>
-                <a href="{% url 'login' %}">Кіру</a>
-            {% endif %}
-            <a href="{% url 'profile' %}">
-                <img src="{% if user.photo %}{{ user.photo.url }}{% else %}{% static 'img/login.JPG' %}{% endif %}" alt="Фото пользователя">
-            </a>
-        </div>
     </nav>
 
-    {% block content %}
-    {% endblock %}
+    <!-- Контент -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
 </body>
 </html>
+<script>
+    /*=============== SHOW MENU ===============*/
+    const navMenu = document.getElementById('nav-menu'),
+          navToggle = document.getElementById('nav-toggle'),
+          navClose = document.getElementById('nav-close')
 
+    /* Menu show */
+    if(navToggle){
+       navToggle.addEventListener('click', () =>{
+          navMenu.classList.add('show-menu')
+       })
+    }
+
+    /* Menu hidden */
+    if(navClose){
+       navClose.addEventListener('click', () =>{
+          navMenu.classList.remove('show-menu')
+       })
+    }
+</script>
