@@ -1,16 +1,20 @@
 import os
+import environ
 from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv()
+
+env = environ.Env()
+environ.Env.read_env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-j)mesn=u5x*b5#+48jx-qg+eabhicmj##!9=c#oa*47+j2clto'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-CSRF_COOKIE_SECURE=False
-CSRF_COOKIE_HTTPONLY=False
-CSRF_TRUSTED_ORIGINS=['https://cf48-149-27-36-125.ngrok-free.app']
+
 
 INSTALLED_APPS = [
     'jazzmin',
@@ -65,11 +69,11 @@ AUTH_USER_MODEL = 'main.CustomUser'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'db-lesson',
-        'USER': 'root',
-        'PASSWORD': 'kalikali123',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT'),
         'log': True,
     }
 }

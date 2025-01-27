@@ -11,25 +11,29 @@
           <h3 class="text-primary">{{ student.first_name }} {{ student.last_name }}</h3> <!-- Имя студента -->
 
           <!-- Форма для добавления или редактирования оценки -->
-          <form method="post" action="{% url 'quiz:add_or_update_score' %}">
+          <form method="post" action="{% url 'quiz:add_or_update_score' %}" class="w-100">
               {% csrf_token %}
-              <input type="hidden" name="student_id" value="{{ user.id }}">  <!-- ID студента -->
-              <div>
-                <label for="test_id">Тест:</label>
-                <select name="test_id" id="test_id">
-                  {% for test in tests %}
-                    <option value="{{ test.id }}">{{ test.name }}</option>
-                  {% endfor %}
-                </select>
-              </div>
-              <div>
-                {{ student_responses.name }}
-                <label for="score">Баға:</label>
-                <input type="number" name="score" value="{{ student_responses.score }}"  id="score" min="1" required>
-              </div>
-              <button type="submit" class="btn btn-primary">Бағалауды қосу / жаңарту</button>
-            </form>
+              <input type="hidden" name="student_id" value="{{ student.id }}">  <!-- ID студента -->
 
+              <div class="form-row mb-3">
+                <div class="col-12 col-md-6 mb-3">
+                  <label for="test_id">Тест:</label>
+                  <select name="test_id" id="test_id" class="form-control">
+                    {% for test in tests %}
+                      <option value="{{ test.id }}">{{ test.name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="col-12 col-md-6 mb-3">
+                  <label for="score">Баға:</label>
+                  <input type="number" name="score" value="{{ student_responses.score }}"  id="score" min="1" required class="form-control">
+                </div>
+              </div>
+
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Бағалауды қосу / жаңарту</button>
+              </div>
+            </form>
         </div>
 
         {% for test, data in tests.items %}
@@ -149,17 +153,99 @@
     }
 
     /* Стили для формы */
-    form.d-flex {
+    form {
+      background-color: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-row {
       display: flex;
-      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
     }
 
-    form select, form input, form button {
-      margin-right: 10px;
+    .form-row .col-12 {
+      padding: 0 10px;
     }
 
-    form button {
-      margin-right: 0;
+    .form-control {
+      border-radius: 5px;
+      padding: 10px;
+      font-size: 1rem;
+      box-shadow: none;
+      border: 1px solid #ccc;
+    }
+
+    .btn-block {
+      background-color: #007bff;
+      color: white;
+      font-weight: bold;
+      border-radius: 5px;
+      padding: 10px;
+      font-size: 1rem;
+      box-shadow: none;
+    }
+
+    .btn-block:hover {
+      background-color: #0056b3;
+    }
+
+    .form-control:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    /* Мобильная адаптация */
+    @media (max-width: 768px) {
+      .student-response {
+        padding: 15px;
+      }
+
+      .form-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .form-row .col-12 {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+
+      .btn-block {
+        font-size: 1rem;
+        padding: 12px;
+      }
+
+      .table-responsive {
+        margin-top: 15px;
+        box-shadow: none;
+      }
+
+      table th, table td {
+        padding: 8px;
+      }
+
+      table th {
+        font-size: 0.9rem;
+      }
+
+      table td {
+        font-size: 0.8rem;
+      }
+
+      .student-response h3 {
+        font-size: 1.2rem;
+      }
+
+      .student-response h4 {
+        font-size: 1.1rem;
+      }
+
+      .form-control, .btn-block {
+        width: 100%; /* гарантируем, что все элементы формы не выходят за пределы экрана */
+      }
     }
   </style>
 {% endblock %}
