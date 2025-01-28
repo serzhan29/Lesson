@@ -206,6 +206,7 @@ def all_student_responses(request):
     # Получаем все ответы студентов для всех тестов и группируем их по студенту и тесту
     responses = TestResponse2.objects.all().select_related('student', 'test').order_by('student', 'test')
 
+    score_2 = Points.objects.all()
 
     # Создаем словарь для группировки ответов по студентам
     student_responses = {}
@@ -265,6 +266,7 @@ def all_student_responses(request):
         'student_responses': student_responses,
         'questions': questions,
         'score' : score,
+        'score_2': score_2,
     })
 
 @login_required
@@ -330,3 +332,5 @@ def student_response_detail(request, response_id):
         'selected_answers': selected_answers_list,  # Передаем список названий выбранных ответов
         'response_text': response_text  # Текстовый ответ
     })
+
+

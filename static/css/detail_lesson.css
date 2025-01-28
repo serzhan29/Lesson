@@ -12,8 +12,8 @@
 /* Контейнер для основного контента с уникальным классом */
 .lesson-content-container {
     flex: 3;
-    max-width: calc(100% - 340px); /* Учитываем ширину сайдбара и отступ */
-    margin-right: 20px;
+    max-width: calc(100% - 100px); /* Учитываем ширину сайдбара и отступ */
+    margin-right: 0px;
     display: flex;
     flex-direction: column;
 

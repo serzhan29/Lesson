@@ -19,5 +19,8 @@ urlpatterns = [
 
     path('all-student-responses/', views.all_student_responses, name='student_responses'),
     path('add-or-update-score/', views.add_or_update_score, name='add_or_update_score'),
+
 ]
+
+
 

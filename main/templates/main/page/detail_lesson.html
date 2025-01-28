@@ -4,7 +4,108 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'ckeditor/ckeditor.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/detail_lesson.css' %}">
+  <style>
+    html {
+        box-sizing: border-box;
+    }
+    *, *:before, *:after {
+        box-sizing: inherit;
+    }
+    body {
+        background-attachment: fixed;
+        font-weight: 200;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+    }
 
+    .custom-menu {
+        position: fixed;
+        background: #2a98e9;
+        padding: 0.5em 0;
+        display: flex;
+        justify-content: center;
+        transition: all 0.3s ease;
+        z-index: 1000; /* Ensure menu stays above other elements */
+    }
+
+    /* Desktop version: Menu on the right center */
+    @media (min-width: 992px) {
+        .custom-menu {
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            flex-direction: column;
+            width: 100px;
+        }
+
+        .custom-menu ol {
+            flex-direction: column;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .custom-menu li {
+            text-align: center;
+            margin: 0.5em 0;
+        }
+    }
+
+    /* Mobile version: Menu at the bottom */
+    @media (max-width: 991px) {
+        .custom-menu {
+            bottom: 0;
+            width: 90%;
+            flex-direction: row;
+        }
+
+        .custom-menu ol {
+            display: flex;
+            justify-content: space-around;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+
+        .custom-menu li {
+            flex: 1;
+            text-align: center;
+        }
+
+        .custom-menu div {
+            padding: 1.5em 0; /* Increased size for better usability */
+        }
+
+        .custom-menu div img {
+            width: 36px;
+            height: 36px;
+        }
+    }
+
+    .custom-menu div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5em 0;
+        transition: background-color 150ms ease;
+        cursor: pointer;
+    }
+
+    .custom-menu div:hover {
+        background-color: #1a8fe7;
+    }
+
+    .custom-menu div img {
+        width: 42px;
+        height: 42px;
+        margin-bottom: 0.2em;
+    }
+  </style>
 <div class="lesson-main-container">
     <div class="lesson-content-container">
         <div class="lesson-center-content">
@@ -15,37 +116,61 @@
         <br>
     </div>
 
-<!-- Контейнер для кнопок с классом fixed-buttons -->
-<div class="button-container fixed-buttons">
-    {% if task %}
-        <a href="{% url 'task_detail' task.id %}">
-            <button class="btn btn-primary">Word бағдарламасында тапсырманы көрсету</button>
-        </a>
-    {% else %}
-        <p>Ештеңе қосылмаған.</p>
-    {% endif %}
+    <!-- Боковое меню с иконками -->
+    <nav class="custom-menu">
+        <ol>
+            <li class="menu-item">
+                <div class="word" id="openWord">
+                    <img src="{% static 'icons/icons8-microsoft-word-100.png' %}" alt="Word Icon">
+                </div>
+            </li>
+            <li class="menu-item">
+                <div class="presentation" id="openPresentationModal">
+                    <img src="{% static 'icons/icons8-презентация-100.png' %}" alt="Presentation Icon">
+                </div>
+            </li>
+            <li class="menu-item">
+                <div class="presentation2" id="openPresentationModal2">
+                    <img src="{% static 'icons/icons8-презентация-100 (1).png' %}" alt="Presentation Icon 2">
+                </div>
+            </li>
+            <li class="menu-item">
+                <div class="youtube" id="openVideoModal">
+                    <img src="{% static 'icons/icons8-multimedia-100.png' %}" alt="YouTube Icon">
+                </div>
+            </li>
+            <li class="menu-item">
+                <div class="question" id="openQuestionModal">
+                    <img src="{% static 'icons/material.png' %}" alt="Question Icon">
+                </div>
+            </li>
+        </ol>
+    </nav>
 
-    <button id="openPresentationModal" class="btn btn-primary">Презентацияны көрсету</button>
-    <button id="openPresentationModal2" class="btn btn-primary">Презентация 2 көрсету</button>
-    <button id="openVideoModal" class="btn btn-primary">Видеоны көрсету</button>
-    <button id="openQuestionModal" class="btn btn-primary">Бақылау сұрақтарын көрсету</button>
+    <!-- Модальное окно для Word -->
+    <div id="wordModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeWordModal">&times;</span>
+            <h5 class="modal-title">Word</h5>
+            <div class="modal-body">
+                {% if task %}
+                    <a href="{% url 'task_detail' task.id %}">
+                        <button class="btn btn-primary">Word бағдарламасында тапсырманы көрсету</button>
+                    </a>
+                {% else %}
+                    <p>Ештеңе қосылмаған.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 
-    {% for quiz in quizzes %}
-        <a href="{% url 'quiz:quiz_detail' quiz.id %}">
-            <button class="btn btn-secondary">{{ quiz.title }}  тест</button>  <!-- Ссылка на тест -->
-        </a>
-    {% empty %}
-        <p>Бұл лекцияға тесттер жоқ.</p> <!-- Сообщение, если тестов нет -->
-    {% endfor %}
-</div>
-
-    <!-- Модальное окно для отображения презентации -->
+    <!-- Модальное окно для первой презентации -->
     <div id="presentationModal" class="modal">
         <div class="modal-content">
             <span class="close-button" id="closePresentationModal">&times;</span>
             <h5 class="modal-title">Презентация</h5>
             <div class="modal-body">
-                {% if lesson.presentation_urls %}
+                {% if lesson.presentation_url %}
                     <h6 class="task-title">Презентация:</h6>
                     <div class="task-content">{{ lesson.presentation_url|safe }}</div>
                 {% else %}
@@ -59,13 +184,11 @@
     <div id="presentationModal2" class="modal">
         <div class="modal-content">
             <span class="close-button" id="closePresentationModal2">&times;</span>
-            <h5 class="modal-title">Тапсырмалар</h5>
+            <h5 class="modal-title">Презентация 2</h5>
             <div class="modal-body">
                 {% if lesson.presentation_urls %}
                     <h6 class="task-title">Презентация 2:</h6>
-                    <div class="task-content">
-                        {{ lesson.presentation_urls|safe}}
-                    </div>
+                    <div class="task-content">{{ lesson.presentation_urls|safe }}</div>
                 {% else %}
                     <p>Бұл дәріс үшін презентациялар табылмады.</p>
                 {% endif %}
@@ -104,107 +227,48 @@
     </div>
 </div>
 
-<!-- Кнопка для открытия/закрытия меню -->
-<div class="menu-toggle" onclick="toggleMenu()">☰</div>
-<!-- Скрытое меню -->
-<div class="lesson-side2-container" id="sideMenu">
-    <ul class="lesson-list2">
-        {% for i in list %}
-            <li class="lesson-item">
-                <a href="{% url 'lesson_detail' i.id %}" class="lesson-link">Лекця {{ i.number }}</a>
-            </li>
-        {% endfor %}
-    </ul>
-</div>
-
 <script>
-    function toggleMenu() {
-        var sideMenu = document.getElementById('sideMenu');
-        sideMenu.classList.toggle('open');
+    // Функции для модальных окон
+    const modals = {
+        word: document.getElementById('wordModal'),
+        presentation: document.getElementById('presentationModal'),
+        presentation2: document.getElementById('presentationModal2'),
+        video: document.getElementById('videoModal'),
+        question: document.getElementById('questionModal'),
+    };
+
+    const openButtons = {
+        word: document.getElementById('openWord'),
+        presentation: document.getElementById('openPresentationModal'),
+        presentation2: document.getElementById('openPresentationModal2'),
+        video: document.getElementById('openVideoModal'),
+        question: document.getElementById('openQuestionModal'),
+    };
+
+    const closeButtons = {
+        word: document.getElementById('closeWordModal'),
+        presentation: document.getElementById('closePresentationModal'),
+        presentation2: document.getElementById('closePresentationModal2'),
+        video: document.getElementById('closeVideoModal'),
+        question: document.getElementById('closeQuestionModal'),
+    };
+
+    for (let key in openButtons) {
+        openButtons[key].onclick = function () {
+            modals[key].style.display = 'block';
+        };
+
+        closeButtons[key].onclick = function () {
+            modals[key].style.display = 'none';
+        };
     }
 
-    document.addEventListener('click', function(event) {
-        var sideMenu = document.getElementById('sideMenu');
-        var toggleButton = document.querySelector('.menu-toggle');
-        if (!sideMenu.contains(event.target) && !toggleButton.contains(event.target)) {
-            sideMenu.classList.remove('open');
+    window.onclick = function (event) {
+        for (let key in modals) {
+            if (event.target === modals[key]) {
+                modals[key].style.display = 'none';
+            }
         }
-    });
-
-    // Модальные окна
-    const presentationModal = document.getElementById('presentationModal');
-    const presentationModal2 = document.getElementById('presentationModal2');
-    const videoModal = document.getElementById('videoModal');
-    const questionModal = document.getElementById('questionModal');
-
-    const openPresentationModal = document.getElementById('openPresentationModal');
-    const openPresentationModal2 = document.getElementById('openPresentationModal2');
-    const openVideoModal = document.getElementById('openVideoModal');
-    const openQuestionModal = document.getElementById('openQuestionModal');
-
-    const closePresentationModal = document.getElementById('closePresentationModal');
-    const closePresentationModal2 = document.getElementById('closePresentationModal2');
-    const closeVideoModal = document.getElementById('closeVideoModal');
-    const closeQuestionModal = document.getElementById('closeQuestionModal');
-
-    // Открытие модальных окон
-    openPresentationModal.onclick = function() {
-        presentationModal.style.display = 'block';
-    }
-
-    openPresentationModal2.onclick = function() {
-        presentationModal2.style.display = 'block';
-    }
-
-    openVideoModal.onclick = function() {
-        videoModal.style.display = 'block';
-    }
-
-    openQuestionModal.onclick = function() {
-        questionModal.style.display = 'block';
-    }
-
-    // Закрытие модальных окон
-    closePresentationModal.onclick = function() {
-        presentationModal.style.display = 'none';
-    }
-
-    closePresentationModal2.onclick = function() {
-        presentationModal2.style.display = 'none';
-    }
-
-    closeVideoModal.onclick = function() {
-        videoModal.style.display = 'none';
-    }
-
-    closeQuestionModal.onclick = function() {
-        questionModal.style.display = 'none';
-    }
-
-    // Закрытие модальных окон при клике вне их границ
-    window.onclick = function(event) {
-        if (event.target === presentationModal) {
-            presentationModal.style.display = 'none';
-        }
-        if (event.target === presentationModal2) {
-            presentationModal2.style.display = 'none';
-        }
-        if (event.target === videoModal) {
-            videoModal.style.display = 'none';
-        }
-        if (event.target === questionModal) {
-            questionModal.style.display = 'none';
-        }
-    }
-
-    // Инициализация CKEditor для поля "Бақылау сұрақтары"
-    ClassicEditor
-        .create(document.querySelector('.question-content'))
-        .catch(error => {
-            console.error(error);
-        });
+    };
 </script>
-
-<script type="text/javascript" src="{% static "staticfiles/ckeditor/ckeditor-init.js" %}"></script>
-<script type="text/javascript" src="{% static "staticfiles/ckeditor/ckeditor/ckeditor.js" %}"></script>
 {% endblock %}
