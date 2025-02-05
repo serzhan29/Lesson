@@ -12,7 +12,20 @@
     <link rel="icon" href="{% static 'logo/1.png' %}" type="image/x-icon">
     <title>ҚАЗАҚСТАН ТАРИХЫ</title>
 </head>
+<style>
+    /* По умолчанию скрываем элемент */
+.nav__item--mobile {
+  display: none;
+}
 
+/* Показываем элемент только на мобильных устройствах */
+@media (max-width: 768px) {
+  .nav__item--mobile {
+    display: block;
+  }
+}
+
+</style>
 <body>
     <!-- Навигация -->
     <nav class="nav container">
@@ -64,6 +77,11 @@
                             <span>|Профиль|</span>
                         </a>
                     </li>
+                {% if user.is_authenticated %}
+                    <li class="nav__item nav__item--mobile">
+                        <a href="{% url 'logout' %}" class="nav__link" style="color:red;">Шығу</a>
+                    </li>
+                {% endif %}
             </ul>
             <!-- Социальные ссылки -->
             <!--
