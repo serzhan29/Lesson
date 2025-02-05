@@ -413,7 +413,6 @@ nav .login a{
     transform: translateX(-50%);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     padding: 8px;
-    backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 50px;
 }
@@ -609,7 +608,6 @@ h3.black {
     font-size: 100px;
     display: flex;
     background: rgba(86, 85, 85, 0.42);
-    backdrop-filter: blur(8.7px);
     -webkit-backdrop-filter: blur(8.7px);
     border: 1px solid rgba(86, 85, 85, 0.3);
     border-radius: 50%;
