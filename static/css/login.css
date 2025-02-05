@@ -1,79 +1,103 @@
-body2 {
+.auth-body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    position: relative;
+    min-height: 100vh;
     margin: 0;
+    padding: 10px;
 }
 
-.container {
+.auth-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background: #fff;
-    padding: 30px;
+    padding: 25px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     width: 100%;
-    height: 400px;
     max-width: 400px;
     box-sizing: border-box;
-}
-
-h2 {
-    margin-top: 0;
-    color: #333;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-}
-
-.form-group2 {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    color: #555;
-}
-
-.form-group2 input {
-    width: 100%;
-    padding: 15px; /* Увеличьте отступы для большего размера поля ввода */
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 16px; /* Увеличьте размер шрифта для поля ввода */
-    height: 50px; /* Установите высоту для поля ввода */
-}
-
-
-button {
-    padding: 10px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-.links {
-    margin-top: 20px;
     text-align: center;
 }
 
-.links a {
+.auth-heading {
+    margin-top: 0;
+    color: #333;
+    font-size: 22px;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.auth-form-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.auth-form-group label {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.auth-form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.auth-button {
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+
+.auth-button:hover {
+    background-color: #0056b3;
+}
+
+.auth-links {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.auth-links a {
     color: #007bff;
     text-decoration: none;
 }
 
-.links a:hover {
+.auth-links a:hover {
     text-decoration: underline;
+}
+
+/* 🔹 АДАПТАЦИЯ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ */
+@media (max-width: 480px) {
+    .auth-container {
+        padding: 20px;
+    }
+    .auth-heading {
+        font-size: 20px;
+    }
+    .auth-form-group input {
+        padding: 10px;
+        font-size: 14px;
+    }
+    .auth-button {
+        padding: 10px;
+        font-size: 14px;
+    }
 }

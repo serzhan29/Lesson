@@ -1,79 +1,102 @@
-body2 {
+.auth-register-body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    position: relative;
+    min-height: 100vh;
     margin: 0;
-}
-
-.container {
-    background: #fff;
-    padding: 35px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 580px;
-    height: 700px;
-    box-sizing: border-box;
-    margin: 0 20px;
-}
-
-h2 {
-    margin-top: 0;
-    color: #333;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-}
-
-.form-group2 {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    color: #555;
-}
-
-.form-group2 input {
-    width: 100%;
-    padding: 15px; /* Увеличьте отступы для большего размера поля ввода */
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 16px; /* Увеличьте размер шрифта для поля ввода */
-    height: 50px; /* Установите высоту для поля ввода */
-}
-
-
-button {
     padding: 10px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
 }
 
-button:hover {
-    background-color: #0056b3;
-}
-
-.links {
-    margin-top: 20px;
+.auth-register-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
     text-align: center;
 }
 
-.links a {
+.auth-register-heading {
+    margin-top: 0;
+    color: #333;
+    font-size: 22px;
+}
+
+.auth-register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.auth-register-form-group {
+    text-align: left;
+}
+
+.auth-register-form-group label {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.auth-register-form-group input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 16px;
+    height: 50px;
+}
+
+.auth-register-button {
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+
+.auth-register-button:hover {
+    background-color: #0056b3;
+}
+
+.auth-register-links {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.auth-register-links a {
     color: #007bff;
     text-decoration: none;
 }
 
-.links a:hover {
+.auth-register-links a:hover {
     text-decoration: underline;
+}
+
+/* 🔹 АДАПТАЦИЯ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ */
+@media (max-width: 480px) {
+    .auth-register-container {
+        padding: 25px;
+    }
+    .auth-register-heading {
+        font-size: 20px;
+    }
+    .auth-register-form-group input {
+        padding: 12px;
+        font-size: 14px;
+    }
+    .auth-register-button {
+        padding: 10px;
+        font-size: 14px;
+    }
 }

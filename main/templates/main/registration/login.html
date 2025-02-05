@@ -2,25 +2,25 @@
 <title>Login</title>
 {% load static %}
 {% block content %}
-<body2>
-<link rel="stylesheet" href="{% static 'css/login.css' %}">
-    <div class="container">
-        <h2>Аккаунтқа кіру</h2>
-        <form method="post">
+<body class="auth-body">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <div class="auth-container">
+        <h2 class="auth-heading">Аккаунтқа кіру</h2>
+        <form method="post" class="auth-form">
             {% csrf_token %}
-            <div class="form-group2">
+            <div class="auth-form-group">
                 {{ form.username.label_tag }}
                 {{ form.username }}
             </div>
-            <div class="form-group2">
+            <div class="auth-form-group">
                 {{ form.password.label_tag }}
                 {{ form.password }}
             </div>
-            <button type="submit">Кіру</button>
+            <button type="submit" class="auth-button">Кіру</button>
         </form>
-        <div class="links">
+        <div class="auth-links">
             <p>Сізде аккаунт жоқ па? <a href="{% url 'register' %}">Тіркелу</a></p>
         </div>
     </div>
-</body2>
+</body>
 {% endblock %}
