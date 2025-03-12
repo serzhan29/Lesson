@@ -67,8 +67,10 @@
         }
     </style>
 
-    <div class="container test-container">
-        <h1 class="text-center mb-4">Барлық тесттер</h1>
+<div class="container test-container">
+    <h1 class="text-center mb-4">Барлық тесттер</h1>
+
+    {% if tests %}
         <div class="card-deck">
             {% for test in tests %}
                 <div class="card">
@@ -80,5 +82,11 @@
                 </div>
             {% endfor %}
         </div>
-    </div>
+    {% else %}
+        <p class="text-center text-muted" style="font-size: 18px; margin-top: 20px;">
+            Қазіргі уақытта қол жетімді тесттер жоқ.
+        </p>
+    {% endif %}
+</div>
+
 {% endblock %}

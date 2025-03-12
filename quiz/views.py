@@ -265,7 +265,6 @@ def all_student_responses(request):
     return render(request, 'test/all_student_responses.html', {
         'student_responses': student_responses,
         'questions': questions,
-        'score' : score,
         'score_2': score_2,
     })
 
