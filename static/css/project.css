@@ -4,20 +4,20 @@
     border-radius: 16px; /* Увеличил радиус закругления */
     padding: 40px; /* Увеличил отступы */
     margin: 40px auto; /* Увеличил отступы сверху и снизу */
-    max-width: 1600px; /* Увеличил максимальную ширину */
+    max-width: 1300px; /* Увеличил максимальную ширину */
     font-family: Arial, sans-serif;
     line-height: 1.6;
 }
 
 .custom-content h1 {
-    font-size: 48px; /* Увеличил размер шрифта заголовка */
+    font-size: 30px; /* Увеличил размер шрифта заголовка */
     color: #333;
     margin-bottom: 40px; /* Увеличил отступ снизу */
     text-align: center;
 }
 
 .custom-content p {
-    font-size: 32px; /* Увеличил размер шрифта для текста */
+    font-size: 25px; /* Увеличил размер шрифта для текста */
     color: #555;
     margin-bottom: 30px; /* Увеличил отступ снизу */
 }
