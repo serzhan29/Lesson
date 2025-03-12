@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интерактивная карта</title>
+<style>
+    #map-container {
+        position: relative;
+        width: 80%;
+        height: 800px;
+        overflow: hidden;
+        margin: auto;
+        border-radius: 35px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    #map-frame {
+        position: relative;
+        top: -95px;
+        left: 0;
+        width: 100%;
+        height: 920px;
+        border: none;
+    }
+
+    #overlay-top, #overlay-bottom {
+        position: absolute;
+        left: 0;
+        width: 97%;
+        z-index: 10;
+    }
+
+    #overlay-top {
+        top: 0;
+        height: 120px;
+    }
+
+    #overlay-bottom {
+        bottom: 0;
+        height: 200px;
+    }
+
+    @media (max-width: 1024px) {
+        #map-container {
+            width: 85%;
+            height: 700px;
+        }
+        #map-frame {
+            top: -80px;
+            height: 800px;
+        }
+        #overlay-top {
+            height: 100px;
+        }
+        #overlay-bottom {
+            height: 150px;
+        }
+            #overlay-top, #overlay-bottom {
+        position: absolute;
+        left: 0;
+        width: 97%;
+        z-index: 10;
+    }
+
+    #overlay-top {
+        top: 0;
+        height: 120px;
+    }
+
+    #overlay-bottom {
+        bottom: 0;
+        height: 200px;
+    }
+    }
+
+    @media (max-width: 768px) {
+        #map-container {
+            width: 90%;
+            height: 700px;
+        }
+        #map-frame {
+            top: -70px;
+            height: 700px;
+        }
+        #overlay-top {
+            height: 80px;
+        }
+        #overlay-bottom {
+            height: 120px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        #map-container {
+            width: 95%;
+            height: 500px;
+        }
+        #map-frame {
+            top: -50px;
+            height: 600px;
+        }
+        #overlay-top {
+            height: 60px;
+        }
+        #overlay-bottom {
+            height: 100px;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div id="map-container">
+    <iframe id="map-frame" src="https://worldhist.org/" scrolling="no"></iframe>
+    <div id="overlay-top"></div>
+    <div id="overlay-bottom"></div>
+</div>
+
+<script>
+    function hideElementsInIframe() {
+        var iframe = document.getElementById("map-frame");
+
+        iframe.onload = function () {
+            try {
+                var iframeDoc = iframe.contentWindow.document;
+                var allElements = iframeDoc.body.children;
+
+                for (let elem of allElements) {
+                    if (!elem.hasAttribute("_ngcontent-app-root-c0")) {
+                        elem.style.display = "none";
+                    }
+                }
+            } catch (e) {
+                console.warn("Из-за CORS-доступа нельзя скрыть элементы внутри iframe.");
+            }
+        };
+    }
+
+    document.addEventListener("DOMContentLoaded", hideElementsInIframe);
+    window.addEventListener("resize", hideElementsInIframe);
+</script>
+
+</body>
+</html>
+{% endblock %}

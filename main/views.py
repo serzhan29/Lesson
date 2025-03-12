@@ -132,3 +132,7 @@ def task_detail(request, task_id):
     return render(request, 'main/info/word.html', {
         'task': task
     })
+
+
+def map(request):
+    return render(request, 'main/info/map.html')
