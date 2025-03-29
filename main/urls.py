@@ -1,6 +1,5 @@
 from django.urls import path
 from . import views
-from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', views.topic_list, name='topic_list'),
@@ -12,10 +11,10 @@ urlpatterns = [
     path('lessons/<int:lesson_id>/', views.lesson_detail, name='lesson_detail'),
     path('profile/', views.profile_view, name='profile'),
     path('author/', views.author, name='author'),
-    path('metod/', views.metod, name='metod'),
-    path('books/', views.books, name='books'),
-    path('project/', views.project, name='project'),
-    path('tasks/<int:task_id>/', views.task_detail, name='task_detail'),
+    path('metod/', views.MetodView.as_view(), name='metod'),
+    path('books/', views.BooksView.as_view(), name='books'),
+    path('project/', views.ProjectView.as_view(), name='project'),
+    path('tasks/<int:task_id>/', views.TaskDetailView.as_view(), name='task_detail'),
     path('map/', views.MapView.as_view(), name='map'),
     path('links/', views.LinkListView.as_view(), name='links'),
     path('links/<int:pk>/click/', views.IncreaseClickView.as_view(), name='increase_click'),

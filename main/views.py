@@ -72,8 +72,6 @@ def lesson_list_by_topic(request, topic_id):
     return render(request, 'main/page/lessons.html', {'topic': topic, 'lessons': lessons})
 
 
-
-
 @login_required
 def lesson_detail(request, lesson_id):
     lesson = get_object_or_404(Lesson, id=lesson_id)
@@ -88,7 +86,6 @@ def lesson_detail(request, lesson_id):
         'quizzes': quizzes,  # Передаем связанные тесты
         'task': task,  # Передаем task, связанный с этой лекцией
     })
-
 
 
 
@@ -115,23 +112,28 @@ def author(request):
     })
 
 
-def books(request):
-    return render(request, 'main/info/books.html')
+class BooksView(TemplateView):
+    """ Представление для страницы книг """
+    template_name = 'main/info/books.html'
 
 
-def metod(request):
-    return render(request, 'main/info/metod.html')
+class MetodView(TemplateView):
+    """ Представление для страницы методических материалов """
+    template_name = 'main/info/metod.html'
 
 
-def project(request):
-    return render(request, 'main/info/project.html')
+class ProjectView(TemplateView):
+    """ Представление для страницы проектов """
+    template_name = 'main/info/project.html'
 
-@login_required
-def task_detail(request, task_id):
-    task = get_object_or_404(Task, id=task_id)  # Получаем конкретное задание
-    return render(request, 'main/info/word.html', {
-        'task': task
-    })
+class TaskDetailView(LoginRequiredMixin, DetailView):
+    """ Представление для отображения деталей задания """
+    model = Task
+    template_name = 'main/info/word.html'
+    context_object_name = 'task'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Task, id=self.kwargs.get('task_id'))
 
 
 class MapView(TemplateView):
