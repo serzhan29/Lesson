@@ -6,6 +6,7 @@ from .views import (CustomLoginView, register, logout_view, custom_upload_file,
                     lesson_list_by_topic, lesson_detail, profile_view, author,
                     MetodView, BooksView, ProjectView, TaskDetailView, MapView,
                     LinkListView, IncreaseClickView, topic_list)
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 
 class TopicModelTest(TestCase):
@@ -108,7 +109,7 @@ class URLTests(TestCase):
         print("✅ Тест доступности маршрутов...")
 
         url_views = {
-            reverse('topic_list'): topic_list,  # Было None, теперь указываем правильное представление
+            reverse('topic_list'): topic_list,
             reverse('login'): CustomLoginView,
             reverse('register'): register,
             reverse('logout'): logout_view,
@@ -131,3 +132,112 @@ class URLTests(TestCase):
             print(f"✅ {url} доступен!")
 
         print("✅ Все маршруты проверены успешно!")
+
+class CustomUserAuthTests(TestCase):
+    def setUp(self):
+        """Создаём тестового пользователя"""
+        self.user = CustomUser.objects.create_user(
+            username="testuser",
+            email="test@example.com",
+            password="securepassword123",
+            phone_number="+77001234567",
+            middle_name="Serzhanovich"
+        )
+
+    def test_registration_view(self):
+        """Тест успешной регистрации нового пользователя"""
+        print("✅ Тест регистрации нового пользователя...")
+
+        avatar = SimpleUploadedFile("avatar.jpg", b"file_content", content_type="image/jpeg")
+        response = self.client.post(reverse("register"), {
+            "username": "newuser",
+            "email": "newuser@example.com",
+            "password1": "strongpassword123",
+            "password2": "strongpassword123",
+            "phone_number": "+77009876543",
+            "middle_name": "Serikov",
+            "birth_date": "2000-01-01",
+            "photo": avatar
+        })
+
+        self.assertEqual(response.status_code, 302)  # Должно быть перенаправление
+        self.assertTrue(CustomUser.objects.filter(username="newuser").exists())
+
+        user = CustomUser.objects.get(username="newuser")
+        self.assertEqual(user.phone_number, "+77009876543")
+        print("✅ Пользователь успешно зарегистрирован!")
+
+    def test_registration_with_invalid_data(self):
+        """Тест регистрации с некорректными данными"""
+        print("✅ Тест регистрации с ошибочными данными...")
+
+        response = self.client.post(reverse("register"), {
+            "username": "",
+            "email": "invalid-email",
+            "password1": "123",
+            "password2": "456",  # Пароли не совпадают
+            "phone_number": "invalid",
+        })
+
+        self.assertEqual(response.status_code, 200)  # Форма должна вернуть ошибку
+        self.assertFalse(CustomUser.objects.filter(email="invalid-email").exists())
+        print("✅ Ошибочная регистрация обработана корректно!")
+
+    def test_login_view(self):
+        """Тест успешного входа пользователя"""
+        print("✅ Тест входа пользователя...")
+
+        response = self.client.post(reverse("login"), {
+            "username": "testuser",
+            "password": "securepassword123",
+        })
+
+        self.assertEqual(response.status_code, 302)  # Должно быть перенаправление
+        self.assertTrue("_auth_user_id" in self.client.session)
+        print("✅ Вход выполнен успешно!")
+
+    def test_login_with_invalid_credentials(self):
+        """Тест входа с неправильными данными"""
+        print("✅ Тест входа с неверными данными...")
+
+        response = self.client.post(reverse("login"), {
+            "username": "testuser",
+            "password": "wrongpassword",
+        })
+
+        self.assertEqual(response.status_code, 200)  # Должна вернуться та же страница с ошибкой
+        self.assertFalse("_auth_user_id" in self.client.session)
+        print("✅ Ошибочный вход обработан корректно!")
+
+    def test_logout_view(self):
+        """Тест выхода пользователя"""
+        print("✅ Тест выхода пользователя...")
+
+        self.client.login(username="testuser", password="securepassword123")
+        response = self.client.get(reverse("logout"))
+
+        self.assertEqual(response.status_code, 302)  # Должно быть перенаправление
+        self.assertFalse("_auth_user_id" in self.client.session)
+        print("✅ Выход выполнен успешно!")
+
+    def test_protected_view_redirects_anonymous_users(self):
+        """Тест редиректа неавторизованных пользователей с защищённой страницы"""
+        print("✅ Тест доступа к защищённой странице...")
+
+        response = self.client.get(reverse("profile"))
+        self.assertEqual(response.status_code, 302)  # Ожидается редирект на логин
+        print("✅ Неавторизованный пользователь успешно перенаправлен!")
+
+    def test_user_optional_fields(self):
+        """Тест сохранения дополнительных полей пользователя"""
+        print("✅ Тест дополнительных полей пользователя...")
+
+        self.user.birth_date = "1998-12-25"
+        self.user.phone_number = "+77771234567"
+        self.user.save()
+
+        updated_user = CustomUser.objects.get(username="testuser")
+        self.assertEqual(updated_user.birth_date.strftime("%Y-%m-%d"), "1998-12-25")
+        self.assertEqual(updated_user.phone_number, "+77771234567")
+
+        print("✅ Дополнительные поля пользователя сохранены успешно!")
