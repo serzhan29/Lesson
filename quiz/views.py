@@ -136,7 +136,7 @@ def take_quiz(request, quiz_id):
     else:
         form = AnswerForm(questions=questions)
 
-    return render(request, 'take_quiz.html', {'quiz': quiz, 'form': form})
+    return render(request, 'quiz_app/take_quiz.html', {'quiz': quiz, 'form': form})
 
 
 #===============================MultuAnswer TEST ==============================================
