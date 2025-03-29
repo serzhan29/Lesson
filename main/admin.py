@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Topic, Lesson, Task
+from .models import Topic, Lesson, Task, URLinks
 from django import forms
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django.contrib.auth.admin import UserAdmin
@@ -50,12 +50,21 @@ class TaskAdmin(admin.ModelAdmin):
 admin.site.register(Task, TaskAdmin)
 
 class CustomUserAdmin(UserAdmin):
+    list_display = ('id', 'username', 'first_name', 'last_name', 'get_groups')
+    list_display_links = ('id', 'username', 'first_name', 'last_name',)
+
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
-        (_('Personal info'), {'fields': ('first_name', 'last_name', 'middle_name','email', 'phone_number', 'photo', 'birth_date')}),
+        (_('Personal info'),
+         {'fields': ('first_name', 'last_name', 'middle_name', 'email', 'phone_number', 'photo', 'birth_date')}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
+
+    def get_groups(self, obj):
+        return ", ".join([group.name for group in obj.groups.all()]) if obj.groups.exists() else "Нет группы"
+
+    get_groups.short_description = 'Құқықтар'
 
     add_fieldsets = (
         (None, {
@@ -65,3 +74,10 @@ class CustomUserAdmin(UserAdmin):
     )
 
 admin.site.register(CustomUser, CustomUserAdmin)
+
+@admin.register(URLinks)
+class URLinksAdmin(admin.ModelAdmin):
+    list_display = ('url', 'title', 'clicks')
+    search_fields = ('url', 'title')
+    list_filter = ('title',)
+    readonly_fields = ('clicks',)  # Эти поля нельзя редактировать вручную

@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block title %}Тесттер тізімі{% endblock %}
+
+{% block content %}
+<style>
+    .quiz-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 10vh;
+        text-align: center;
+    }
+
+    .quiz-page-title {
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .quiz-grid {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        width: 100%;
+        max-width: 600px;
+    }
+
+    .quiz-card {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: left;
+        width: 150%;
+        border: 3px solid #007bff;
+        transition: transform 0.2s, box-shadow 0.3s;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 150px;
+        position: relative;
+    }
+
+    .quiz-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .quiz-header {
+        font-size: 20px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .quiz-icon {
+        font-size: 24px;
+    }
+
+    .quiz-description {
+        font-size: 16px;
+        color: #555;
+        margin: 10px 0;
+    }
+
+    .quiz-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: auto;
+    }
+
+    .quiz-button {
+        padding: 8px 16px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: background 0.3s;
+        cursor: pointer;
+        border: none;
+    }
+
+    .quiz-button:hover {
+        background-color: #0056b3;
+    }
+
+    .quiz-empty {
+        font-size: 18px;
+        color: #777;
+    }
+</style>
+
+<div class="quiz-container">
+    <h2 class="quiz-page-title">📚 Тесттер тізімі</h2>
+    <div class="quiz-grid">
+        {% for link in links %}
+            <div class="quiz-card">
+                <div class="quiz-content">
+                    <div class="quiz-header">
+                        <span class="quiz-icon">📖</span> {{ link.title|default:"Тест" }}
+                    </div>
+                    <p class="quiz-description">Бұл тест арқылы сіз өз біліміңізді тексере аласыз.</p>
+                </div>
+                <div class="quiz-footer">
+                    {% if request.user.is_staff %}
+                        <span>🔢 Клики: <span id="click-count-{{ link.id }}">{{ link.clicks }}</span></span>
+                    {% endif %}
+                    <button onclick="increaseClick({{ link.id }}, '{{ link.url }}');" class="quiz-button">
+                        🔗 Өту
+                    </button>
+                </div>
+            </div>
+        {% empty %}
+            <p class="quiz-empty">Әзірге тесттер жоқ.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+function increaseClick(linkId, url) {
+    fetch(`/links/${linkId}/click/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById(`click-count-${linkId}`).textContent = data.clicks;
+        window.location.href = url;  // После обновления кликов перенаправляем
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+// Функция для получения CSRF-токена из cookies
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        let cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            let cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+{% endblock %}

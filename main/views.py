@@ -1,7 +1,7 @@
 import os
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404
-from .models import Topic, Lesson, Task, CustomUser
+from .models import Topic, Lesson, Task, CustomUser, URLinks
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import default_storage
@@ -11,9 +11,9 @@ from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from django.contrib.auth import login, logout, authenticate
 from .forms import CustomUserCreationForm
-from quiz.models import Quiz
 from .forms import UserProfileForm
-
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import DetailView, ListView, TemplateView, View
 
 
 class CustomLoginView(LoginView):
@@ -134,5 +134,23 @@ def task_detail(request, task_id):
     })
 
 
-def map(request):
-    return render(request, 'main/info/map.html')
+class MapView(TemplateView):
+    """ Карта """
+    template_name = 'main/info/map.html'
+
+
+class LinkListView(ListView):
+    """ Ссылки на тесты """
+    model = URLinks
+    template_name = 'main/info/link_list.html'
+    context_object_name = 'links'
+    ordering = ['id']  # Сортировка по ID
+
+
+class IncreaseClickView(View):
+    """ Увеличивает количество кликов по ссылке """
+    def post(self, request, pk, *args, **kwargs):
+        link = get_object_or_404(URLinks, id=pk)
+        link.increase_clicks()
+        return JsonResponse({'status': 'success', 'clicks': link.clicks})
+

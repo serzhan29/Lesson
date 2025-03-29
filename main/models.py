@@ -94,3 +94,18 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
+
+
+class URLinks(models.Model):
+    url = models.URLField(unique=True, verbose_name="Ссылка")
+    title = models.CharField(max_length=255, blank=True, null=True, verbose_name="Название")
+    clicks = models.PositiveIntegerField(default=0, verbose_name="Количество кликов")
+
+    def __str__(self):
+        return self.title if self.title else self.url
+
+    def increase_clicks(self):
+        """Увеличивает счетчик кликов при каждом переходе по ссылке"""
+        self.clicks += 1
+        self.save(update_fields=['clicks'])
+
