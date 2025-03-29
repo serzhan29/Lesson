@@ -1,13 +1,16 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import CustomUser
 
 class CustomUserCreationForm(UserCreationForm):
+    """Форма регистрации нового пользователя"""
+
     class Meta:
         model = CustomUser
         fields = ['username', 'phone_number', 'password1', 'password2']
         labels = {
             'username': 'Пайдаланушы аты:',
+            'middle_name': 'Әкесінің аты:',
             'phone_number': 'Телефон нөмірі:',
             'password1': 'Құпия сөз:',
             'password2': 'Құпия сөзді растау:'
@@ -28,14 +31,31 @@ class CustomUserCreationForm(UserCreationForm):
         }
 
     def __init__(self, *args, **kwargs):
-        super(CustomUserCreationForm, self).__init__(*args, **kwargs)
-        self.fields['username'].help_text = 'Міндетті. 150 таңбадан артық емес. Тек әріптер, сандар және @/./+/-/_. рұқсат етілген.'
-        self.fields['password1'].help_text = 'Құпия сөзде кем дегенде 8 таңба болуы керек және тек сандардан тұрмауы тиіс.'
-        self.fields['password2'].help_text = 'Тексеру үшін жоғарыдағы құпия сөзді енгізіңіз.'
+        super().__init__(*args, **kwargs)
+        self.fields['username'].help_text = self.Meta.help_texts['username']
+        self.fields['password1'].help_text = self.Meta.help_texts['password1']
+        self.fields['password2'].help_text = self.Meta.help_texts['password2']
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.middle_name = self.cleaned_data.get("middle_name")
+        if commit:
+            user.save()
+        return user
 
 
-
-class UserProfileForm(forms.ModelForm):
+class UserProfileForm(UserChangeForm):
+    """Форма редактирования профиля пользователя"""
     class Meta:
-        model = CustomUser  # Используйте CustomUser вместо User
-        fields = ['username', 'email', 'first_name', 'last_name', 'middle_name', 'phone_number', 'birth_date', 'photo']  # Добавьте все нужные поля
+        model = CustomUser
+        fields = ['username', 'email', 'first_name', 'last_name', 'middle_name', 'phone_number', 'birth_date', 'photo']
+        labels = {
+            'username': 'Пайдаланушы аты:',
+            'email': 'Электрондық пошта:',
+            'first_name': 'Аты:',
+            'last_name': 'Тегі:',
+            'middle_name': 'Әкесінің аты:',
+            'phone_number': 'Телефон нөмірі:',
+            'birth_date': 'Туған күн:',
+            'photo': 'Фото:'
+        }

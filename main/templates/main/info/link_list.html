@@ -111,10 +111,11 @@
                     {% if request.user.is_staff %}
                         <span>🔢 Клики: <span id="click-count-{{ link.id }}">{{ link.clicks }}</span></span>
                     {% endif %}
-                    <button onclick="increaseClick({{ link.id }}, '{{ link.url }}');" class="quiz-button">
+                    <a href="{{ link.url }}" onclick="increaseClick({{ link.id }}, '{{ link.url }}');" class="quiz-button">
                         🔗 Өту
-                    </button>
+                    </a>
                 </div>
+
             </div>
         {% empty %}
             <p class="quiz-empty">Әзірге тесттер жоқ.</p>
