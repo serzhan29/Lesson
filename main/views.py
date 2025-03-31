@@ -1,9 +1,11 @@
 import os
+import uuid
+from django.http import JsonResponse
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404
 from .models import Topic, Lesson, Task, CustomUser, URLinks
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.core.files.storage import default_storage
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
@@ -14,6 +16,7 @@ from .forms import CustomUserCreationForm
 from .forms import UserProfileForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import DetailView, ListView, TemplateView, View
+from django.core.exceptions import SuspiciousOperation
 
 
 class CustomLoginView(LoginView):
@@ -38,27 +41,48 @@ def logout_view(request):
     return redirect('topic_list')
 
 
-@csrf_exempt
+# Допустимые расширения файлов
+ALLOWED_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.gif'}
+MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB
+
+@csrf_protect  # Включаем CSRF-защиту
 def custom_upload_file(request):
-    if request.method == 'POST' and request.FILES.get('upload'):
-        try:
-            uploaded_file = request.FILES['upload']
-            file_name = uploaded_file.name
-            file_path = os.path.join('photos', file_name)  # Путь к файлу внутри папки photo
+    if request.method != 'POST' or 'upload' not in request.FILES:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
 
-            # Сохранение файла в папку media/photo
-            file_save_path = os.path.join(settings.MEDIA_ROOT, file_path)
-            os.makedirs(os.path.dirname(file_save_path), exist_ok=True)  # Создаем директорию, если она не существует
+    try:
+        uploaded_file = request.FILES['upload']
+        file_ext = os.path.splitext(uploaded_file.name)[1].lower()
 
-            with default_storage.open(file_save_path, 'wb+') as destination:
-                for chunk in uploaded_file.chunks():
-                    destination.write(chunk)
+        # Проверка расширения файла
+        if file_ext not in ALLOWED_EXTENSIONS:
+            raise SuspiciousOperation("Недопустимый формат файла")
 
-            file_url = os.path.join(settings.MEDIA_URL, file_path)
-            return JsonResponse({'message': 'File uploaded successfully!', 'url': file_url})
-        except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
-    return JsonResponse({'error': 'Invalid request'}, status=400)
+        # Проверка размера файла
+        if uploaded_file.size > MAX_FILE_SIZE:
+            raise SuspiciousOperation("Файл слишком большой (макс. 10MB)")
+
+        # Генерация безопасного имени файла
+        unique_filename = f"{uuid.uuid4()}{file_ext}"
+        file_path = os.path.join('photos', unique_filename)
+        file_save_path = os.path.join(settings.MEDIA_ROOT, file_path)
+
+        # Создание папки, если она не существует
+        os.makedirs(os.path.dirname(file_save_path), exist_ok=True)
+
+        # Сохранение файла
+        with default_storage.open(file_save_path, 'wb+') as destination:
+            for chunk in uploaded_file.chunks():
+                destination.write(chunk)
+
+        file_url = os.path.join(settings.MEDIA_URL, file_path)
+
+        return JsonResponse({'message': 'Файл успешно загружен!', 'url': file_url})
+
+    except SuspiciousOperation as e:
+        return JsonResponse({'error': str(e)}, status=400)
+    except Exception as e:
+        return JsonResponse({'error': 'Ошибка сервера'}, status=500)
 
 
 def topic_list(request):
