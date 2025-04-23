@@ -6,37 +6,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ film.title }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Segoe UI', sans-serif;
-        }
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Segoe UI', sans-serif;
+    }
+    a {
+        color: black;
+    }
+    .card {
+        border-radius: 20px;
+        padding: 2rem;
+    }
+    .card-title {
+        font-size: 2.5rem;
+        font-weight: bold;
+    }
+    .btn-secondary {
+        border-radius: 10px;
+        font-size: 1rem;
+    }
+    .ratio {
+        border-radius: 12px;
+        overflow: hidden;
+    }
 
-        a {
-            color: black;
+    /* Добавлено для мобильных устройств */
+    @media (max-width: 768px) {
+        .card-title {
+            font-size: 1.75rem;
         }
         .card {
-            border-radius: 20px;
-            padding: 2rem;
+            padding: 1rem;
         }
-        .card-title {
-            font-size: 2.5rem;
-            font-weight: bold;
+        .nav-tabs {
+            overflow-x: auto;
+            flex-wrap: nowrap;
         }
-        .btn-secondary {
-            border-radius: 10px;
-            font-size: 1rem;
+        .nav-tabs .nav-link {
+            white-space: nowrap;
         }
-        .list-group-item a {
-        }
-        .list-group-item a:hover {
-            text-decoration: underline;
-        }
-        .ratio {
-            border-radius: 12px;
-            overflow: hidden;
-        }
-    </style>
+    }
+</style>
+
 </head>
 <body>
 
@@ -50,56 +62,56 @@
             <p class="mb-2"><strong>Шыққан жылы:</strong> {{ film.release_year }}</p>
             <p class="mb-4"><strong>Сипаттамасы:</strong><br> {{ film.description }}</p>
 
-{% if film.is_series %}
-    <h4 class="mt-4 mb-3">Эпизодтар</h4>
+            {% if film.is_series %}
+                <h4 class="mt-4 mb-3">Эпизодтар</h4>
 
-    {% if film.episodes.all %}
-        <!-- Вкладки с эпизодами -->
-        <ul class="nav nav-tabs" id="episodeTabs" role="tablist">
-            {% for episode in film.episodes.all %}
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link {% if forloop.first %}active{% endif %}"
-                            id="tab-{{ forloop.counter }}"
-                            data-bs-toggle="tab"
-                            data-bs-target="#ep-{{ forloop.counter }}"
-                            type="button" role="tab" aria-controls="ep-{{ forloop.counter }}"
-                            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">
-                        {{ episode.episode_number }}-эпизод
-                    </button>
-                </li>
-            {% endfor %}
-        </ul>
+                {% if film.episodes.all %}
+                    <!-- Вкладки с эпизодами -->
+                    <ul class="nav nav-tabs" id="episodeTabs" role="tablist">
+                        {% for episode in film.episodes.all %}
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link {% if forloop.first %}active{% endif %}"
+                                        id="tab-{{ forloop.counter }}"
+                                        data-bs-toggle="tab"
+                                        data-bs-target="#ep-{{ forloop.counter }}"
+                                        type="button" role="tab" aria-controls="ep-{{ forloop.counter }}"
+                                        aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">
+                                    {{ episode.episode_number }}-эпизод
+                                </button>
+                            </li>
+                        {% endfor %}
+                    </ul>
 
-        <!-- Контент вкладок -->
-        <div class="tab-content mt-3" id="episodeTabsContent">
-            {% for episode in film.episodes.all %}
-                <div class="tab-pane fade {% if forloop.first %}show active{% endif %}"
-                     id="ep-{{ forloop.counter }}"
-                     role="tabpanel"
-                     aria-labelledby="tab-{{ forloop.counter }}">
+                    <!-- Контент вкладок -->
+                    <div class="tab-content mt-3" id="episodeTabsContent">
+                        {% for episode in film.episodes.all %}
+                            <div class="tab-pane fade {% if forloop.first %}show active{% endif %}"
+                                 id="ep-{{ forloop.counter }}"
+                                 role="tabpanel"
+                                 aria-labelledby="tab-{{ forloop.counter }}">
 
-                    <div class="ratio ratio-16x9 mb-2">
-                        {% if episode.get_video_id %}
-                            <iframe src="https://www.youtube.com/embed/{{ episode.get_video_id }}"
-                                    title="{{ episode.episode_title }}"
-                                    allowfullscreen
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
-                            </iframe>
-                        {% else %}
-                            <video controls class="w-100">
-                                <source src="{{ episode.video_url }}" type="video/mp4">
-                                Сіздің браузеріңіз видеоны қолдамайды.
-                            </video>
-                        {% endif %}
+                                <div class="ratio ratio-16x9 mb-2">
+                                    {% if episode.get_video_id %}
+                                        <iframe src="https://www.youtube.com/embed/{{ episode.get_video_id }}"
+                                                title="{{ episode.episode_title }}"
+                                                allowfullscreen
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+                                        </iframe>
+                                    {% else %}
+                                        <video controls class="w-100">
+                                            <source src="{{ episode.video_url }}" type="video/mp4">
+                                            Сіздің браузеріңіз видеоны қолдамайды.
+                                        </video>
+                                    {% endif %}
+                                </div>
+                                <p><strong>{{ episode.episode_title }}</strong></p>
+                            </div>
+                        {% endfor %}
                     </div>
-                    <p><strong>{{ episode.episode_title }}</strong></p>
-                </div>
-            {% endfor %}
-        </div>
-    {% else %}
-        <div class="alert alert-warning">Эпизодтар табылмады.</div>
-    {% endif %}
-{% else %}
+                {% else %}
+                    <div class="alert alert-warning">Эпизодтар табылмады.</div>
+                {% endif %}
+            {% else %}
 
                 <h4 class="mt-4 mb-3">Фильмді көру</h4>
 
@@ -132,5 +144,4 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
 {% endblock %}
