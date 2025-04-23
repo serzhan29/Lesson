@@ -11,6 +11,7 @@
         justify-content: center;
         min-height: 10vh;
         text-align: center;
+        padding: 0 1rem;
     }
 
     .quiz-page-title {
@@ -34,7 +35,7 @@
         padding: 20px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         text-align: left;
-        width: 150%;
+        width: 100%;
         border: 3px solid #007bff;
         transition: transform 0.2s, box-shadow 0.3s;
         display: flex;
@@ -72,6 +73,8 @@
         justify-content: space-between;
         align-items: center;
         margin-top: auto;
+        flex-wrap: wrap;
+        gap: 10px;
     }
 
     .quiz-button {
@@ -93,6 +96,36 @@
     .quiz-empty {
         font-size: 18px;
         color: #777;
+    }
+
+    /* ---------- Мобильная адаптация ---------- */
+    @media screen and (max-width: 600px) {
+        .quiz-page-title {
+            font-size: 24px;
+        }
+
+        .quiz-card {
+            padding: 15px;
+            min-height: auto;
+        }
+
+        .quiz-header {
+            font-size: 18px;
+        }
+
+        .quiz-description {
+            font-size: 14px;
+        }
+
+        .quiz-footer {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .quiz-button {
+            width: 100%;
+            text-align: center;
+        }
     }
 </style>
 
