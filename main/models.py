@@ -4,6 +4,7 @@ from django import forms
 from ckeditor_uploader.fields import RichTextUploadingField
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django.contrib.auth.models import AbstractUser
+from urllib.parse import urlparse, parse_qs
 
 
 class Topic(models.Model):
@@ -20,6 +21,7 @@ class Topic(models.Model):
 
 
 class Lesson(models.Model):
+    """ Лекций """
     title = models.CharField("Дәрістің атауы:", max_length=200)
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='lessons')
     number = models.IntegerField("Дәріс нөмірі")
@@ -109,3 +111,64 @@ class URLinks(models.Model):
         self.clicks += 1
         self.save(update_fields=['clicks'])
 
+
+class Film(models.Model):
+    title = models.CharField(max_length=255, verbose_name="Название фильма/сериала")
+    description = models.TextField(verbose_name="Описание фильма/сериала")
+    release_year = models.PositiveIntegerField(verbose_name="Год выпуска")
+    directors = models.CharField(max_length=255, verbose_name="Режиссеры")
+    video_url = models.URLField(verbose_name="Ссылка на видео")  # Ссылка на основное видео (например, трейлер или фильм)
+    is_series = models.BooleanField(default=False, verbose_name="Сериал?")  # Флаг для сериалов
+
+    def get_video_id(self):
+        """
+        Извлекаем ID видео из YouTube URL и возвращаем его в формате,
+        подходящем для встраивания видео.
+        """
+        # Если ссылка на YouTube типа youtu.be/{video_id}
+        if 'youtu.be' in self.video_url:
+            return self.video_url.split('/')[-1].split('?')[0]  # Берем ID после последнего слэша
+
+        # Если ссылка на YouTube типа youtube.com/watch?v={video_id}
+        elif 'youtube.com' in self.video_url:
+            parts = self.video_url.split('v=')
+            if len(parts) > 1:
+                return parts[1].split('&')[0]  # Получаем ID после v=
+
+        # Если формат ссылки неизвестен
+        return None
+
+
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = "Фильм/Сериал"
+        verbose_name_plural = "Фильмы/Сериалы"
+
+
+class Episode(models.Model):
+    film = models.ForeignKey(Film, related_name='episodes', on_delete=models.CASCADE)  # Связь с фильмом
+    episode_title = models.CharField(max_length=255, verbose_name="Название эпизода")
+    video_url = models.URLField(verbose_name="Ссылка на видео")
+    episode_number = models.PositiveIntegerField(verbose_name="Номер эпизода")
+
+    def get_video_id(self):
+        # Проверка на разные форматы URL YouTube
+        if 'youtu.be' in self.video_url:
+            return self.video_url.split('/')[-1]
+        elif 'youtube.com' in self.video_url:
+            parts = self.video_url.split('v=')
+            if len(parts) > 1:
+                return parts[1].split('&')[0]
+        return None
+
+    def __str__(self):
+        return f"{self.film.title} - Эпизод {self.episode_number}"
+
+    class Meta:
+        verbose_name = "Эпизод"
+        verbose_name_plural = "Эпизоды"
+        ordering = ['episode_number']
+        unique_together = ['film', 'episode_number']

@@ -18,4 +18,7 @@ urlpatterns = [
     path('map/', views.MapView.as_view(), name='map'),
     path('links/', views.LinkListView.as_view(), name='links'),
     path('links/<int:pk>/click/', views.IncreaseClickView.as_view(), name='increase_click'),
+
+    path('film', views.film_list, name='film_list'),
+    path('film/<int:film_id>/', views.film_detail, name='film_detail'),
 ]

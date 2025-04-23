@@ -3,7 +3,7 @@ import uuid
 from django.http import JsonResponse
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404
-from .models import Topic, Lesson, Task, CustomUser, URLinks
+from .models import Topic, Lesson, Task, CustomUser, URLinks, Film
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.core.files.storage import default_storage
@@ -17,6 +17,7 @@ from .forms import UserProfileForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import DetailView, ListView, TemplateView, View
 from django.core.exceptions import SuspiciousOperation
+from django.core.paginator import Paginator
 
 
 class CustomLoginView(LoginView):
@@ -99,17 +100,18 @@ def lesson_list_by_topic(request, topic_id):
 @login_required
 def lesson_detail(request, lesson_id):
     lesson = get_object_or_404(Lesson, id=lesson_id)
-    # Получаем все задания, связанные с конкретной лекцией
-    task = Task.objects.filter(lesson=lesson).first()  # Если одно задание, используем first()
+    task = Task.objects.filter(lesson=lesson).first()
     related_lessons = Lesson.objects.filter(topic=lesson.topic).exclude(id=lesson_id)
-    quizzes = lesson.quizzes.all()  # Получаем тесты, связанные с этой лекцией
+    quizzes = lesson.quizzes.all()
 
     return render(request, 'main/page/detail_lesson.html', {
         'lesson': lesson,
         'list': related_lessons,
-        'quizzes': quizzes,  # Передаем связанные тесты
-        'task': task,  # Передаем task, связанный с этой лекцией
+        'quizzes': quizzes,
+        'task': task,
+        'presentation': lesson.presentation,  # Передаём презентацию
     })
+
 
 
 
@@ -180,3 +182,51 @@ class IncreaseClickView(View):
         link.increase_clicks()
         return JsonResponse({'status': 'success', 'clicks': link.clicks})
 
+def film_list(request):
+    """Отображение списка фильмов и сериалов с пагинацией и фильтрами"""
+    films = Film.objects.all()
+
+    # Фильтрация
+    year = request.GET.get('year')
+    director = request.GET.get('director')
+
+    # Проверка на корректные значения
+    if year and year != 'None':
+        try:
+            films = films.filter(release_year=int(year))
+        except ValueError:
+            pass  # если год некорректный, не фильтруем по нему
+
+    if director and director != 'None':
+        films = films.filter(directors__icontains=director)
+
+    # Пагинация
+    paginator = Paginator(films, 9)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # Уникальные значения для фильтра
+    all_years = Film.objects.values_list('release_year', flat=True).distinct().order_by('-release_year')
+    all_directors = Film.objects.values_list('directors', flat=True).distinct().order_by('directors')
+
+    context = {
+        'page_obj': page_obj,
+        'all_years': all_years,
+        'all_directors': all_directors,
+        'selected_year': year if year != 'None' else '',
+        'selected_director': director if director != 'None' else '',
+    }
+
+    return render(request, 'main/info/film_list.html', context)
+
+
+def film_detail(request, film_id):
+    film = get_object_or_404(Film, id=film_id)
+
+    # Извлекаем ID видео из YouTube URL, если видео с YouTube
+    if 'youtube.com' in film.video_url or 'youtu.be' in film.video_url:
+        video_id = film.video_url.split('v=')[-1].split('&')[0]  # Извлекаем ID
+    else:
+        video_id = None
+
+    return render(request, 'main/info/film_detail.html', {'film': film, 'video_id': video_id})

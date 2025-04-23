@@ -1,9 +1,8 @@
 from django.contrib import admin
-from .models import Topic, Lesson, Task, URLinks
+from .models import Topic, Lesson, Task, URLinks, Film, CustomUser, Episode
 from django import forms
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser
 from django.utils.translation import gettext_lazy as _
 
 
@@ -81,3 +80,28 @@ class URLinksAdmin(admin.ModelAdmin):
     search_fields = ('url', 'title')
     list_filter = ('title',)
     readonly_fields = ('clicks',)  # Эти поля нельзя редактировать вручную
+
+
+class EpisodeInline(admin.TabularInline):
+    model = Episode
+    extra = 1  # Добавляем одну пустую строку для создания нового эпизода
+    fields = ('episode_number', 'episode_title', 'video_url')  # Поля для редактирования эпизодов
+    # readonly_fields = ('episode_number',)  # Если нужно сделать номер эпизода только для чтения
+    ordering = ('episode_number',)  # Сортировка эпизодов по номеру
+
+class FilmAdmin(admin.ModelAdmin):
+    list_display = ('title', 'release_year', 'directors', 'is_series', 'video_url', 'get_episode_count')
+    list_filter = ('release_year', 'is_series')  # Фильтрация по году и сериалам
+    search_fields = ('title', 'directors')  # Поиск по названию и режиссерам
+    list_editable = ('video_url',)
+    fields = ('title', 'description', 'release_year', 'directors', 'is_series', 'video_url')
+    ordering = ('release_year',)
+    inlines = [EpisodeInline]  # Включаем редактирование эпизодов внутри фильма
+
+    def get_episode_count(self, obj):
+        """Метод для отображения количества эпизодов в фильме"""
+        return obj.episodes.count()
+    get_episode_count.short_description = 'Кол-во эпизодов'  # Название колонки в списке
+
+admin.site.register(Film, FilmAdmin)
+admin.site.register(Episode)
