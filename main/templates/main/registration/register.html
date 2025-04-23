@@ -1,20 +1,174 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<body class="auth-register-body">
+    <style>
+        .auth-register-error-box {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .auth-register-error-text {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-toggle-icon {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
+            color: #666;
+        }
+
+        .strength-indicator {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: 3px solid lightgray;
+            display: inline-block;
+            position: relative;
+            margin-top: 0.4rem;
+        }
+
+        .strength-indicator::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: transparent;
+            transition: background-color 0.3s;
+        }
+
+        .strength-weak::after {
+            background-color: red;
+        }
+
+        .strength-medium::after {
+            background-color: orange;
+        }
+
+        .strength-strong::after {
+            background-color: green;
+        }
+
+        .password-feedback {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 4px;
+        }
+    </style>
+
     <link rel="stylesheet" href="{% static 'css/register.css' %}">
+    <body class="auth-register-body">
     <div class="auth-register-container">
         <h2 class="auth-register-heading">Тіркелу</h2>
-        <form method="post" class="auth-register-form">
+
+        <form method="post" class="auth-register-form" id="registerForm">
             {% csrf_token %}
-            <div class="auth-register-form-group">
-                {{ form.as_p }}
-            </div>
+            {% for field in form %}
+                <div class="auth-register-form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+
+                    {% if field.name == 'password1' or field.name == 'password2' %}
+                        <div class="password-wrapper">
+                            {{ field }}
+                            <span class="password-toggle-icon" onclick="togglePassword('{{ field.id_for_label }}')">👁</span>
+                        </div>
+                    {% else %}
+                        {{ field }}
+                    {% endif %}
+
+                    {% if field.name == 'password1' %}
+                        <div class="password-feedback">
+                            <div class="strength-indicator" id="strengthCircle"></div>
+                            <div id="passwordMessage" class="auth-register-error-text" style="margin: 0;"></div>
+                        </div>
+                    {% endif %}
+
+                    {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% if field.errors %}
+                        <div class="auth-register-error-text">
+                            {% for error in field.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
             <button type="submit" class="auth-register-button">Тіркелу</button>
         </form>
+
         <div class="auth-register-links">
             <p>Сізде аккаунт бар ма? <a href="{% url 'login' %}">Кіру</a></p>
         </div>
     </div>
+
+    <script>
+        function togglePassword(id) {
+            const input = document.getElementById(id);
+            input.type = input.type === "password" ? "text" : "password";
+        }
+
+        const passwordField = document.getElementById("id_password1");
+        const strengthCircle = document.getElementById("strengthCircle");
+        const passwordMessage = document.getElementById("passwordMessage");
+
+        function checkPasswordStrength(password) {
+            let strength = 0;
+            if (password.length >= 8) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/[a-z]/.test(password)) strength++;
+            if (/\d/.test(password)) strength++;
+            if (/[\W_]/.test(password)) strength++;
+            return strength;
+        }
+
+        function updateStrengthVisual(strength) {
+            strengthCircle.className = "strength-indicator";
+            if (strength < 3) {
+                strengthCircle.classList.add("strength-weak");
+                passwordMessage.textContent = "Құпия сөз өте әлсіз!";
+            } else if (strength < 5) {
+                strengthCircle.classList.add("strength-medium");
+                passwordMessage.textContent = "Құпия сөз орташа.";
+            } else {
+                strengthCircle.classList.add("strength-strong");
+                passwordMessage.textContent = "Құпия сөз мықты!";
+            }
+        }
+
+        passwordField.addEventListener("input", () => {
+            const password = passwordField.value;
+            const strength = checkPasswordStrength(password);
+            updateStrengthVisual(strength);
+        });
+
+        document.getElementById("registerForm").addEventListener("submit", function (e) {
+            const password = passwordField.value;
+            const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+            if (!regex.test(password)) {
+                e.preventDefault();
+                passwordMessage.textContent = "Құпия сөзде кем дегенде бір бас әріп, бір кіші әріп және бір сан болуы керек (мысалы: Aa12345678).";
+                strengthCircle.className = "strength-indicator strength-weak";
+            }
+        });
+    </script>
 </body>
 {% endblock %}

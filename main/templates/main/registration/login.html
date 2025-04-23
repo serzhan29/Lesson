@@ -6,21 +6,76 @@
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
     <div class="auth-container">
         <h2 class="auth-heading">Аккаунтқа кіру</h2>
+
         <form method="post" class="auth-form">
             {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="auth-error">
+                    {% for error in form.non_field_errors %}
+                        <p class="auth-error-text">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
             <div class="auth-form-group">
                 {{ form.username.label_tag }}
                 {{ form.username }}
             </div>
-            <div class="auth-form-group">
+
+            <div class="auth-form-group password-field-wrapper" style="position: relative;">
                 {{ form.password.label_tag }}
                 {{ form.password }}
+                <span class="toggle-password" onclick="togglePassword('id_password')">👁</span>
             </div>
+
             <button type="submit" class="auth-button">Кіру</button>
         </form>
+
         <div class="auth-links">
             <p>Сізде аккаунт жоқ па? <a href="{% url 'register' %}">Тіркелу</a></p>
         </div>
     </div>
+
+<style>
+    .auth-error {
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+    }
+
+    .auth-error-text {
+        color: #721c24;
+        font-size: 0.875rem;
+    }
+
+    .toggle-password {
+        position: absolute;
+        right: 10px;
+        top: 65%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        font-size: 1.1rem;
+        color: #555;
+    }
+
+    input[type="password"] {
+        padding-right: 30px;
+    }
+</style>
+
+
+    <script>
+        function togglePassword(id) {
+            const input = document.getElementById(id);
+            if (input.type === "password") {
+                input.type = "text";
+            } else {
+                input.type = "password";
+            }
+        }
+    </script>
 </body>
 {% endblock %}

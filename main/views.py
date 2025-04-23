@@ -12,7 +12,7 @@ from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from django.contrib.auth import login, logout, authenticate
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, CustomAuthenticationForm
 from .forms import UserProfileForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import DetailView, ListView, TemplateView, View
@@ -21,12 +21,15 @@ from django.core.paginator import Paginator
 
 
 class CustomLoginView(LoginView):
+    """ Авторизация """
     template_name = 'main/registration/login.html'
-    success_url = reverse_lazy('topic_list')  # Измените на URL, куда нужно перенаправить после входа
+    success_url = reverse_lazy('topic_list')
+    authentication_form = CustomAuthenticationForm
 
 
 # Регистрация пользователя
 def register(request):
+    """ Регистрация """
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
