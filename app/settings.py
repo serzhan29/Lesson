@@ -108,6 +108,9 @@ INTERNAL_IPS = [
     # ...
 ]
 
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+XS_SHARING_ALLOWED_METHODS = ['POST', 'GET', 'OPTIONS', 'PUT', 'DELETE']
+
 LOGIN_URL = 'login'  # URL для перенаправления, если пользователь не авторизован
 LOGOUT_REDIRECT_URL = 'topic_list'  # URL для перенаправления после выхода
 LOGIN_REDIRECT_URL = 'topic_list'
