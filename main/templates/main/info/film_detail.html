@@ -50,18 +50,57 @@
             <p class="mb-2"><strong>Шыққан жылы:</strong> {{ film.release_year }}</p>
             <p class="mb-4"><strong>Сипаттамасы:</strong><br> {{ film.description }}</p>
 
-            {% if film.is_series %}
-                <h4 class="mt-4 mb-3">Эпизодтар</h4>
-                <ul class="list-group">
-                    {% for episode in film.episodes.all %}
-                        <li class="list-group-item">
-                            <a href="{{ episode.video_url }}" target="_blank">
-                                {{ episode.episode_number }}-эпизод: {{ episode.episode_title }}
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
+{% if film.is_series %}
+    <h4 class="mt-4 mb-3">Эпизодтар</h4>
+
+    {% if film.episodes.all %}
+        <!-- Вкладки с эпизодами -->
+        <ul class="nav nav-tabs" id="episodeTabs" role="tablist">
+            {% for episode in film.episodes.all %}
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link {% if forloop.first %}active{% endif %}"
+                            id="tab-{{ forloop.counter }}"
+                            data-bs-toggle="tab"
+                            data-bs-target="#ep-{{ forloop.counter }}"
+                            type="button" role="tab" aria-controls="ep-{{ forloop.counter }}"
+                            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">
+                        {{ episode.episode_number }}-эпизод
+                    </button>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <!-- Контент вкладок -->
+        <div class="tab-content mt-3" id="episodeTabsContent">
+            {% for episode in film.episodes.all %}
+                <div class="tab-pane fade {% if forloop.first %}show active{% endif %}"
+                     id="ep-{{ forloop.counter }}"
+                     role="tabpanel"
+                     aria-labelledby="tab-{{ forloop.counter }}">
+
+                    <div class="ratio ratio-16x9 mb-2">
+                        {% if episode.get_video_id %}
+                            <iframe src="https://www.youtube.com/embed/{{ episode.get_video_id }}"
+                                    title="{{ episode.episode_title }}"
+                                    allowfullscreen
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+                            </iframe>
+                        {% else %}
+                            <video controls class="w-100">
+                                <source src="{{ episode.video_url }}" type="video/mp4">
+                                Сіздің браузеріңіз видеоны қолдамайды.
+                            </video>
+                        {% endif %}
+                    </div>
+                    <p><strong>{{ episode.episode_title }}</strong></p>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-warning">Эпизодтар табылмады.</div>
+    {% endif %}
+{% else %}
+
                 <h4 class="mt-4 mb-3">Фильмді көру</h4>
 
                 {% if film.video_file %}
