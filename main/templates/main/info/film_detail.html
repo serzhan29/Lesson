@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block content %}
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ film.title }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        a {
+            color: black;
+        }
+        .card {
+            border-radius: 20px;
+            padding: 2rem;
+        }
+        .card-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        .btn-secondary {
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+        .list-group-item a {
+        }
+        .list-group-item a:hover {
+            text-decoration: underline;
+        }
+        .ratio {
+            border-radius: 12px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container py-3">
+    <div class="card shadow-lg">
+        <div class="card-body">
+            <a href="{% url 'film_list' %}" class="btn btn-secondary mb-2">← Артқа оралу</a>
+
+            <h1 class="card-title mb-1">{{ film.title }}</h1>
+            <p class="mb-2"><strong>Режиссер(лер):</strong> {{ film.directors }}</p>
+            <p class="mb-2"><strong>Шыққан жылы:</strong> {{ film.release_year }}</p>
+            <p class="mb-4"><strong>Сипаттамасы:</strong><br> {{ film.description }}</p>
+
+            {% if film.is_series %}
+                <h4 class="mt-4 mb-3">Эпизодтар</h4>
+                <ul class="list-group">
+                    {% for episode in film.episodes.all %}
+                        <li class="list-group-item">
+                            <a href="{{ episode.video_url }}" target="_blank">
+                                {{ episode.episode_number }}-эпизод: {{ episode.episode_title }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <h4 class="mt-4 mb-3">Фильмді көру</h4>
+
+                {% if film.video_file %}
+                    <div class="ratio ratio-16x9 mb-3">
+                        <video controls class="w-100">
+                            <source src="{{ film.video_file.url }}" type="video/mp4">
+                            Сіздің браузеріңіз видеоны қолдамайды.
+                        </video>
+                    </div>
+                {% elif film.get_video_id %}
+                    <div class="ratio ratio-16x9 mb-3">
+                        <iframe src="https://www.youtube.com/embed/{{ film.get_video_id }}"
+                                title="YouTube бейне ойнатқышы"
+                                allowfullscreen
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+                        </iframe>
+                    </div>
+                {% else %}
+                    </div>
+                    <div class="alert alert-warning mt-3">
+                        <a href="{{ film.video_url }}">Бейнеге сілтеме</a>
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+{% endblock %}

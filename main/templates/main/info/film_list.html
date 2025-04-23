@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block content %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        a {
+            color: black; !important;
+        }
+    </style>
+
+<div class="container mt-5">
+  <h2 class="mb-4">Фильмдер мен Телехикаялар</h2>
+
+  <div class="row">
+    <!-- Сайдбар -->
+    <div class="col-md-3 mb-4">
+      <form method="get" class="border p-3 rounded bg-light">
+        <div class="mb-3">
+          <label for="year">Жыл:</label>
+          <select class="form-select" name="year" id="year">
+            <option value="">Барлық жылдар</option>
+            {% for y in all_years %}
+              <option value="{{ y }}" {% if selected_year == y|stringformat:"s" %}selected{% endif %}>{{ y }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="director">Режиссер:</label>
+          <select class="form-select" name="director" id="director">
+            <option value="">Барлық режиссерлер</option>
+            {% for d in all_directors %}
+              <option value="{{ d }}" {% if selected_director == d %}selected{% endif %}>{{ d }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Қолдану</button>
+        <a href="{% url 'film_list' %}" class="btn btn-secondary w-100 mt-2">Тазарту</a>
+      </form>
+    </div>
+
+    <!-- Список фильмов -->
+    <div class="col-md-9">
+      <div class="row">
+        {% for film in page_obj %}
+          <div class="col-md-4 mb-4">
+            <div class="card h-100">
+              <img src="https://img.youtube.com/vi/{{ film.get_video_id }}/hqdefault.jpg" class="card-img-top" alt="{{ film.title }}">
+              <div class="card-body">
+                <h5 class="card-title">{{ film.title }}</h5>
+                <p class="card-text">Шыққан жылы: {{ film.release_year }}</p>
+                <p class="card-text"><strong>Режиссерлері:</strong> {{ film.directors }}</p>
+                <a href="{% url 'film_detail' film.id %}" class="btn btn-sm btn-outline-primary">Көру</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- Пагинация -->
+      <nav>
+        <ul class="pagination justify-content-center">
+          {% if page_obj.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.previous_page_number }}&year={{ selected_year }}&director={{ selected_director }}">«</a>
+            </li>
+          {% endif %}
+          {% for num in page_obj.paginator.page_range %}
+            <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+              <a class="page-link" href="?page={{ num }}&year={{ selected_year }}&director={{ selected_director }}">{{ num }}</a>
+            </li>
+          {% endfor %}
+          {% if page_obj.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.next_page_number }}&year={{ selected_year }}&director={{ selected_director }}">»</a>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

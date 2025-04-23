@@ -165,7 +165,7 @@
         </div>
     </div>
 
-    <!-- Модальное окно для первой презентации -->
+<!-- Модальное окно для первой презентации -->
     <div id="presentationModal" class="modal">
         <div class="modal-content">
             <span class="close-button" id="closePresentationModal">&times;</span>
@@ -173,9 +173,14 @@
             <div class="modal-body">
                 {% if lesson.presentation_url %}
                     <h6 class="task-title">Презентация:</h6>
-                    <div class="task-content">{{ lesson.presentation_url|safe }}</div>
+                    <div class="task-content">
+                        <!-- Используем iframe для отображения презентации -->
+                        <iframe src="{{ lesson.presentation.url }}" width="100%" height="500px">
+                            Ваш браузер не поддерживает просмотр файлов в iframe.
+                        </iframe>
+                    </div>
                 {% else %}
-                    <p>Бұл дәріс үшін презентациялар табылмады.</p>
+                    <p>Бұл дәріс үшін презентациялар табылмады - </p>
                 {% endif %}
             </div>
         </div>
