@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 style="text-align:center; margin-bottom:40px;">Оқиғалар хронологиясы</h1>
+
+<div class="timeline">
+  {% for event in events %}
+    <div class="event" onclick="openModal('{{ event.title|escapejs }}', '{{ event.full_description|escapejs }}')">
+      <div class="event-marker"></div>
+      <div class="event-content">
+        <h2>{{ event.title }}</h2>
+        <p>{{ event.short_description }}</p>
+        <small>{{ event.event_time }}</small>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+<!-- Модальді терезе -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeModal()">&times;</span>
+    <h2 id="modal-title"></h2>
+    <p id="modal-description"></p>
+  </div>
+</div>
+
+<script>
+function openModal(title, description) {
+  document.getElementById('modal-title').innerText = title;
+  document.getElementById('modal-description').innerText = description;
+  document.getElementById('modal').style.display = 'flex';
+}
+
+function closeModal() {
+  document.getElementById('modal').style.display = 'none';
+}
+</script>
+
+<style>
+/* Жалпы стильдер */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f9f9f9;
+  margin: 0;
+  padding: 0 20px;
+}
+
+h1 {
+  color: #333;
+}
+
+/* Хронология */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  position: relative;
+  margin-left: 30px;
+  padding-left: 20px;
+  border-left: 3px solid #ccc;
+}
+
+.event {
+  display: flex;
+  align-items: flex-start;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+  position: relative;
+}
+
+.event:hover {
+  background: #f1f1f1;
+  transform: scale(1.02);
+  border-radius: 10px;
+}
+
+.event-marker {
+  width: 15px;
+  height: 15px;
+  background: #3498db;
+  border-radius: 50%;
+  position: absolute;
+  left: -37px;
+  top: 15px;
+  border: 3px solid white;
+  box-shadow: 0 0 0 3px #3498db;
+}
+
+.event-content {
+  padding: 15px 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  width: 100%;
+}
+
+.event-content h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #2c3e50;
+}
+
+.event-content p {
+  margin: 0 0 10px;
+  color: #555;
+}
+
+.event-content small {
+  color: #888;
+}
+
+/* Модальді терезе */
+.modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 30px;
+  border-radius: 15px;
+  max-width: 700px;
+  width: 90%;
+  position: relative;
+  animation: scaleIn 0.3s ease-in-out;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px; right: 20px;
+  font-size: 30px;
+  color: #333;
+  cursor: pointer;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+.modal-content p {
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Анимациялар */
+@keyframes fadeIn {
+  from {background: rgba(0,0,0,0);}
+  to {background: rgba(0,0,0,0.5);}
+}
+
+@keyframes scaleIn {
+  from {transform: scale(0.7);}
+  to {transform: scale(1);}
+}
+
+/* --- Адаптив для мобильных --- */
+@media (max-width: 768px) {
+  .timeline {
+    margin-left: 10px;
+    padding-left: 15px;
+    border-left: 2px solid #ccc;
+    gap: 20px;
+  }
+
+  .event-content {
+    padding: 12px 15px;
+    font-size: 14px;
+  }
+
+  .event-marker {
+    width: 12px;
+    height: 12px;
+    left: -25px;
+    top: 10px;
+    box-shadow: 0 0 0 2px #3498db;
+  }
+
+  .modal-content {
+    padding: 20px;
+    max-width: 90%;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  .event-content h2 {
+    font-size: 18px;
+  }
+
+  .event-content p, .event-content small {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .event-content {
+    padding: 10px 12px;
+  }
+
+  .event-content h2 {
+    font-size: 16px;
+  }
+
+  .modal-content {
+    padding: 15px;
+  }
+
+  .modal-close {
+    top: 5px;
+    right: 10px;
+    font-size: 26px;
+  }
+}
+</style>
+{% endblock %}

@@ -1,9 +1,8 @@
 import os
 import uuid
-from django.http import JsonResponse
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404
-from .models import Topic, Lesson, Task, CustomUser, URLinks, Film
+from .models import Topic, Lesson, Task, CustomUser, URLinks, Film, TimelineEvent
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.core.files.storage import default_storage
@@ -233,3 +232,10 @@ def film_detail(request, film_id):
         video_id = None
 
     return render(request, 'main/info/film_detail.html', {'film': film, 'video_id': video_id})
+
+
+class TimelineEventListView(ListView):
+    model = TimelineEvent
+    template_name = 'main/info/hrono.html'
+    context_object_name = 'events'
+    ordering = ['order_index']

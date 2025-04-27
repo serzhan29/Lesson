@@ -63,7 +63,12 @@
                         <span>Фильмдер</span>
                     </a>
                 </li>
-
+                <li class="nav__item">
+                    <a href="{% url 'hrono' %}" class="nav__link">
+                        <i class="ri-arrow-right-up-line"></i>
+                        <span>Хронология</span>
+                    </a>
+                </li>
                 {% if user.is_authenticated %}
                 {% else %}
                     <li class="nav__item">

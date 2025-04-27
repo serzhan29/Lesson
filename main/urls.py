@@ -21,4 +21,6 @@ urlpatterns = [
 
     path('film', views.film_list, name='film_list'),
     path('film/<int:film_id>/', views.film_detail, name='film_detail'),
+
+    path('hrono', views.TimelineEventListView.as_view(), name='hrono'),
 ]

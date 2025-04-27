@@ -172,3 +172,22 @@ class Episode(models.Model):
         verbose_name_plural = "Эпизоды"
         ordering = ['episode_number']
         unique_together = ['film', 'episode_number']
+
+
+class TimelineEvent(models.Model):
+    title = models.CharField(max_length=255, verbose_name="Название события")
+    short_description = models.CharField(max_length=500, verbose_name="Краткое описание", blank=True)
+    full_description = models.TextField(verbose_name="Полное описание события", blank=True)
+
+    # Вместо даты используем текстовое поле для времени события
+    event_time = models.CharField(max_length=255, verbose_name="Время события")
+
+    order_index = models.FloatField(verbose_name="Порядковый индекс", default=0)
+
+    class Meta:
+        ordering = ['order_index']
+        verbose_name = "Событие хронологии"
+        verbose_name_plural = "События хронологии"
+
+    def __str__(self):
+        return f"{self.title} ({self.event_time})"
