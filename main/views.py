@@ -238,4 +238,9 @@ class TimelineEventListView(ListView):
     model = TimelineEvent
     template_name = 'main/info/hrono.html'
     context_object_name = 'events'
-    ordering = ['order_index']
+
+    def get_ordering(self):
+        order = self.request.GET.get('order', 'asc')  # по умолчанию 'asc'
+        if order == 'desc':
+            return ['-order_index']
+        return ['order_index']

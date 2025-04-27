@@ -1,11 +1,28 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1 style="text-align:center; margin-bottom:40px;">Оқиғалар хронологиясы</h1>
+<h1 style="text-align:center; margin-bottom:30px; font-size:26px;">Оқиғалар хронологиясы</h1>
 
-<div class="timeline">
+<!-- Фильтр -->
+{% with request.GET.order as order %}
+<div style="text-align: center; margin-bottom: 20px;">
+  <a href="?order=asc" class="filter-button {% if order != 'desc' %}active{% endif %}">Ескі оқиғалар</a>
+  <a href="?order=desc" class="filter-button {% if order == 'desc' %}active{% endif %}">Жаңа оқиғалар</a>
+</div>
+{% endwith %}
+
+<!-- Таймлайн -->
+<div class="timeline" id="timeline">
   {% for event in events %}
-    <div class="event" onclick="openModal('{{ event.title|escapejs }}', '{{ event.full_description|escapejs }}')">
+    <div class="event
+        {% if not forloop.first and event.order_index >= 30 %}
+            highlight
+        {% endif %}"
+         {% if not forloop.first and event.order_index >= 30 %}
+            id="new-events"
+         {% endif %}
+         data-time="{{ event.event_time }}"
+         onclick="openModal('{{ event.title|escapejs }}', '{{ event.full_description|escapejs }}')">
       <div class="event-marker"></div>
       <div class="event-content">
         <h2>{{ event.title }}</h2>
@@ -16,9 +33,9 @@
   {% endfor %}
 </div>
 
-<!-- Модальді терезе -->
-<div id="modal" class="modal">
-  <div class="modal-content">
+<!-- Модальное окно -->
+<div id="modal" class="modal" onclick="outsideClick(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
     <span class="modal-close" onclick="closeModal()">&times;</span>
     <h2 id="modal-title"></h2>
     <p id="modal-description"></p>
@@ -26,39 +43,90 @@
 </div>
 
 <script>
+// Открыть модалку
 function openModal(title, description) {
   document.getElementById('modal-title').innerText = title;
   document.getElementById('modal-description').innerText = description;
   document.getElementById('modal').style.display = 'flex';
 }
 
+// Закрыть модалку
 function closeModal() {
   document.getElementById('modal').style.display = 'none';
+}
+
+function outsideClick(event) {
+  if (event.target.id === 'modal') {
+    closeModal();
+  }
+}
+
+// Прокрутка к началу
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Прокрутка к новым событиям
+function scrollToNew() {
+  const newEvent = document.getElementById('new-events');
+  if (newEvent) {
+    newEvent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    newEvent.classList.add('flash');
+    setTimeout(() => {
+      newEvent.classList.remove('flash');
+    }, 2000);
+  } else {
+    alert('Жаңа оқиғалар табылмады.');
+  }
 }
 </script>
 
 <style>
-/* Жалпы стильдер */
+/* Основные стили */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: #f9f9f9;
   margin: 0;
-  padding: 0 20px;
+  padding: 0 15px;
 }
 
 h1 {
   color: #333;
 }
 
-/* Хронология */
+/* Фильтр кнопки */
+.filter-button {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  margin: 0 5px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-size: 14px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.filter-button:hover {
+  background: #2980b9;
+}
+
+/* Активный фильтр */
+.filter-button.active {
+  background: #2ecc71;
+}
+
+/* Таймлайн */
 .timeline {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 20px;
   position: relative;
-  margin-left: 30px;
-  padding-left: 20px;
-  border-left: 3px solid #ccc;
+  margin-left: 20px;
+  padding-left: 15px;
+  border-left: 2px solid #ccc;
 }
 
 .event {
@@ -72,45 +140,48 @@ h1 {
 .event:hover {
   background: #f1f1f1;
   transform: scale(1.02);
-  border-radius: 10px;
+  border-radius: 8px;
 }
 
 .event-marker {
-  width: 15px;
-  height: 15px;
+  width: 12px;
+  height: 12px;
   background: #3498db;
   border-radius: 50%;
   position: absolute;
-  left: -37px;
-  top: 15px;
-  border: 3px solid white;
-  box-shadow: 0 0 0 3px #3498db;
+  left: -30px;
+  top: 12px;
+  border: 2px solid white;
+  box-shadow: 0 0 0 2px #3498db;
 }
 
 .event-content {
-  padding: 15px 20px;
+  padding: 12px 15px;
   background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   width: 100%;
 }
 
 .event-content h2 {
   margin-top: 0;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+  font-size: 18px;
   color: #2c3e50;
 }
 
 .event-content p {
-  margin: 0 0 10px;
+  margin: 0 0 8px;
+  font-size: 14px;
   color: #555;
 }
 
 .event-content small {
+  font-size: 12px;
   color: #888;
 }
 
-/* Модальді терезе */
+/* Модальное окно */
 .modal {
   position: fixed;
   top: 0; left: 0;
@@ -125,9 +196,9 @@ h1 {
 
 .modal-content {
   background: #fff;
-  padding: 30px;
-  border-radius: 15px;
-  max-width: 700px;
+  padding: 25px;
+  border-radius: 12px;
+  max-width: 600px;
   width: 90%;
   position: relative;
   animation: scaleIn 0.3s ease-in-out;
@@ -136,53 +207,64 @@ h1 {
 .modal-close {
   position: absolute;
   top: 10px; right: 20px;
-  font-size: 30px;
+  font-size: 26px;
   color: #333;
   cursor: pointer;
 }
 
 .modal-content h2 {
   margin-top: 0;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+  font-size: 22px;
   color: #2c3e50;
 }
 
 .modal-content p {
+  font-size: 15px;
   color: #555;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
-/* Анимациялар */
+/* Анимация */
 @keyframes fadeIn {
   from {background: rgba(0,0,0,0);}
   to {background: rgba(0,0,0,0.5);}
 }
 
 @keyframes scaleIn {
-  from {transform: scale(0.7);}
+  from {transform: scale(0.8);}
   to {transform: scale(1);}
 }
 
-/* --- Адаптив для мобильных --- */
+/* Подсветка новых событий */
+.flash {
+  animation: flashAnimation 2s ease-in-out;
+}
+
+@keyframes flashAnimation {
+  0% { background-color: #ffffcc; }
+  50% { background-color: #ffffff; }
+  100% { background-color: #ffffcc; }
+}
+
+/* Адаптив */
 @media (max-width: 768px) {
   .timeline {
     margin-left: 10px;
-    padding-left: 15px;
-    border-left: 2px solid #ccc;
-    gap: 20px;
+    padding-left: 10px;
+    gap: 15px;
   }
 
   .event-content {
-    padding: 12px 15px;
-    font-size: 14px;
+    padding: 10px 12px;
+    font-size: 13px;
   }
 
   .event-marker {
-    width: 12px;
-    height: 12px;
-    left: -25px;
+    width: 10px;
+    height: 10px;
+    left: -22px;
     top: 10px;
-    box-shadow: 0 0 0 2px #3498db;
   }
 
   .modal-content {
@@ -194,18 +276,15 @@ h1 {
     font-size: 22px;
   }
 
-  .event-content h2 {
-    font-size: 18px;
-  }
-
-  .event-content p, .event-content small {
-    font-size: 14px;
+  .filter-button {
+    padding: 6px 12px;
+    font-size: 12px;
   }
 }
 
 @media (max-width: 480px) {
   .event-content {
-    padding: 10px 12px;
+    padding: 8px 10px;
   }
 
   .event-content h2 {
@@ -217,9 +296,7 @@ h1 {
   }
 
   .modal-close {
-    top: 5px;
-    right: 10px;
-    font-size: 26px;
+    font-size: 24px;
   }
 }
 </style>
