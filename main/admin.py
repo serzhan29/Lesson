@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Topic, Lesson, Task, URLinks, Film, CustomUser, Episode, TimelineEvent
+from .models import Topic, Lesson, Task, URLinks, Film, CustomUser, Episode, TimelineEvent, HistoryResource
 from django import forms
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django.contrib.auth.admin import UserAdmin
@@ -113,3 +113,10 @@ class TimelineEventAdmin(admin.ModelAdmin):
     search_fields = ('title', 'short_description', 'full_description')
     list_filter = ('event_time',)
     ordering = ('order_index',)
+
+
+@admin.register(HistoryResource)
+class HistoryResourceAdmin(admin.ModelAdmin):
+    list_display = ('title', 'resource_type', 'url', 'created_at')
+    search_fields = ('title', 'description')
+    list_filter = ('resource_type', 'created_at')

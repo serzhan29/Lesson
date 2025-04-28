@@ -69,6 +69,12 @@
                         <span>Хронология</span>
                     </a>
                 </li>
+                <li class="nav__item">
+                    <a href="{% url 'list_web' %}" class="nav__link">
+                        <i class="ri-arrow-right-up-line"></i>
+                        <span>Пайдалы</span>
+                    </a>
+                </li>
                 {% if user.is_authenticated %}
                 {% else %}
                     <li class="nav__item">

@@ -2,7 +2,7 @@ import os
 import uuid
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404
-from .models import Topic, Lesson, Task, CustomUser, URLinks, Film, TimelineEvent
+from .models import Topic, Lesson, Task, CustomUser, URLinks, Film, TimelineEvent, HistoryResource
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.core.files.storage import default_storage
@@ -235,6 +235,7 @@ def film_detail(request, film_id):
 
 
 class TimelineEventListView(ListView):
+    """ Хронология историй Казахстана """
     model = TimelineEvent
     template_name = 'main/info/hrono.html'
     context_object_name = 'events'
@@ -244,3 +245,18 @@ class TimelineEventListView(ListView):
         if order == 'desc':
             return ['-order_index']
         return ['order_index']
+
+
+class HistoryResourceListView(ListView):
+    """ Полезные сайты """
+    model = HistoryResource
+    template_name = 'main/info/list_web.html'
+    context_object_name = 'resources'
+    ordering = ['-created_at']
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        resource_type = self.request.GET.get('type')  # получаем параметр из URL
+        if resource_type in ['website', 'virtual_tour']:
+            queryset = queryset.filter(resource_type=resource_type)
+        return queryset

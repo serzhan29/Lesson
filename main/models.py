@@ -175,6 +175,7 @@ class Episode(models.Model):
 
 
 class TimelineEvent(models.Model):
+    """ Хронология """
     title = models.CharField(max_length=255, verbose_name="Название события")
     short_description = models.CharField(max_length=500, verbose_name="Краткое описание", blank=True)
     full_description = models.TextField(verbose_name="Полное описание события", blank=True)
@@ -191,3 +192,20 @@ class TimelineEvent(models.Model):
 
     def __str__(self):
         return f"{self.title} ({self.event_time})"
+
+
+class HistoryResource(models.Model):
+    """ Полезные сайты для изучения историй Казахстана """
+    RESOURCE_TYPE_CHOICES = [
+        ('website', 'Интернет-сайт'),
+        ('virtual_tour', 'Виртуальный тур'),
+    ]
+
+    title = models.CharField(max_length=255, verbose_name="Название")
+    description = models.TextField(verbose_name="Описание", blank=True)
+    url = models.URLField(verbose_name="Ссылка")
+    resource_type = models.CharField(max_length=20, choices=RESOURCE_TYPE_CHOICES, verbose_name="Тип ресурса")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата добавления")
+
+    def __str__(self):
+        return self.title
