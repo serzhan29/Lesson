@@ -17,7 +17,10 @@
 .nav__item--mobile {
   display: none;
 }
-
+    body {
+        font-family:  sans-serif;
+        background: linear-gradient(to bottom right, #f0f4f7, #e8ecf0);
+    }
 /* Показываем элемент только на мобильных устройствах */
 @media (max-width: 768px) {
   .nav__item--mobile {
@@ -37,14 +40,6 @@
                         <span>Дәрістер</span>
                     </a>
                 </li>
-                {% if user.is_superuser %}
-                <li class="nav__item">
-                    <a href="{% url 'admin:index' %}" class="nav__link">
-                        <i class="ri-arrow-right-up-line"></i>
-                        <span>Админка</span>
-                    </a>
-                </li>
-                {% endif %}
                 <li class="nav__item">
                     <a href="{% url 'map' %}" class="nav__link">
                         <i class="ri-arrow-right-up-line"></i>
@@ -72,7 +67,13 @@
                 <li class="nav__item">
                     <a href="{% url 'list_web' %}" class="nav__link">
                         <i class="ri-arrow-right-up-line"></i>
-                        <span>Пайдалы</span>
+                        <span>Сайттар</span>
+                    </a>
+                </li>
+                <li class="nav__item">
+                    <a href="{% url 'glossary' %}" class="nav__link">
+                        <i class="ri-arrow-right-up-line"></i>
+                        <span>Глоссарий</span>
                     </a>
                 </li>
                 {% if user.is_authenticated %}

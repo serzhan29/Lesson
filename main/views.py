@@ -2,7 +2,7 @@ import os
 import uuid
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404
-from .models import Topic, Lesson, Task, CustomUser, URLinks, Film, TimelineEvent, HistoryResource
+from .models import Topic, Lesson, Task, CustomUser, URLinks, Film, TimelineEvent, HistoryResource, GlossaryTerm
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.core.files.storage import default_storage
@@ -17,6 +17,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import DetailView, ListView, TemplateView, View
 from django.core.exceptions import SuspiciousOperation
 from django.core.paginator import Paginator
+from django.db.models import Q
 
 
 class CustomLoginView(LoginView):
@@ -260,3 +261,29 @@ class HistoryResourceListView(ListView):
         if resource_type in ['website', 'virtual_tour']:
             queryset = queryset.filter(resource_type=resource_type)
         return queryset
+
+
+def glossary_list(request):
+    query = request.GET.get('q')
+    category = request.GET.get('category')
+
+    glossary_terms = GlossaryTerm.objects.all()
+
+    if query:
+        glossary_terms = glossary_terms.filter(
+            Q(title__icontains=query) | Q(definition__icontains=query)
+        )
+
+    if category:
+        glossary_terms = glossary_terms.filter(category__iexact=category)
+
+    categories = GlossaryTerm.objects.values_list('category', flat=True)
+    categories = list(set(cat.strip() for cat in categories if cat))  # Удаляем пробелы и None
+    categories.sort()
+
+    return render(request, 'main/info/glossary_list.html', {
+        'glossary_terms': glossary_terms,
+        'categories': categories,
+        'current_category': category,
+        'search_query': query,
+    })

@@ -12,6 +12,11 @@
                 <a href="{% url 'books' %}">Тарихи факт</a>
                 <a href="{% url 'project' %}">Жоба</a>
                 <a href="{% url 'author' %}">Автор</a>
+                {% if user.is_superuser %}
+                    <a href="{% url 'admin:index' %}">
+                        Админка
+                    </a>
+                {% endif %}
             </div>
         </div>
     </div>

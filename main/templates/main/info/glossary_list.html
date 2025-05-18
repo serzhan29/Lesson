@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<style>
+    body {
+        font-family:  sans-serif;
+        background: linear-gradient(to bottom right, #f0f4f7, #e8ecf0);
+    }
+
+    .glossary-container {
+        max-width: 1000px;
+        margin: auto;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        padding: 30px;
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+    }
+    .filters {
+    text-align: center;
+    margin-bottom: 30px;
+    }
+
+    .filters-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .filter-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .filter-btn {
+        padding: 8px 14px;
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 20px;
+        text-decoration: none;
+        font-size: 14px;
+        transition: background-color 0.2s ease;
+        box-shadow: 0 2px 6px rgba(0, 123, 255, 0.2);
+    }
+
+    .filter-btn:hover {
+        background-color: #0056b3;
+    }
+
+
+    .search-bar {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 25px;
+    }
+
+    .search-bar input {
+        width: 70%;
+        padding: 10px 15px;
+        border-radius: 8px 0 0 8px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+        outline: none;
+    }
+
+    .search-bar button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 0 8px 8px 0;
+        background-color: #007bff;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .term {
+        background: #f9f9f9;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-left: 6px solid #007bff;
+        border-radius: 8px;
+        transition: 0.3s ease;
+    }
+
+    .term:hover {
+        background-color: #f1f1f1;
+    }
+
+    .term h3 {
+        margin: 0;
+        color: #222;
+    }
+
+    .category {
+        font-size: 0.9em;
+        color: #666;
+        margin-bottom: 10px;
+    }
+
+    .term p {
+        margin: 0;
+        color: #333;
+        line-height: 1.5;
+    }
+
+    .no-results {
+        text-align: center;
+        color: #999;
+        font-size: 18px;
+        margin-top: 50px;
+    }
+</style>
+
+<div class="glossary-container">
+    <h1>Қазақстан тарихы бойынша глоссарий</h1>
+
+    <form method="get" class="search-bar">
+        <input type="text" name="q" placeholder="Сөз немесе анықтаманы енгізіңіз..." value="{{ search_query|default_if_none:'' }}">
+        <button type="submit">Іздеу</button>
+    </form>
+
+    <div class="filters">
+        <div class="filters-title">Санаттар:</div>
+        <div class="filter-buttons">
+            <a href="{% url 'glossary' %}" class="filter-btn">Барлығы</a>
+            {% for cat in categories %}
+                {% if cat %}
+                    <a href="?category={{ cat }}" class="filter-btn">{{ cat }}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+
+    {% for term in glossary_terms %}
+        <div class="term">
+            <h3>{{ term.title }}</h3>
+            <div class="category">Санаты: {{ term.category }}</div>
+            <p>{{ term.definition }}</p>
+        </div>
+    {% empty %}
+        <p class="no-results">Сұраныс бойынша ештеңе табылмады.</p>
+    {% endfor %}
+</div>
+{% endblock %}

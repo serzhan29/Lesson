@@ -24,4 +24,5 @@ urlpatterns = [
 
     path('hrono', views.TimelineEventListView.as_view(), name='hrono'),
     path('resources/', views.HistoryResourceListView.as_view(), name='list_web'),
+    path('glossary/', views.glossary_list, name='glossary'),
 ]

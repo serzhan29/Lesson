@@ -209,3 +209,20 @@ class HistoryResource(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class GlossaryTerm(models.Model):
+    """ Глоссарий """
+    title = models.CharField("Термин", max_length=200, unique=True)
+    definition = models.TextField("Определение")
+    category = models.CharField("Категория", max_length=100, blank=True)
+
+
+    class Meta:
+        verbose_name = "Термин глоссария"
+        verbose_name_plural = "Глоссарий"
+        ordering = ['title']
+
+    def __str__(self):
+        return self.title
+

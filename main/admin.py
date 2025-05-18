@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Topic, Lesson, Task, URLinks, Film, CustomUser, Episode, TimelineEvent, HistoryResource
+from openpyxl.styles.builtins import title
+
+from .models import Topic, Lesson, Task, URLinks, Film, CustomUser, Episode, TimelineEvent, HistoryResource, GlossaryTerm
 from django import forms
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django.contrib.auth.admin import UserAdmin
@@ -120,3 +122,9 @@ class HistoryResourceAdmin(admin.ModelAdmin):
     list_display = ('title', 'resource_type', 'url', 'created_at')
     search_fields = ('title', 'description')
     list_filter = ('resource_type', 'created_at')
+
+
+@admin.register(GlossaryTerm)
+class GlossaryTermAdmin(admin.ModelAdmin):
+    list_display = ('title' , 'category')
+    list_display_links = ('title', 'category')
