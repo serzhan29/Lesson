@@ -2,60 +2,121 @@
 
 {% block content %}
 <style>
-  /* Заголовок */
   .page-title {
     color: #2c3e50;
     text-align: center;
-    margin: 2rem 0;
+    margin: 2rem 0 1rem 0;
     font-weight: 700;
+    font-size: 2.2rem;
   }
 
-  /* Список тем */
+  .search-box {
+    max-width: 500px;
+    margin: 0 auto 2rem auto;
+  }
+
+  .search-box input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 2rem;
+    font-size: 1rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+
+  .search-box input:focus {
+    border-color: #0d6efd;
+    outline: none;
+    box-shadow: 0 0 0 0.25rem rgba(13,110,253,0.2);
+  }
+
+  .topics-container {
+    max-height: 1000px;
+    overflow-y: auto;
+    padding-right: 10px;
+  }
+
   .topics-list {
-    max-width: 1000px;
-    margin: 0 auto 3rem auto;
+    max-width: 1500px;
+    margin: 0 auto;
     padding: 0;
     list-style: none;
   }
 
   .topics-list li {
     margin-bottom: 1rem;
+    transition: transform 0.2s ease;
   }
 
-  /* Ссылка на тему */
+  .topics-list li:hover {
+    transform: scale(1.02);
+  }
+
   .topics-list a {
     display: block;
     padding: 1rem 1.5rem;
-    background-color: #f8f9fa;
-    border-radius: 0.5rem;
-    color: #0d6efd; /* Bootstrap primary color */
+    background: linear-gradient(to right, #f8f9fa, #e9ecef);
+    border-radius: 0.75rem;
+    color: #0d6efd;
     text-decoration: none;
-    font-weight: 500;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    transition: background-color 0.3s, box-shadow 0.3s;
+    font-weight: 600;
+    font-size: 1.05rem;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+    transition: background 0.3s, box-shadow 0.3s;
   }
 
   .topics-list a:hover,
   .topics-list a:focus {
-    background-color: #e7f1ff;
-    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
-    text-decoration: none;
+    background: linear-gradient(to right, #e7f1ff, #dbeafe);
+    box-shadow: 0 5px 12px rgba(13, 110, 253, 0.2);
+  }
+
+  @media (max-width: 768px) {
+    .page-title {
+      font-size: 1.7rem;
+    }
+
+    .topics-list a {
+      font-size: 1rem;
+      padding: 0.75rem 1rem;
+    }
   }
 </style>
 
-<div class="container py-3">
+<div class="container py-4">
   <h1 class="page-title">Тақырыптар тізімі</h1>
 
-  <ul class="topics-list">
-    {% for topic in topics %}
-      <li>
-        <a href="{% url 'topic_detail' topic.pk %}">
-          {{ topic.title }}
-        </a>
-      </li>
-    {% empty %}
-      <li>Тақырыптар табылмады.</li>
-    {% endfor %}
-  </ul>
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Іздеу...">
+  </div>
+
+  <div class="topics-container">
+    <ul class="topics-list" id="topicsList">
+      {% for topic in topics %}
+        <li>
+          <a href="{% url 'topic_detail' topic.pk %}">
+            {{ topic.title }}
+          </a>
+        </li>
+      {% empty %}
+        <li>Тақырыптар табылмады.</li>
+      {% endfor %}
+    </ul>
+  </div>
 </div>
+
+<script>
+  const searchInput = document.getElementById('searchInput');
+  const topicsList = document.getElementById('topicsList');
+  const listItems = topicsList.getElementsByTagName('li');
+
+  searchInput.addEventListener('input', function () {
+    const filter = this.value.toLowerCase();
+    for (let item of listItems) {
+      const text = item.textContent.toLowerCase();
+      item.style.display = text.includes(filter) ? '' : 'none';
+    }
+  });
+</script>
 {% endblock %}
