@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  /* Заголовок */
+  .page-title {
+    color: #2c3e50;
+    text-align: center;
+    margin: 2rem 0;
+    font-weight: 700;
+  }
+
+  /* Список тем */
+  .topics-list {
+    max-width: 1000px;
+    margin: 0 auto 3rem auto;
+    padding: 0;
+    list-style: none;
+  }
+
+  .topics-list li {
+    margin-bottom: 1rem;
+  }
+
+  /* Ссылка на тему */
+  .topics-list a {
+    display: block;
+    padding: 1rem 1.5rem;
+    background-color: #f8f9fa;
+    border-radius: 0.5rem;
+    color: #0d6efd; /* Bootstrap primary color */
+    text-decoration: none;
+    font-weight: 500;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+  }
+
+  .topics-list a:hover,
+  .topics-list a:focus {
+    background-color: #e7f1ff;
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+    text-decoration: none;
+  }
+</style>
+
+<div class="container py-3">
+  <h1 class="page-title">Тақырыптар тізімі</h1>
+
+  <ul class="topics-list">
+    {% for topic in topics %}
+      <li>
+        <a href="{% url 'topic_detail' topic.pk %}">
+          {{ topic.title }}
+        </a>
+      </li>
+    {% empty %}
+      <li>Тақырыптар табылмады.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

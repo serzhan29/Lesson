@@ -34,23 +34,26 @@
         color: #333;
     }
 
-    .filter-buttons {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
-    }
+        .filter-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+        }
 
-    .filter-btn {
-        padding: 8px 14px;
-        background-color: #007bff;
-        color: #fff;
-        border-radius: 20px;
-        text-decoration: none;
-        font-size: 14px;
-        transition: background-color 0.2s ease;
-        box-shadow: 0 2px 6px rgba(0, 123, 255, 0.2);
-    }
+        .filter-btn {
+            flex: 1 1 120px;
+            max-width: 150px;
+            text-align: center;
+            padding: 10px 14px;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background-color 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0, 123, 255, 0.2);
+            white-space: nowrap;
+        }
 
     .filter-btn:hover {
         background-color: #0056b3;
@@ -117,6 +120,47 @@
         color: #999;
         font-size: 18px;
         margin-top: 50px;
+    }
+        /* Мобильная адаптация */
+    @media (max-width: 768px) {
+        .glossary-container {
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 22px;
+        }
+
+        .search-bar {
+            flex-direction: column;
+        }
+
+        .search-bar input,
+        .search-bar button {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .filter-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+        }
+
+        .filter-btn {
+            flex: 1 1 120px;
+            max-width: 150px;
+            text-align: center;
+            padding: 10px 14px;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background-color 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0, 123, 255, 0.2);
+            white-space: nowrap;
+        }
     }
 </style>
 

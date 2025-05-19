@@ -76,24 +76,19 @@
                         <span>Глоссарий</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{% url 'list_topic' %}" class="nav__link">
+                        <span>БӨЖ</span>
+                    </a>
+                </li>
                 {% if user.is_authenticated %}
                 {% else %}
-                    <li class="nav__item">
-                        <a href="{% url 'register' %}" class="nav__link">
-                            <span>Тіркелу</span>
-                        </a>
-                    </li>
                     <li class="nav__item">
                         <a href="{% url 'login' %}" class="nav__link">
                             <span>Кіру</span>
                         </a>
                     </li>
                 {% endif %}
-                    <li class="nav__item">
-                        <a href="{% url 'profile' %}" class="nav__link">
-                            <span>Профиль</span>
-                        </a>
-                    </li>
                 {% if user.is_authenticated %}
                     <li class="nav__item nav__item--mobile">
                         <a href="{% url 'logout' %}" class="nav__link" style="color:red;">Шығу</a>

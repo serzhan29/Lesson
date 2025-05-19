@@ -2,7 +2,8 @@ import os
 import uuid
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404
-from .models import Topic, Lesson, Task, CustomUser, URLinks, Film, TimelineEvent, HistoryResource, GlossaryTerm
+from .models import Topic, Lesson, Task, CustomUser, URLinks, Film, TimelineEvent, HistoryResource, GlossaryTerm, \
+    TopicName, TaskName
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.core.files.storage import default_storage
@@ -287,3 +288,14 @@ def glossary_list(request):
         'current_category': category,
         'search_query': query,
     })
+
+# Список всех тем
+def list_topic(request):
+    topics = TopicName.objects.all()
+    return render(request, 'main/page/list_topic.html', {'topics': topics})
+
+# Детали одной темы + все ее тапсырмы
+def topic_detail(request, pk):
+    topic = get_object_or_404(TopicName, pk=pk)
+    tasks = topic.tasks.all()  # благодаря related_name="tasks"
+    return render(request, 'main/page/topic_detail.html', {'topic': topic, 'tasks': tasks})

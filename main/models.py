@@ -226,3 +226,24 @@ class GlossaryTerm(models.Model):
     def __str__(self):
         return self.title
 
+
+# Модель Темы
+class TopicName(models.Model):
+    title = models.CharField("Название темы", max_length=255)
+
+    def __str__(self):
+        return self.title
+
+# Модель Тапсырмы
+class TaskName(models.Model):
+    topic = models.ForeignKey(TopicName, related_name="tasks", on_delete=models.CASCADE)
+    number = models.PositiveIntegerField("Номер тапсырмы")
+    title = models.CharField("Название задания", max_length=255)
+    description = models.TextField("Описание или инструкции", blank=True)
+    image = models.ImageField("Рисунок (если есть)", upload_to='tasks/images/', blank=True, null=True)
+
+    class Meta:
+        ordering = ['number']
+
+    def __str__(self):
+        return f"{self.number}-тапсырма: {self.title}"
