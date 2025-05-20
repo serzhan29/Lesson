@@ -8,6 +8,7 @@
     text-align: center;
     margin-bottom: 2rem;
     font-weight: 700;
+    font-size: 2rem;
   }
 
   .task-card {
@@ -15,7 +16,7 @@
     border: none;
     border-radius: 1rem;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s;
   }
 
@@ -25,15 +26,17 @@
 
   .task-title {
     font-weight: 600;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     color: #34495e;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
   }
 
   .task-description {
     font-size: 1rem;
     color: #555;
+    margin-top: 0.5rem;
   }
 
   .task-image-container {
@@ -44,8 +47,10 @@
 
   .task-image {
     max-height: 300px;
+    width: 100%;
+    max-width: 100%;
     object-fit: contain;
-    border-radius: 0.3rem;
+    border-radius: 0.5rem;
     cursor: pointer;
     transition: 0.2s ease-in-out;
   }
@@ -62,36 +67,61 @@
   .modal-body {
     text-align: center;
   }
+
+  /* Адаптивные улучшения */
+  @media (max-width: 576px) {
+    .topic-title {
+      font-size: 1.5rem;
+    }
+
+    .task-title {
+      font-size: 1.1rem;
+    }
+
+    .task-description {
+      font-size: 0.95rem;
+    }
+
+    .back-btn {
+      font-size: 0.9rem;
+    }
+  }
 </style>
 
-<div class="container py-5">
-  <a href="{% url 'list_topic' %}" class="btn btn-secondary back-btn">← Барлық тақырыптарға оралу</a>
+<div class="container py-4">
+  <a href="{% url 'list_topic' %}" class="btn btn-outline-secondary back-btn">← Барлық тақырыптарға оралу</a>
 
   <h1 class="topic-title">{{ topic.title }}</h1>
 
-  {% for task in tasks %}
-    <div class="card task-card">
-      <div class="card-body">
-        <h5 class="task-title">
-          <span class="badge bg-info text-dark me-2">{{ task.number }}-тапсырма</span>
-          {{ task.title }}
-        </h5>
-        {% if task.description %}
-          <p class="task-description">{{ task.description }}</p>
-        {% endif %}
-        {% if task.image %}
-          <div class="task-image-container">
-            <img src="{{ task.image.url }}" alt="Изображение" class="task-image img-fluid" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="openImageModal('{{ task.image.url }}')">
+  <div class="row">
+    {% for task in tasks %}
+      <div class="col-12">
+        <div class="card task-card">
+          <div class="card-body">
+            <h5 class="task-title">
+              <span class="badge bg-info text-dark me-2 mb-2 mb-sm-0">{{ task.number }}-тапсырма</span>
+              {{ task.title }}
+            </h5>
+
+            {% if task.description %}
+              <p class="task-description">{{ task.description }}</p>
+            {% endif %}
+
+            {% if task.image %}
+              <div class="task-image-container">
+                <img src="{{ task.image.url }}" alt="Изображение" class="task-image" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="openImageModal('{{ task.image.url }}')">
+              </div>
+            {% endif %}
           </div>
-        {% endif %}
+        </div>
       </div>
-    </div>
-  {% empty %}
-    <div class="alert alert-warning text-center">Бұл тақырыпқа арналған тапсырмалар жоқ.</div>
-  {% endfor %}
+    {% empty %}
+      <div class="alert alert-warning text-center">Бұл тақырыпқа арналған тапсырмалар жоқ.</div>
+    {% endfor %}
+  </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal for enlarged image -->
 <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
