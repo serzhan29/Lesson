@@ -7,18 +7,16 @@
   <style>
     html {
         box-sizing: border-box;
+
     }
     *, *:before, *:after {
         box-sizing: inherit;
     }
     body {
         background-attachment: fixed;
+        font-family:  sans-serif;
         font-weight: 200;
-        margin: 0;
         padding: 0;
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
     }
 
     .custom-menu {
@@ -185,10 +183,10 @@
     <div id="presentationModal2" class="modal">
         <div class="modal-content">
             <span class="close-button" id="closePresentationModal2">&times;</span>
-            <h5 class="modal-title">Презентация 2</h5>
+            <h5 class="modal-title">Презентация</h5>
             <div class="modal-body">
                 {% if lesson.presentation_urls %}
-                    <h6 class="task-title">Презентация 2:</h6>
+                    <h6 class="task-title">Презентация</h6>
                     <div class="task-content">{{ lesson.presentation_urls|safe }}</div>
                 {% else %}
                     <p>Бұл дәріс үшін презентациялар табылмады.</p>
