@@ -18,8 +18,9 @@
                       </a>
                       <div class="item-info">
                           <div class="year-badge">Лекция {{ lesson.number }} </div>
+                            <!-- Используйте фильтр safe для отображения HTML
                           <div class="year-badge" style="background: forestgreen; color: white" >ОБӨЖ </div>
-                          <div class="year-badge" style="background: yellow; color: black">Тапсырма </div>
+                          <div class="year-badge" style="background: yellow; color: black">Тапсырма </div> -->
                       </div>
                       <!-- Используйте фильтр safe для отображения HTML -->
                       <p style="color: white;">{{ lesson.short_description|safe }}</p>
