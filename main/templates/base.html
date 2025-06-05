@@ -13,7 +13,16 @@
     <title>ҚАЗАҚСТАН ТАРИХЫ</title>
 </head>
 <style>
-    /* По умолчанию скрываем элемент */
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+}
+
+
+
+/* По умолчанию скрываем элемент */
 .nav__item--mobile {
   display: none;
 }
@@ -81,14 +90,6 @@
                         <span>Сұрақтар</span>
                     </a>
                 </li>
-                {% if user.is_authenticated %}
-                {% else %}
-                    <li class="nav__item">
-                        <a href="{% url 'login' %}" class="nav__link">
-                            <span>Кіру</span>
-                        </a>
-                    </li>
-                {% endif %}
                 {% if user.is_authenticated %}
                     <li class="nav__item nav__item--mobile">
                         <a href="{% url 'logout' %}" class="nav__link" style="color:red;">Шығу</a>
