@@ -16,12 +16,12 @@
                       <a href="{% url 'lesson_detail' lesson.id %}">
                         <h3 class="black">{{ lesson.title }}</h3>
                       </a>
-                      <div class="item-info">
-                          <div class="year-badge">Лекция {{ lesson.number }} </div>
-                            <!-- Используйте фильтр safe для отображения HTML
+                     <!-- <div class="item-info">
+                             Используйте фильтр safe для отображения HTML
+                            <div class="year-badge">Лекция {{ lesson.number }} </div>
                           <div class="year-badge" style="background: forestgreen; color: white" >ОБӨЖ </div>
-                          <div class="year-badge" style="background: yellow; color: black">Тапсырма </div> -->
-                      </div>
+                          <div class="year-badge" style="background: yellow; color: black">Тапсырма </div>
+                      </div>-->
                       <!-- Используйте фильтр safe для отображения HTML -->
                       <p style="color: white;">{{ lesson.short_description|safe }}</p>
 
