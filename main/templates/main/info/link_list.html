@@ -3,157 +3,142 @@
 {% block title %}Тесттер тізімі{% endblock %}
 
 {% block content %}
+{% load static %}
+
 <style>
-    .quiz-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        min-height: 10vh;
-        text-align: center;
-        padding: 0 1rem;
-    }
+.quiz-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
 
+.quiz-page-title {
+    text-align: center;
+    font-size: 2.2rem;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.quiz-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.quiz-card {
+    background: #fff;
+    border: 2px solid #007bff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.quiz-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.quiz-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.quiz-card-header h3 {
+    font-size: 1.2rem;
+    margin: 0;
+    color: #222;
+}
+
+.quiz-icon {
+    font-size: 1.5rem;
+}
+
+.quiz-description {
+    font-size: 0.95rem;
+    color: #555;
+    margin: 10px 0;
+    flex-grow: 1;
+}
+
+.quiz-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.quiz-clicks {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.quiz-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background 0.3s;
+    display: inline-block;
+}
+
+.quiz-button:hover {
+    background-color: #0056b3;
+}
+
+.quiz-empty {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #777;
+    margin-top: 20px;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 600px) {
     .quiz-page-title {
-        font-size: 32px;
-        font-weight: bold;
-        margin-bottom: 20px;
+        font-size: 1.6rem;
     }
-
-    .quiz-grid {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 15px;
-        width: 100%;
-        max-width: 600px;
-    }
-
-    .quiz-card {
-        background: #ffffff;
-        border-radius: 12px;
-        padding: 20px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        text-align: left;
-        width: 100%;
-        border: 3px solid #007bff;
-        transition: transform 0.2s, box-shadow 0.3s;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        min-height: 150px;
-        position: relative;
-    }
-
-    .quiz-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .quiz-header {
-        font-size: 20px;
-        font-weight: bold;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .quiz-icon {
-        font-size: 24px;
-    }
-
-    .quiz-description {
-        font-size: 16px;
-        color: #555;
-        margin: 10px 0;
-    }
-
-    .quiz-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: auto;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-
     .quiz-button {
-        padding: 8px 16px;
-        background-color: #007bff;
-        color: #fff;
-        text-decoration: none;
-        border-radius: 5px;
-        font-weight: bold;
-        transition: background 0.3s;
-        cursor: pointer;
-        border: none;
+        width: 100%;
+        text-align: center;
     }
+}
 
-    .quiz-button:hover {
-        background-color: #0056b3;
-    }
-
-    .quiz-empty {
-        font-size: 18px;
-        color: #777;
-    }
-
-    /* ---------- Мобильная адаптация ---------- */
-    @media screen and (max-width: 600px) {
-        .quiz-page-title {
-            font-size: 24px;
-        }
-
-        .quiz-card {
-            padding: 15px;
-            min-height: auto;
-        }
-
-        .quiz-header {
-            font-size: 18px;
-        }
-
-        .quiz-description {
-            font-size: 14px;
-        }
-
-        .quiz-footer {
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .quiz-button {
-            width: 100%;
-            text-align: center;
-        }
-    }
 </style>
+
 
 <div class="quiz-container">
     <h2 class="quiz-page-title">📚 Тесттер тізімі</h2>
+    {% if links %}
     <div class="quiz-grid">
         {% for link in links %}
             <div class="quiz-card">
-                <div class="quiz-content">
-                    <div class="quiz-header">
-                        <span class="quiz-icon">📖</span> {{ link.title|default:"Тест" }}
-                    </div>
-                    <p class="quiz-description">Бұл тест арқылы сіз өз біліміңізді тексере аласыз.</p>
+                <div class="quiz-card-header">
+                    <span class="quiz-icon">📖</span>
+                    <h3>{{ link.title|default:"Тест" }}</h3>
                 </div>
                 <div class="quiz-footer">
                     {% if request.user.is_staff %}
-                        <span>🔢 Клики: <span id="click-count-{{ link.id }}">{{ link.clicks }}</span></span>
+                        <span class="quiz-clicks">🔢 Клики: <span id="click-count-{{ link.id }}">{{ link.clicks }}</span></span>
                     {% endif %}
                     <a href="{{ link.url }}" onclick="increaseClick({{ link.id }}, '{{ link.url }}');" class="quiz-button">
                         🔗 Өту
                     </a>
                 </div>
-
             </div>
-        {% empty %}
-            <p class="quiz-empty">Әзірге тесттер жоқ.</p>
         {% endfor %}
     </div>
+    {% else %}
+        <p class="quiz-empty">Әзірге тесттер жоқ.</p>
+    {% endif %}
 </div>
 
 <script>
@@ -169,12 +154,11 @@ function increaseClick(linkId, url) {
     .then(response => response.json())
     .then(data => {
         document.getElementById(`click-count-${linkId}`).textContent = data.clicks;
-        window.location.href = url;  // После обновления кликов перенаправляем
+        window.location.href = url;
     })
     .catch(error => console.error('Error:', error));
 }
 
-// Функция для получения CSRF-токена из cookies
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {

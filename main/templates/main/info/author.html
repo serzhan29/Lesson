@@ -2,55 +2,56 @@
 
 {% block content %}
 {% load static %}
-<head>
-    <!-- Подключение Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
-<link rel="stylesheet" type="text/css" href="{% static 'css/author.css' %}">
-<div class="portfolio">
-    <div class="portfolio-header">
-        {% if user.photo %}
-            <img src="{{ user.photo.url }}" alt="Author's Photo" class="author-photo">
-        {% else %}
-            <p>Фото жоқ</p> <!-- Можно заменить на изображение по умолчанию -->
-            <!-- <img src="{% static 'images/default_author_photo.jpg' %}" alt="Default Photo" class="author-photo"> -->
-        {% endif %}
-        <h2>{{ user.first_name }} {{ user.last_name }}</h2>
-        <p class="title">Тарих ғылымдарының PhD докторы</p>
+
+<link rel="stylesheet" href="{% static 'css/author.css' %}">
+
+<div class="author-container">
+  <header class="author-header">
+    <h1>Авторлар туралы</h1>
+    <p class="author-subtitle">Басты автор және оның командасы</p>
+  </header>
+
+  <section class="author-main">
+    <div class="author-card">
+      <div class="author-photo">
+        <i class="fa fa-user-circle"></i>
+      </div>
+      <div class="author-info">
+        <h2>Исаев Мухтар Сеитханулы</h2>
+        <p class="author-role">PhD, Тарих ғылымдарының докторы</p>
+        <p class="author-description">
+          Қазақстан тарихы саласында 15 жылдан астам еңбек өтілі бар зерттеуші.
+        </p>
+      </div>
     </div>
+  </section>
 
-    <div class="portfolio-content">
-        <div class="section">
-            <h3>Жеке мәліметтер</h3>
-            <p><strong>Туған күн:</strong> {{ user.birth_date|date:"d F, Y" }}</p>
-            <p><strong>Телефон нөмірі:</strong> {{ user.phone_number }}</p>
-            <p><strong>Электронды пошта:</strong> {{ user.email }}</p>
-        </div>
-
-        <div class="section">
-            <h3>Білімі</h3>
-            <p><strong>PhD, Тарих ғылымдары</strong> — ҚазҰУ, 2010</p>
-            <p><strong>Магистр, Тарих</strong> — ЕҰУ, 2005</p>
-        </div>
-
-        <div class="section">
-            <h3>Жұмыс тәжірибесі</h3>
-            <ul>
-                <li><strong> Профессор</strong>, Тарих факультеті, ҚазҰУ (2015 - қазіргі уақытқа дейін)</li>
-                <li><strong> Аға оқытушы</strong>, ЕҰУ (2010 - 2015)</li>
-            </ul>
-        </div>
-
-        <div class="section">
-            <h3>Мамандық және Дағдылар</h3>
-            <ul class="skills">
-                <li>Тарих ғылымдары</li>
-                <li>Зерттеу жұмыстары</li>
-                <li>Дәріс оқу</li>
-                <li>Ғылыми мақалалар жазу</li>
-            </ul>
-        </div>
-        <div class="section">
+  <section class="author-section">
+    <h3>Соавторлар</h3>
+    <div class="coauthors">
+      <div class="coauthor-card">Сандыбаева Акмарал Даировна</div>
+      <div class="coauthor-card">Динашева Лазат Сарсенбековна</div>
+      <div class="coauthor-card">Мырзабеков Ержан Есилбекович</div>
+      <div class="coauthor-card">Аманов Ануарбек Нурсейтович</div>
     </div>
+  </section>
+
+  <section class="author-section">
+    <h3>Жұмыс тәжірибесі</h3>
+    <ul class="experience-list">
+      <li><strong>Профессор</strong>, Тарих факультеті, ҚазҰУ (2015 - қазіргі уақытқа дейін)</li>
+      <li><strong>Аға оқытушы</strong>, ЕҰУ (2010 - 2015)</li>
+    </ul>
+  </section>
+
+  <section class="author-section">
+    <h3>Мамандық және Дағдылар</h3>
+    <div class="skills-list">
+      <span class="skill-badge">Тарих ғылымдары</span>
+      <span class="skill-badge">Зерттеу жұмыстары</span>
+      <span class="skill-badge">Дәріс оқу</span>
+      <span class="skill-badge">Ғылыми мақалалар жазу</span>
+    </div>
+  </section>
 </div>
 {% endblock %}
