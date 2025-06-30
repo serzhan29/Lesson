@@ -30,12 +30,20 @@ class CustomLoginView(LoginView):
 
 # Регистрация пользователя
 def register(request):
-    """ Регистрация """
+    """ Регистрация с автоматическим входом """
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('login')
+            # Сохраняем нового пользователя
+            user = form.save()
+
+            # Аутентифицируем пользователя
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=user.username, password=raw_password)
+
+            if user is not None:
+                login(request, user)
+                return redirect('topic_list')
     else:
         form = CustomUserCreationForm()
     return render(request, 'main/registration/register.html', {'form': form})
