@@ -28,4 +28,7 @@ urlpatterns = [
 
     path('topics/', views.list_topic, name='list_topic'),
     path('topics/<int:pk>/', views.topic_detail, name='topic_detail'),
+
+    # add
+    path('videos/', views.lesson_videos, name='lesson_videos'),
 ]

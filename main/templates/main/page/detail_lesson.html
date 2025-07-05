@@ -31,6 +31,43 @@
         border-radius: 20px;
     }
 
+    .video-cards {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center; /* чтобы по центру */
+    }
+
+    .video-card {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        flex: 1 1 300px; /* минимальная ширина 300px, растягивается по мере возможности */
+        max-width: 400px; /* ограничение максимальной ширины */
+    }
+
+    .video-card:hover {
+        transform: scale(1.03);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .video-card iframe {
+        width: 100%;
+        height: 200px;
+        border: none;
+        display: block;
+    }
+
+    .video-caption {
+        padding: 10px;
+        text-align: center;
+        font-weight: 500;
+        font-size: 15px;
+    }
+
     /* Desktop version: Menu on the right center */
     @media (min-width: 992px) {
         .custom-menu {
@@ -203,20 +240,52 @@
         </div>
     </div>
 
-    <!-- Модальное окно для видео -->
-    <div id="videoModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" id="closeVideoModal">&times;</span>
-            <h5 class="modal-title">Видеоурок</h5>
-            <div class="modal-body">
-                {% if lesson.video_url %}
-                    <iframe width="100%" height="500" src="{{ lesson.video_url }}" frameborder="0" allowfullscreen></iframe>
-                {% else %}
-                    <p>Видео не было добавлено.</p>
-                {% endif %}
-            </div>
+<div id="videoModal" class="modal">
+    <div class="modal-content">
+        <span class="close-button" id="closeVideoModal">&times;</span>
+        <h5 class="modal-title">Видеоурок</h5>
+        <div class="modal-body">
+            {% if lesson.video_url or lesson.video_2 or lesson.video_3 or lesson.video_4 or lesson.video_5 %}
+                <div class="video-cards">
+                    {% if lesson.video_url %}
+                        <div class="video-card">
+                            <iframe src="{{ lesson.video_url }}" allowfullscreen></iframe>
+                            <div class="video-caption">Видео 1</div>
+                        </div>
+                    {% endif %}
+                    {% if lesson.video_2 %}
+                        <div class="video-card">
+                            <iframe src="{{ lesson.video_2 }}" allowfullscreen></iframe>
+                            <div class="video-caption">Видео 2</div>
+                        </div>
+                    {% endif %}
+                    {% if lesson.video_3 %}
+                        <div class="video-card">
+                            <iframe src="{{ lesson.video_3 }}" allowfullscreen></iframe>
+                            <div class="video-caption">Видео 3</div>
+                        </div>
+                    {% endif %}
+                    {% if lesson.video_4 %}
+                        <div class="video-card">
+                            <iframe src="{{ lesson.video_4 }}" allowfullscreen></iframe>
+                            <div class="video-caption">Видео 4</div>
+                        </div>
+                    {% endif %}
+                    {% if lesson.video_5 %}
+                        <div class="video-card">
+                            <iframe src="{{ lesson.video_5 }}" allowfullscreen></iframe>
+                            <div class="video-caption">Видео 5</div>
+                        </div>
+                    {% endif %}
+                </div>
+            {% else %}
+                <p>Видео не было добавлено.</p>
+            {% endif %}
         </div>
     </div>
+</div>
+
+
 
     <!-- Модальное окно для вопросов -->
     <div id="questionModal" class="modal">

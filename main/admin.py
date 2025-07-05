@@ -37,7 +37,8 @@ class LessonAdmin(admin.ModelAdmin):
     # Перечисляем поля, которые будут отображаться в админке в правильном формате
     fields = ('title', 'topic', 'number', 'short_description', 'description', 'question','glossary', 'video',
               'photo', 'audio',
-              'presentation','url', 'presentation_url', 'presentation_urls', 'video_url',
+              'presentation','url', 'presentation_url', 'presentation_urls',
+              'video_url', 'video_2', 'video_3', 'video_4', 'video_5'
               )
 
 

@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+/* Общий стиль */
+.page-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin: 40px 0 20px;
+    color: #333;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Заголовок лекции */
+.lesson-title {
+    text-align: center;
+    margin: 40px 0 20px;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+.lesson-title a {
+    text-decoration: none;
+    color: #2c3e50;
+    transition: color 0.3s ease;
+}
+.lesson-title a:hover {
+    color: #3498db;
+    text-decoration: underline;
+}
+
+/* Горизонтальная прокрутка */
+.video-scroll {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding-bottom: 10px;
+    scroll-snap-type: x mandatory;
+}
+
+.video-scroll::-webkit-scrollbar {
+    height: 10px;
+}
+
+.video-scroll::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 5px;
+}
+
+.video-card {
+    flex: 0 0 500px; /* Увеличиваем ширину карточки */
+    background: #fff;
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    scroll-snap-align: start;
+}
+
+.video-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.video-frame,
+.video-card video {
+    width: 100%;
+    height: 280px; /* Увеличиваем высоту */
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease;
+}
+
+.video-frame:hover,
+.video-card video:hover {
+    transform: scale(1.02);
+}
+</style>
+
+{% if lessons %}
+    {% regroup lessons by topic as topic_groups %}
+
+    {% for group in topic_groups %}
+        {% for lesson in group.list %}
+            <h3 class="lesson-title">
+                <a href="{% url 'lesson_detail' lesson.id %}">{{ lesson.title }}</a>
+            </h3>
+
+
+            <div class="video-scroll">
+                {% if lesson.video %}
+                    <div class="video-card">
+                        <video controls>
+                            <source src="{{ lesson.video.url }}">
+                            Сіздің браузеріңіз бейнені ойната алмайды.
+                        </video>
+                    </div>
+                {% endif %}
+
+                {% if lesson.video_url %}
+                    <div class="video-card">
+                        <iframe class="video-frame" src="{{ lesson.video_url }}" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                {% endif %}
+
+                {% if lesson.video_2 %}
+                    <div class="video-card">
+                        <iframe class="video-frame" src="{{ lesson.video_2 }}" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                {% endif %}
+
+                {% if lesson.video_3 %}
+                    <div class="video-card">
+                        <iframe class="video-frame" src="{{ lesson.video_3 }}" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                {% endif %}
+
+                {% if lesson.video_4 %}
+                    <div class="video-card">
+                        <iframe class="video-frame" src="{{ lesson.video_4 }}" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                {% endif %}
+
+                {% if lesson.video_5 %}
+                    <div class="video-card">
+                        <iframe class="video-frame" src="{{ lesson.video_5 }}" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% endfor %}
+{% else %}
+    <p>Қазіргі уақытта бейне дәрістер жоқ.</p>
+{% endif %}
+{% endblock %}

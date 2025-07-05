@@ -126,6 +126,23 @@ def lesson_detail(request, lesson_id):
     })
 
 
+def lesson_videos(request):
+    """
+    Страница, где показываются только лекции, у которых есть хотя бы одно видео.
+    """
+    lessons_with_videos = Lesson.objects.filter(
+        Q(video__isnull=False) & ~Q(video='') |
+        Q(video_url__isnull=False) & ~Q(video_url='') |
+        Q(video_2__isnull=False) & ~Q(video_2='') |
+        Q(video_3__isnull=False) & ~Q(video_3='') |
+        Q(video_4__isnull=False) & ~Q(video_4='') |
+        Q(video_5__isnull=False) & ~Q(video_5='')
+    ).select_related('topic').order_by('topic__name', 'number')
+
+    return render(request, 'main/add/lesson_videos.html', {
+        'lessons': lessons_with_videos
+    })
+
 
 
 @login_required

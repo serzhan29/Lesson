@@ -114,10 +114,7 @@ a {
 }
 
 /*=============== REUSABLE CSS CLASSES ===============*/
-.container {
-  max-width: 2000px;
-  margin-inline: 1.5rem;
-}
+
 
 /*=============== HEADER & NAV ===============*/
 .header {
