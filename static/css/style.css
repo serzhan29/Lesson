@@ -58,18 +58,29 @@ nav, footer{
 }
 
 
-nav .nav-links,
-footer .copyright{
+nav .nav-links {
     position: fixed;
-    left: 50%;
+    left: 0;
     transform: translateX(-50%);
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     padding: 5px 10px;
     background: white;
     gap: 30px;
     border-radius: 30px;
+
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    max-width: 90vw; /* ограничим ширину экрана */
+    scrollbar-width: none; /* убрать скролл (Firefox) */
 }
+
+/* Скрыть скроллбар (Chrome, Safari) */
+nav .nav-links::-webkit-scrollbar {
+    display: none;
+}
+
 
 /*========== Responsive typography ==========*/
 @media screen and (min-width: 1150px) {
@@ -104,7 +115,7 @@ a {
 
 /*=============== REUSABLE CSS CLASSES ===============*/
 .container {
-  max-width: 1120px;
+  max-width: 2000px;
   margin-inline: 1.5rem;
 }
 
