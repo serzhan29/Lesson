@@ -2,7 +2,27 @@
 
 {% block content %}
 {% load static %}
+<link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'css/list.css' %}">
+<style>
+body,
+h1, h2, h3, h4, h5, h6,
+p,
+a,
+button,
+*,
+.btn,
+.form-select,
+.card,
+.pagination,
+label,
+input,
+select,
+option {
+  font-family: "Montserrat Alternates", sans-serif !important;
+}
+
+</style>
 {% if lessons %}
     {% for lesson in lessons %}
     <body class="white">
