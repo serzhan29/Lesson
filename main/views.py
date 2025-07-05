@@ -1,4 +1,5 @@
 import os
+import locale
 import uuid
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404
@@ -271,6 +272,8 @@ class HistoryResourceListView(ListView):
             queryset = queryset.filter(resource_type=resource_type)
         return queryset
 
+locale.setlocale(locale.LC_ALL, 'kk_KZ.UTF-8')
+
 
 def glossary_list(request):
     query = request.GET.get('q')
@@ -286,9 +289,12 @@ def glossary_list(request):
     if category:
         glossary_terms = glossary_terms.filter(category__iexact=category)
 
+    # Получаем уникальные категории без пробелов и пустых значений
     categories = GlossaryTerm.objects.values_list('category', flat=True)
-    categories = list(set(cat.strip() for cat in categories if cat))  # Удаляем пробелы и None
-    categories.sort()
+    categories = list(set(cat.strip() for cat in categories if cat))
+
+    # Сортируем с учётом казахского алфавита
+    categories.sort(key=locale.strxfrm)
 
     return render(request, 'main/info/glossary_list.html', {
         'glossary_terms': glossary_terms,
