@@ -4,7 +4,8 @@ import uuid
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404
 from .models import (Topic, Lesson, Task, CustomUser, URLinks,
-                     Film, TimelineEvent, HistoryResource, GlossaryTerm, TopicName, TaskName, IWS, Textbook)
+                     Film, TimelineEvent, HistoryResource, GlossaryTerm,
+                     TopicName, TaskName, IWS, Textbook, ExamQuestion)
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.core.files.storage import default_storage
@@ -350,3 +351,16 @@ def iws(request):
     page_obj = paginator.get_page(page_number)
 
     return render(request, 'main/add/iws.html', {'page_obj': page_obj})
+
+
+def exam(request):
+    exam = ExamQuestion.objects.all().order_by('number')
+    paginator = Paginator(exam, 10)
+    page_number = request.GET.get('page')
+
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'main/add/exam.html', {'page_obj': page_obj})
+
+
+def all_question(request):
+    return render(request, 'main/add/all_question.html')
