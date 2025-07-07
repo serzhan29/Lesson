@@ -2,7 +2,8 @@ from django.contrib import admin
 from openpyxl.styles.builtins import title
 
 from .models import (Topic, Lesson, Task, URLinks, Film, CustomUser,
-                     Episode, TimelineEvent, HistoryResource, GlossaryTerm, TaskName, TopicName, IWS, Textbook)
+                     Episode, TimelineEvent, HistoryResource, GlossaryTerm,
+                     TaskName, TopicName, IWS, Textbook, ExamQuestion)
 from django import forms
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django.contrib.auth.admin import UserAdmin
@@ -169,5 +170,11 @@ class TaskNameAdmin(admin.ModelAdmin):
 
 @admin.register(IWS)
 class IWSAdmin(admin.ModelAdmin):
+    list_display = ['number', 'name']
+    list_display_links = ['number', 'name']
+
+
+@admin.register(ExamQuestion)
+class ExamQuestionAdmin(admin.ModelAdmin):
     list_display = ['number', 'name']
     list_display_links = ['number', 'name']

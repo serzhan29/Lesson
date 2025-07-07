@@ -34,4 +34,7 @@ urlpatterns = [
     path('iws/', views.iws, name='iws' ),
     path('textbooks/', views.textbook_list, name='textbook_list'),
     path('textbooks/<int:pk>/', views.textbook_detail, name='textbook_detail'),
+    path('exam/', views.exam, name='exam'),
+
+    path('all_question/', views.all_question, name='all_question'),
 ]

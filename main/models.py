@@ -284,3 +284,15 @@ class IWS(models.Model):
     class Meta:
         verbose_name = 'БӨЖ тақырыптары'
         verbose_name_plural = 'БӨЖ тақырыптары'
+
+
+class ExamQuestion(models.Model):
+    number = models.IntegerField(blank=True, null=True)
+    name = models.CharField(max_length=255, )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Емтихан сұрақтары'
+        verbose_name_plural = 'Емтихан сұрақтары'
