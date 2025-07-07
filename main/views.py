@@ -3,8 +3,8 @@ import locale
 import uuid
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404
-from .models import Topic, Lesson, Task, CustomUser, URLinks, Film, TimelineEvent, HistoryResource, GlossaryTerm, \
-    TopicName, TaskName
+from .models import (Topic, Lesson, Task, CustomUser, URLinks,
+                     Film, TimelineEvent, HistoryResource, GlossaryTerm, TopicName, TaskName, IWS)
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.core.files.storage import default_storage
@@ -330,3 +330,12 @@ def topic_detail(request, pk):
     topic = get_object_or_404(TopicName, pk=pk)
     tasks = topic.tasks.all()  # благодаря related_name="tasks"
     return render(request, 'main/page/topic_detail.html', {'topic': topic, 'tasks': tasks})
+
+def iws(request):
+    iws_list = IWS.objects.all().order_by('number')
+    paginator = Paginator(iws_list, 10)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'main/add/iws.html', {'page_obj': page_obj})

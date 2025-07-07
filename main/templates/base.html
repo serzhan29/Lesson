@@ -111,6 +111,11 @@ nav .nav-links::-webkit-scrollbar {
                         <span>Видеолекция</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{% url 'iws' %}" class="nav__link">
+                        <span>БӨЖ тақырыптары</span>
+                    </a>
+                </li>
                 {% if user.is_authenticated %}
                     <li class="nav__item nav__item--mobile">
                         <a href="{% url 'logout' %}" class="nav__link" style="color:red;">Шығу</a>

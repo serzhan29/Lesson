@@ -251,3 +251,15 @@ class TaskName(models.Model):
 
     def __str__(self):
         return f"{self.number}-тапсырма: {self.title}"
+
+
+class IWS(models.Model):
+    number = models.IntegerField(blank=True, null=True)
+    name = models.CharField(max_length=255, )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'БӨЖ тақырыптары'
+        verbose_name_plural = 'БӨЖ тақырыптары'

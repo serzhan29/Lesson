@@ -31,4 +31,5 @@ urlpatterns = [
 
     # add
     path('videos/', views.lesson_videos, name='lesson_videos'),
+    path('iws/', views.iws, name='iws' ),
 ]
