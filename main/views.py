@@ -4,7 +4,7 @@ import uuid
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404
 from .models import (Topic, Lesson, Task, CustomUser, URLinks,
-                     Film, TimelineEvent, HistoryResource, GlossaryTerm, TopicName, TaskName, IWS)
+                     Film, TimelineEvent, HistoryResource, GlossaryTerm, TopicName, TaskName, IWS, Textbook)
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.core.files.storage import default_storage
@@ -143,6 +143,17 @@ def lesson_videos(request):
         'lessons': lessons_with_videos
     })
 
+
+def textbook_list(request):
+    textbooks = Textbook.objects.all().order_by('lesson__id', 'name')
+    return render(request, 'main/add/textbook_list.html', {'textbooks': textbooks})
+
+
+
+
+def textbook_detail(request, pk):
+    textbook = get_object_or_404(Textbook, pk=pk)
+    return render(request, 'main/add/textbook_detail.html', {'textbook': textbook})
 
 
 @login_required
@@ -333,7 +344,7 @@ def topic_detail(request, pk):
 
 def iws(request):
     iws_list = IWS.objects.all().order_by('number')
-    paginator = Paginator(iws_list, 10)
+    paginator = Paginator(iws_list, 9)
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)

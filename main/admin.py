@@ -2,7 +2,7 @@ from django.contrib import admin
 from openpyxl.styles.builtins import title
 
 from .models import (Topic, Lesson, Task, URLinks, Film, CustomUser,
-                     Episode, TimelineEvent, HistoryResource, GlossaryTerm, TaskName, TopicName, IWS)
+                     Episode, TimelineEvent, HistoryResource, GlossaryTerm, TaskName, TopicName, IWS, Textbook)
 from django import forms
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django.contrib.auth.admin import UserAdmin
@@ -41,8 +41,22 @@ class LessonAdmin(admin.ModelAdmin):
               'video_url', 'video_2', 'video_3', 'video_4', 'video_5'
               )
 
-
 admin.site.register(Lesson, LessonAdmin)
+
+
+class TextbookAdminForm(forms.ModelForm):
+    class Meta:
+        model = Textbook
+        fields = '__all__'
+        widgets = {
+            'description': CKEditorUploadingWidget(),
+        }
+
+
+@admin.register(Textbook)
+class TextbookAdmin(admin.ModelAdmin):
+    form = TextbookAdminForm
+    list_display = ['name', 'lesson']
 
 
 class TaskAdmin(admin.ModelAdmin):

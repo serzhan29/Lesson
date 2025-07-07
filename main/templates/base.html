@@ -116,6 +116,11 @@ nav .nav-links::-webkit-scrollbar {
                         <span>БӨЖ тақырыптары</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{% url 'textbook_list' %}" class="nav__link">
+                        <span>Хрестоматия</span>
+                    </a>
+                </li>
                 {% if user.is_authenticated %}
                     <li class="nav__item nav__item--mobile">
                         <a href="{% url 'logout' %}" class="nav__link" style="color:red;">Шығу</a>

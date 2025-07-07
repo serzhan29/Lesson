@@ -59,6 +59,20 @@ class Lesson(models.Model):
         super(Lesson, self).save(*args, **kwargs)
 
 
+class Textbook(models.Model):
+    name = models.CharField(max_length=255)
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name='textbooks')
+    description = RichTextUploadingField("Толық сипаттама:", blank=True)
+
+
+    def __str__(self):
+        return f"{self.lesson.title}. {self.name}"
+
+
+    class Meta:
+        verbose_name = 'Хрестоматия'
+        verbose_name_plural = 'Хрестоматия'
+
 class LessonForm(forms.ModelForm):
     description = forms.CharField(widget=CKEditorUploadingWidget())
     short_description = forms.CharField(widget=CKEditorUploadingWidget())
@@ -69,6 +83,13 @@ class LessonForm(forms.ModelForm):
         model = Lesson
         fields = '__all__'
 
+
+class TextbookForm(forms.ModelForm):
+    description = forms.CharField(widget=CKEditorUploadingWidget())
+
+    class Meta:
+        model = Textbook
+        fields = '__all__'
 
 class Task(models.Model):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
