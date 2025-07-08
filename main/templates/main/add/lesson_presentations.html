@@ -31,7 +31,7 @@
 }
 
 /* Горизонтальная прокрутка */
-.video-scroll {
+.presentation-scroll {
     display: flex;
     overflow-x: auto;
     gap: 20px;
@@ -39,16 +39,16 @@
     scroll-snap-type: x mandatory;
 }
 
-.video-scroll::-webkit-scrollbar {
+.presentation-scroll::-webkit-scrollbar {
     height: 10px;
 }
 
-.video-scroll::-webkit-scrollbar-thumb {
+.presentation-scroll::-webkit-scrollbar-thumb {
     background: #ccc;
     border-radius: 5px;
 }
 
-.video-card {
+.presentation-card {
     flex: 0 0 500px;
     background: #fff;
     border-radius: 12px;
@@ -56,27 +56,44 @@
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-.video-card:hover {
+.presentation-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
 
-.video-frame,
-.video-card video {
+.presentation-frame {
     width: 100%;
-    height: 280px;
+    height: 350px;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     transition: transform 0.3s ease;
+    border: none;
 }
 
-.video-frame:hover,
-.video-card video:hover {
+.presentation-frame:hover {
     transform: scale(1.02);
 }
 
+.open-link {
+    display: inline-block;
+    margin-top: 10px;
+    text-align: center;
+    background: #3498db;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+.open-link:hover {
+    background: #2980b9;
+}
 /* Кнопки */
 .button-container {
     display: flex;
@@ -101,8 +118,7 @@
 }
 </style>
 
-<h1 class="page-title">Бейне дәрістер</h1>
-
+<h1 class="page-title">Презентациялар</h1>
 <div class="button-container">
     <a href="{% url 'lesson_videos' %}" class="page-button">Бейне дәрістер</a>
     <a href="{% url 'lesson_presentations' %}" class="page-button">Презентациялар</a>
@@ -117,49 +133,52 @@
                 <a href="{% url 'lesson_detail' lesson.id %}">{{ lesson.title }}</a>
             </h3>
 
-            <div class="video-scroll">
-                {% if lesson.video %}
-                    <div class="video-card">
-                        <video controls>
-                            <source src="{{ lesson.video.url }}">
-                            Сіздің браузеріңіз бейнені ойната алмайды.
-                        </video>
+            <div class="presentation-scroll">
+
+                {% if lesson.presentation_url %}
+                    {% if lesson.presentation_url %}
+                    <div class="presentation-card presentation-link">
+                        {{ lesson.presentation_url|safe }}
                     </div>
+                {% endif %}
                 {% endif %}
 
-                {% if lesson.video_url %}
-                    <div class="video-card">
-                        <iframe class="video-frame" src="{{ lesson.video_url }}" frameborder="0" allowfullscreen></iframe>
+                {% if lesson.presentation_urls %}
+                    {% if lesson.presentation_urls %}
+                    <div class="presentation-card presentation-link">
+                        {{ lesson.presentation_urls|safe }}
                     </div>
+                {% endif %}
                 {% endif %}
 
-                {% if lesson.video_2 %}
-                    <div class="video-card">
-                        <iframe class="video-frame" src="{{ lesson.video_2 }}" frameborder="0" allowfullscreen></iframe>
+                {% if lesson.presentation_url3 %}
+                    {% if lesson.presentation_url3 %}
+                    <div class="presentation-card presentation-link">
+                        {{ lesson.presentation_url3|safe }}
                     </div>
+                {% endif %}
                 {% endif %}
 
-                {% if lesson.video_3 %}
-                    <div class="video-card">
-                        <iframe class="video-frame" src="{{ lesson.video_3 }}" frameborder="0" allowfullscreen></iframe>
+                {% if lesson.presentation_url4 %}
+                    {% if lesson.presentation_url4 %}
+                    <div class="presentation-card presentation-link">
+                        {{ lesson.presentation_url4|safe }}
                     </div>
+                {% endif %}
                 {% endif %}
 
-                {% if lesson.video_4 %}
-                    <div class="video-card">
-                        <iframe class="video-frame" src="{{ lesson.video_4 }}" frameborder="0" allowfullscreen></iframe>
+                {% if lesson.presentation_url5 %}
+                    {% if lesson.presentation_url5 %}
+                    <div class="presentation-card presentation-link">
+                        {{ lesson.presentation_url5|safe }}
                     </div>
+                {% endif %}
                 {% endif %}
 
-                {% if lesson.video_5 %}
-                    <div class="video-card">
-                        <iframe class="video-frame" src="{{ lesson.video_5 }}" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                {% endif %}
             </div>
         {% endfor %}
     {% endfor %}
 {% else %}
-    <p>Қазіргі уақытта бейне дәрістер жоқ.</p>
+    <p>Қазіргі уақытта презентациялар жоқ.</p>
 {% endif %}
 {% endblock %}

@@ -67,6 +67,59 @@
         font-weight: 500;
         font-size: 15px;
     }
+    .presentation-cards {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center; /* чтобы по центру */
+    }
+
+    .presentation-card {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        flex: 1 1 300px; /* минимальная ширина 300px, растягивается по мере возможности */
+        max-width: 400px; /* ограничение максимальной ширины */
+    }
+
+    .presentation-card:hover {
+        transform: scale(1.03);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .presentation-card iframe {
+        width: 100%;
+        height: 200px;
+        border: none;
+        display: block;
+    }
+
+    .presentation-caption {
+        padding: 10px;
+        text-align: center;
+        font-weight: 500;
+        font-size: 15px;
+    }
+
+    /* Если вместо iframe используются <a> ссылки */
+    .presentation-link a {
+        display: block;
+        padding: 12px 20px;
+        background-color: #f0f0f0;
+        border-radius: 6px;
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: background-color 0.2s, box-shadow 0.2s;
+    }
+
+    .presentation-link a:hover {
+        background-color: #e0e0e0;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
 
     /* Desktop version: Menu on the right center */
     @media (min-width: 992px) {
@@ -203,42 +256,43 @@
         </div>
     </div>
 
-<!-- Модальное окно для первой презентации -->
-    <div id="presentationModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" id="closePresentationModal">&times;</span>
-            <h5 class="modal-title">Презентация</h5>
-            <div class="modal-body">
+ <div id="presentationModal2" class="modal">
+    <div class="modal-content">
+        <span class="close-button" id="closePresentationModal2">&times;</span>
+        {% if lesson.presentation_url or lesson.presentation_urls or lesson.presentation_url3 or lesson.presentation_url4 or lesson.presentation_url5 %}
+            <div class="presentation-cards">
                 {% if lesson.presentation_url %}
-                    <h6 class="task-title">Презентация:</h6>
-                    <div class="task-content">
-                        <!-- Используем iframe для отображения презентации -->
-                        <iframe src="{{ lesson.presentation.url }}" width="100%" height="500px">
-                            Ваш браузер не поддерживает просмотр файлов в iframe.
-                        </iframe>
+                    <div class="presentation-card presentation-link">
+                        {{ lesson.presentation_url|safe }}
                     </div>
-                {% else %}
-                    <p>Бұл дәріс үшін презентациялар табылмады - </p>
                 {% endif %}
-            </div>
-        </div>
-    </div>
-
-    <!-- Модальное окно для второй презентации -->
-    <div id="presentationModal2" class="modal">
-        <div class="modal-content">
-            <span class="close-button" id="closePresentationModal2">&times;</span>
-            <h5 class="modal-title">Презентация</h5>
-            <div class="modal-body">
                 {% if lesson.presentation_urls %}
-                    <h6 class="task-title">Презентация</h6>
-                    <div class="task-content">{{ lesson.presentation_urls|safe }}</div>
-                {% else %}
-                    <p>Бұл дәріс үшін презентациялар табылмады.</p>
+                    <div class="presentation-card presentation-link">
+                        {{ lesson.presentation_urls|safe }}
+                    </div>
+                {% endif %}
+                {% if lesson.presentation_url3 %}
+                    <div class="presentation-card presentation-link">
+                        {{ lesson.presentation_url3|safe }}
+                    </div>
+                {% endif %}
+                {% if lesson.presentation_url4 %}
+                    <div class="presentation-card presentation-link">
+                        {{ lesson.presentation_url4|safe }}
+                    </div>
+                {% endif %}
+                {% if lesson.presentation_url5 %}
+                    <div class="presentation-card presentation-link">
+                        {{ lesson.presentation_url5|safe }}
+                    </div>
                 {% endif %}
             </div>
-        </div>
+        {% else %}
+            <p>Бұл дәріс үшін презентациялар табылмады.</p>
+        {% endif %}
     </div>
+</div>
+
 
 <div id="videoModal" class="modal">
     <div class="modal-content">

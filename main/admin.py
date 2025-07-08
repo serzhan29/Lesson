@@ -39,7 +39,9 @@ class LessonAdmin(admin.ModelAdmin):
     fields = ('title', 'topic', 'number', 'short_description', 'description', 'question','glossary', 'video',
               'photo', 'audio',
               'presentation','url', 'presentation_url', 'presentation_urls',
-              'video_url', 'video_2', 'video_3', 'video_4', 'video_5'
+              'presentation_url3', 'presentation_url4', 'presentation_url5',
+              'video_url', 'video_2', 'video_3', 'video_4', 'video_5',
+
               )
 
 admin.site.register(Lesson, LessonAdmin)

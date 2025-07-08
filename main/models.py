@@ -39,6 +39,9 @@ class Lesson(models.Model):
     video_5 = models.URLField("Видеоға сілтеме - 5", blank=True, null=True,)
     presentation_url = models.CharField("Презентацияға сілтеме 1", max_length=500, blank=True, null=True,)
     presentation_urls = models.CharField("Презентацияға сілтеме 2", max_length=500,blank=True, null=True,)
+    presentation_url3 = models.CharField("Презентацияға сілтеме - 3 ", blank=True, null=True, max_length=500)
+    presentation_url4 = models.CharField("Презентацияға сілтеме - 4 ", blank=True, null=True, max_length=500)
+    presentation_url5 = models.CharField("Презентацияға сілтеме - 5 ", blank=True, null=True, max_length=500)
     question = RichTextUploadingField("Бақылау сұрақтары:", blank=True)
     glossary = RichTextUploadingField("Глоссарий:", blank=True)
 
@@ -255,9 +258,14 @@ class GlossaryTerm(models.Model):
 # Модель Темы
 class TopicName(models.Model):
     title = models.CharField("Название темы", max_length=255)
+    url = models.URLField('Ссылка', blank=True, null=True)
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name = 'БӨЖ тест'
+        verbose_name_plural = 'БӨЖ тесттер'
 
 # Модель Тапсырмы
 class TaskName(models.Model):

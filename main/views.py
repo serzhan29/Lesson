@@ -144,6 +144,32 @@ def lesson_videos(request):
         'lessons': lessons_with_videos
     })
 
+def lesson_presentations(request):
+    """
+    Страница, где показываются только лекции, у которых есть хотя бы одна презентация.
+    """
+    lessons_with_presentations = Lesson.objects.filter(
+        Q(presentation_url__isnull=False) & ~Q(presentation_url='') |
+        Q(presentation_urls__isnull=False) & ~Q(presentation_urls='') |
+        Q(presentation_url3__isnull=False) & ~Q(presentation_url3='') |
+        Q(presentation_url4__isnull=False) & ~Q(presentation_url4='') |
+        Q(presentation_url5__isnull=False) & ~Q(presentation_url5='')
+    ).select_related('topic').order_by('topic__name', 'number')
+
+    presentation_fields = [
+        "presentation_url",
+        "presentation_urls",
+        "presentation_url3",
+        "presentation_url4",
+        "presentation_url5"
+    ]
+
+    return render(request, 'main/add/lesson_presentations.html', {
+        'lessons': lessons_with_presentations,
+        'presentation_fields': presentation_fields
+    })
+
+
 
 def textbook_list(request):
     textbooks = Textbook.objects.all().order_by('lesson__id', 'name')

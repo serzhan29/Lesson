@@ -95,7 +95,7 @@
     <ul class="topics-list" id="topicsList">
       {% for topic in topics %}
         <li>
-          <a href="{% url 'topic_detail' topic.pk %}">
+          <a href="{{ topic.url }}">
             {{ topic.title }}
           </a>
         </li>
