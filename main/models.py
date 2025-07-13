@@ -227,6 +227,7 @@ class HistoryResource(models.Model):
     RESOURCE_TYPE_CHOICES = [
         ('website', 'Интернет-сайт'),
         ('virtual_tour', 'Виртуальный тур'),
+        ('3D', '3Д видеотур иесі'),
     ]
 
     title = models.CharField(max_length=255, verbose_name="Название")
