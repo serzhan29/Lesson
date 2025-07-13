@@ -276,6 +276,8 @@ class TopicName(models.Model):
         verbose_name = 'БӨЖ тест'
         verbose_name_plural = 'БӨЖ тесттер'
 
+
+
 # Модель Тапсырмы
 class TaskName(models.Model):
     topic = models.ForeignKey(TopicName, related_name="tasks", on_delete=models.CASCADE)

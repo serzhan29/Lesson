@@ -155,3 +155,9 @@ class IWSAdmin(admin.ModelAdmin):
 class ExamQuestionAdmin(admin.ModelAdmin):
     list_display = ['number', 'name']
     list_display_links = ['number', 'name']
+
+
+@admin.register(TopicName)
+class TopicNameAdmin(admin.ModelAdmin):
+    list_display = ('title', 'url')
+    list_display_links = ('title', 'url')
