@@ -3,16 +3,12 @@ from openpyxl.styles.builtins import title
 
 from .models import (Topic, Lesson, Task, URLinks, Film, CustomUser,
                      Episode, TimelineEvent, HistoryResource, GlossaryTerm,
-                     TaskName, TopicName, IWS, Textbook, ExamQuestion)
+                     TopicName, IWS, Textbook, ExamQuestion)
 from django import forms
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 
-
-@admin.register(Topic)
-class TopicAdmin(admin.ModelAdmin):
-    list_display = ['name', 'description']
 
 
 class LessonAdminForm(forms.ModelForm):
@@ -125,7 +121,6 @@ class FilmAdmin(admin.ModelAdmin):
     get_episode_count.short_description = 'Кол-во эпизодов'  # Название колонки в списке
 
 admin.site.register(Film, FilmAdmin)
-admin.site.register(Episode)
 
 
 @admin.register(TimelineEvent)
@@ -148,26 +143,6 @@ class GlossaryTermAdmin(admin.ModelAdmin):
     list_display = ('title' , 'category')
     list_display_links = ('title', 'category')
 
-
-
-# Инлайн-редактирование заданий внутри темы
-class TaskInline(admin.TabularInline):
-    model = TaskName
-    extra = 1  # сколько пустых форм показывать по умолчанию
-    fields = ['number', 'title', 'description', 'image']  # какие поля показывать
-    show_change_link = True
-
-# Админка для тем
-@admin.register(TopicName)
-class TopicNameAdmin(admin.ModelAdmin):
-    list_display = ['title']
-    inlines = [TaskInline]
-
-# Отдельная админка для заданий (на всякий случай)
-@admin.register(TaskName)
-class TaskNameAdmin(admin.ModelAdmin):
-    list_display = ['number', 'title', 'topic']
-    list_filter = ['topic']
 
 
 @admin.register(IWS)

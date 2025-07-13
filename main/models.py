@@ -139,6 +139,10 @@ class URLinks(models.Model):
         self.clicks += 1
         self.save(update_fields=['clicks'])
 
+    class Meta:
+        verbose_name = 'Kahoot тест'
+        verbose_name_plural = 'Kahoot тесттер'
+
 
 class Film(models.Model):
     title = models.CharField(max_length=255, verbose_name="Название фильма/сериала")
@@ -238,6 +242,10 @@ class HistoryResource(models.Model):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name = '3D Видеотур'
+        verbose_name_plural = '3D Видеотурлар'
 
 
 class GlossaryTerm(models.Model):
