@@ -133,7 +133,7 @@ def lesson_videos(request):
     """
     lessons_with_videos = Lesson.objects.filter(
         Q(video__isnull=False) & ~Q(video='') |
-        Q(video_url__isnull=False) & ~Q(video_url='') |
+        Q(video_url__isnull=False) & ~Q(video_url='') & ~Q(video_url='https://www.youtube.com/embed/') |
         Q(video_2__isnull=False) & ~Q(video_2='') |
         Q(video_3__isnull=False) & ~Q(video_3='') |
         Q(video_4__isnull=False) & ~Q(video_4='') |
