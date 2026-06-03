@@ -61,6 +61,60 @@ class Lesson(models.Model):
             self.url = f"/{slug_topic}/lesson-{self.number}-{slug_title}/"
         super(Lesson, self).save(*args, **kwargs)
 
+    @staticmethod
+    def _normalize_youtube_url(url):
+        if not url:
+            return ''
+
+        url = url.strip()
+        if url in ('https://www.youtube.com/embed/', 'https://www.youtube.com/embed'):
+            return ''
+
+        parsed = urlparse(url)
+        netloc = parsed.netloc.lower()
+
+        if 'youtu.be' in netloc:
+            video_id = parsed.path.strip('/')
+            return f'https://www.youtube.com/embed/{video_id}' if video_id else ''
+
+        if 'youtube.com' in netloc:
+            if parsed.path.startswith('/watch'):
+                query = parse_qs(parsed.query)
+                video_id = query.get('v', [None])[0]
+                if video_id:
+                    return f'https://www.youtube.com/embed/{video_id}'
+            if parsed.path.startswith('/shorts/'):
+                video_id = parsed.path.split('/shorts/')[-1].strip('/')
+                if video_id:
+                    return f'https://www.youtube.com/embed/{video_id}'
+            if parsed.path.startswith('/embed/'):
+                return url
+
+        return url
+
+    def _embed_url(self, url):
+        return self._normalize_youtube_url(url)
+
+    @property
+    def video_url_embed(self):
+        return self._embed_url(self.video_url)
+
+    @property
+    def video_2_embed(self):
+        return self._embed_url(self.video_2)
+
+    @property
+    def video_3_embed(self):
+        return self._embed_url(self.video_3)
+
+    @property
+    def video_4_embed(self):
+        return self._embed_url(self.video_4)
+
+    @property
+    def video_5_embed(self):
+        return self._embed_url(self.video_5)
+
 
 class Textbook(models.Model):
     name = models.CharField(max_length=255)
