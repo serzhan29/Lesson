@@ -1,78 +1,166 @@
 {% extends "base.html" %}
 
 {% block content %}
-<!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<!-- FontAwesome для иконок -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-
 <style>
-body {
+.resource-page {
     font-family: "Montserrat Alternates", sans-serif;
+    color: #111827;
+    background: radial-gradient(circle at top left, rgba(85,110,230,0.12), transparent 34%),
+                radial-gradient(circle at bottom right, rgba(46,204,113,0.12), transparent 32%),
+                #f8fafc;
 }
-a{
+.resource-page .resource-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 56px 24px 72px;
+}
+.resource-page .resource-heading {
+    text-align: center;
+    max-width: 760px;
+    margin: 0 auto 48px;
+}
+.resource-page .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #2563eb;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 1rem;
+}
+.resource-page .title {
+    font-size: clamp(2.1rem, 2.6vw, 3.15rem);
+    line-height: 1.05;
+    margin-bottom: 1rem;
+}
+.resource-page .subtitle {
+    max-width: 680px;
+    margin: 0 auto;
+    color: #475569;
+    line-height: 1.8;
+    font-size: 1rem;
+}
+.resource-grid {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+.resource-card {
+    border-radius: 26px;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
+    transition: transform .3s ease, box-shadow .3s ease;
+    display: flex;
+    flex-direction: column;
+}
+.resource-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 30px 80px rgba(15, 23, 42, 0.14);
+}
+.resource-card__link {
+    color: inherit;
     text-decoration: none;
-    color: black;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
-.container {
-  max-width: 1900px;
-  margin-inline: 1.5rem;
-}
-.card-link {
-    transition: all 0.3s ease;
-}
-.card-link:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
-    text-decoration: none;
-}
-.card-img-top {
-    height: 180px;
+.resource-card__image {
+    width: 100%;
+    height: 220px;
     object-fit: cover;
+    display: block;
+}
+.resource-card__body {
+    padding: 28px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1;
+}
+.resource-card__icon {
+    width: 68px;
+    height: 68px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px;
+    background: rgba(85,110,230,0.14);
+    color: #1e293b;
+    font-size: 1.45rem;
+}
+.resource-card__title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin: 0;
+}
+.resource-card__text {
+    color: #475569;
+    line-height: 1.75;
+    flex: 1;
+}
+.resource-badge {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.65rem 1rem;
+    border-radius: 999px;
+    background: rgba(46,204,113,0.12);
+    color: #166534;
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+@media (max-width: 768px) {
+    .resource-page .resource-inner { padding: 40px 18px 56px; }
 }
 </style>
 
-<div class="container py-5">
-    <h2 class="mb-5 fw-semibold text-center">
-        📚 Сұрақтар мен ресурстар
-    </h2>
-
-    <div class="row g-4 justify-content-center">
-        <!-- Карточка Емтихан сұрақтары -->
-        <div class="col-md-6 col-lg-4">
-            <a href="{% url 'exam' %}" class="card card-link border-0 shadow-sm h-100 text-dark">
-                <!-- Если нужно фото, раскомментируй -->
-                <img src="https://avatars.mds.yandex.net/i?id=b86a3866e9f2c51dbfd424ba4a7c0479_l-4937827-images-thumbs&n=13" class="card-img-top" alt="Емтихан сұрақтары">
-                <div class="card-body text-center">
-                    <i class="fa-solid fa-file-lines fa-2x text-primary mb-3"></i>
-                    <h5 class="card-title">Емтихан сұрақтары</h5>
-                    <p class="card-text">Барлық емтихан сұрақтары осы бетте орналасқан.</p>
-                </div>
-            </a>
+<div class="resource-page">
+    <div class="resource-inner">
+        <div class="resource-heading">
+            <p class="eyebrow">Жинақтама</p>
+            <h1 class="title">Сұрақтар мен оқу материалдарын көрнекі және түсінікті түрде таңдаңыз</h1>
+            <p class="subtitle">Барлық емтихан сұрақтары, БӨЖ тақырыптары және онлайн тесттер бір бетте. Қажетті бағытты тез тауып, дайындықты ыңғайлы бастаңыз.</p>
         </div>
 
-        <!-- Карточка БӨЖ тақырыптары -->
-        <div class="col-md-6 col-lg-4">
-            <a href="{% url 'list_topic' %}" class="card card-link border-0 shadow-sm h-100 text-dark">
-                <img src="https://psiola-center.ru/wp-content/uploads/9/1/d/91dc5377ea1a87185dfe2c84d16fcc22.jpeg" class="card-img-top" alt="БӨЖ тақырыптары">
-                <div class="card-body text-center">
-                    <i class="fa-solid fa-list-check fa-2x text-success mb-3"></i>
-                    <h5 class="card-title">Практикалық сұрақтар</h5>
-                    <p class="card-text">БӨЖ (Өзіндік жұмыстар) үшін тақырыптардың тізімі.</p>
-                </div>
-            </a>
-        </div>
+        <div class="resource-grid">
+            <article class="resource-card">
+                <a href="{% url 'exam' %}" class="resource-card__link">
+                    <img src="https://avatars.mds.yandex.net/i?id=b86a3866e9f2c51dbfd424ba4a7c0479_l-4937827-images-thumbs&n=13" alt="Емтихан сұрақтары" class="resource-card__image">
+                    <div class="resource-card__body">
+                        <div class="resource-card__icon"><i class="ri-file-list-3-line"></i></div>
+                        <h2 class="resource-card__title">Емтихан сұрақтары</h2>
+                        <p class="resource-card__text">Барлық емтихан сұрақтарының жинағы мен жаттығулар бір жерде.</p>
+                        <span class="resource-badge"><i class="ri-arrow-right-line"></i> Қазір өту</span>
+                    </div>
+                </a>
+            </article>
 
-        <!-- Карточка Пайдалы сілтемелер -->
-        <div class="col-md-6 col-lg-4">
-            <a href="{% url 'links' %}" class="card card-link border-0 shadow-sm h-100 text-dark">
-                <img src="https://i.pinimg.com/originals/f9/4a/80/f94a80b84c5d484560009acc8543fb98.jpg" class="card-img-top" alt="Сілтемелер">
-                <div class="card-body text-center">
-                    <i class="fa-solid fa-link fa-2x text-warning mb-3"></i>
-                    <h5 class="card-title">Тесттер</h5>
-                    <p class="card-text">Онлайн тесттер</p>
-                </div>
-            </a>
+            <article class="resource-card">
+                <a href="{% url 'list_topic' %}" class="resource-card__link">
+                    <img src="https://psiola-center.ru/wp-content/uploads/9/1/d/91dc5377ea1a87185dfe2c84d16fcc22.jpeg" alt="Практикалық сұрақтар" class="resource-card__image">
+                    <div class="resource-card__body">
+                        <div class="resource-card__icon" style="background: rgba(16,185,129,0.14); color: #134e4a;"><i class="ri-list-check"></i></div>
+                        <h2 class="resource-card__title">Практикалық сұрақтар</h2>
+                        <p class="resource-card__text">БӨЖ бойынша практикалық сұрақтар мен тақырыптық жинақ.</p>
+                        <span class="resource-badge"><i class="ri-arrow-right-line"></i> Қарау</span>
+                    </div>
+                </a>
+            </article>
+
+            <article class="resource-card">
+                <a href="{% url 'links' %}" class="resource-card__link">
+                    <img src="https://i.pinimg.com/originals/f9/4a/80/f94a80b84c5d484560009acc8543fb98.jpg" alt="Тесттер" class="resource-card__image">
+                    <div class="resource-card__body">
+                        <div class="resource-card__icon" style="background: rgba(251,191,36,0.14); color: #92400e;"><i class="ri-link-m"></i></div>
+                        <h2 class="resource-card__title">Тесттер</h2>
+                        <p class="resource-card__text">Интерактивті тесттер арқылы білімді тез тексеріңіз.</p>
+                        <span class="resource-badge"><i class="ri-arrow-right-line"></i> Бастау</span>
+                    </div>
+                </a>
+            </article>
         </div>
     </div>
 </div>

@@ -299,35 +299,35 @@
         <span class="close-button" id="closeVideoModal">&times;</span>
         <h5 class="modal-title">Видеоурок</h5>
         <div class="modal-body">
-            {% if lesson.video_url or lesson.video_2 or lesson.video_3 or lesson.video_4 or lesson.video_5 %}
+            {% if lesson.video_url_embed or lesson.video_2_embed or lesson.video_3_embed or lesson.video_4_embed or lesson.video_5_embed %}
                 <div class="video-cards">
-                    {% if lesson.video_url %}
+                    {% if lesson.video_url_embed %}
                         <div class="video-card">
-                            <iframe src="{{ lesson.video_url }}" allowfullscreen></iframe>
+                            <iframe src="{{ lesson.video_url_embed }}" allowfullscreen></iframe>
                             <div class="video-caption">Видео 1</div>
                         </div>
                     {% endif %}
-                    {% if lesson.video_2 %}
+                    {% if lesson.video_2_embed %}
                         <div class="video-card">
-                            <iframe src="{{ lesson.video_2 }}" allowfullscreen></iframe>
+                            <iframe src="{{ lesson.video_2_embed }}" allowfullscreen></iframe>
                             <div class="video-caption">Видео 2</div>
                         </div>
                     {% endif %}
-                    {% if lesson.video_3 %}
+                    {% if lesson.video_3_embed %}
                         <div class="video-card">
-                            <iframe src="{{ lesson.video_3 }}" allowfullscreen></iframe>
+                            <iframe src="{{ lesson.video_3_embed }}" allowfullscreen></iframe>
                             <div class="video-caption">Видео 3</div>
                         </div>
                     {% endif %}
-                    {% if lesson.video_4 %}
+                    {% if lesson.video_4_embed %}
                         <div class="video-card">
-                            <iframe src="{{ lesson.video_4 }}" allowfullscreen></iframe>
+                            <iframe src="{{ lesson.video_4_embed }}" allowfullscreen></iframe>
                             <div class="video-caption">Видео 4</div>
                         </div>
                     {% endif %}
-                    {% if lesson.video_5 %}
+                    {% if lesson.video_5_embed %}
                         <div class="video-card">
-                            <iframe src="{{ lesson.video_5 }}" allowfullscreen></iframe>
+                            <iframe src="{{ lesson.video_5_embed }}" allowfullscreen></iframe>
                             <div class="video-caption">Видео 5</div>
                         </div>
                     {% endif %}
