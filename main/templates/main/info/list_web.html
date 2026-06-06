@@ -2,127 +2,202 @@
 
 {% block content %}
 <style>
-    /* Негізгі фон */
-    body {
-        background: #eef2f5;
+    .list-web-page {
+        padding: 40px 24px 60px;
     }
 
-    /* Бет атауы */
-    h1 {
+    .list-web-card {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 40px;
+        border-radius: 28px;
+        background: #ffffff;
+        box-shadow: 0 28px 56px rgba(22, 67, 122, 0.08);
+        border: 1px solid rgba(13, 110, 253, 0.12);
+    }
+
+    .list-web-title {
+        margin: 0 0 14px;
+        font-size: 2.35rem;
+        line-height: 1.05;
+        color: #12223f;
         text-align: center;
-        margin: 30px 0;
-        font-size: 28px;
-        color: #2c3e50;
     }
 
-    /* Фильтр батырмалары */
+    .list-web-subtitle {
+        max-width: 820px;
+        margin: 0 auto 36px;
+        color: #556269;
+        font-size: 1rem;
+        line-height: 1.8;
+        text-align: center;
+    }
+
     .filters {
-        text-align: center;
-        margin-bottom: 30px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 32px;
     }
 
     .filters a {
-        display: inline-block;
-        margin: 5px 8px;
-        padding: 10px 18px;
-        background: #4CAF50;
-        color: white;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 11px 20px;
+        border-radius: 999px;
+        background: #f0f6ff;
+        color: #1f3360;
         text-decoration: none;
-        border-radius: 8px;
-        font-size: 16px;
-        transition: background 0.3s, transform 0.2s;
+        font-size: 0.95rem;
+        font-weight: 600;
+        transition: transform 0.22s ease, background-color 0.22s ease, color 0.22s ease;
+        border: 1px solid transparent;
     }
 
-    .filters a:hover {
-        background: #45a049;
-        transform: scale(1.05);
+    .filters a:hover,
+    .filters a.active {
+        background: #0d6efd;
+        color: #ffffff;
+        transform: translateY(-1px);
+        border-color: rgba(13, 110, 253, 0.2);
     }
 
-    /* Ресурс карталары */
-    .resource {
-        background: white;
-        margin: 20px auto;
-        padding: 25px;
-        border-radius: 12px;
-        max-width: 900px;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    .resources-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
     }
 
-    .resource:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+    .resource-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 220px;
+        padding: 28px;
+        border-radius: 22px;
+        border: 1px solid rgba(13, 110, 253, 0.1);
+        background: #fbfcff;
+        box-shadow: 0 18px 34px rgba(15, 47, 98, 0.06);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
-    .resource h2 {
-        margin-top: 0;
-        color: #333;
-        font-size: 24px;
+    .resource-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 24px 48px rgba(15, 47, 98, 0.1);
     }
 
-    .resource p {
-        margin: 10px 0;
-        font-size: 16px;
-        color: #555;
+    .resource-card h2 {
+        margin: 0 0 16px;
+        font-size: 1.35rem;
+        color: #12223f;
     }
 
-    .resource a {
-        display: inline-block;
-        margin-top: 12px;
-        color: #4CAF50;
-        font-weight: bold;
+    .resource-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: rgba(13, 110, 253, 0.08);
+        color: #0d6efd;
+        font-size: 0.9rem;
+        font-weight: 700;
+        margin-bottom: 16px;
+        width: fit-content;
+    }
+
+    .resource-card p {
+        margin: 0 0 16px;
+        color: #4c5b76;
+        font-size: 0.98rem;
+        line-height: 1.8;
+    }
+
+    .resource-card p:last-child {
+        margin-bottom: 0;
+    }
+
+    .resource-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        color: #0d6efd;
+        font-weight: 700;
         text-decoration: none;
-        font-size: 16px;
+        transition: color 0.2s ease;
     }
 
-    .resource a:hover {
+    .resource-link:hover {
+        color: #0a58ca;
         text-decoration: underline;
     }
 
-    /* Мобильді адаптация */
-    @media (max-width: 768px) {
-        .resource {
-            margin: 15px 20px;
-            padding: 20px;
+    .empty-message {
+        text-align: center;
+        color: #5d6d82;
+        font-size: 1rem;
+        padding: 24px 12px;
+    }
+
+    @media (max-width: 980px) {
+        .resources-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 680px) {
+        .list-web-card {
+            padding: 28px 18px;
+            border-radius: 22px;
+        }
+
+        .list-web-title {
+            font-size: 2rem;
         }
 
         .filters a {
-            margin: 5px 5px;
-            padding: 8px 14px;
-            font-size: 14px;
-        }
-
-        h1 {
-            font-size: 24px;
-            margin: 20px 10px;
+            padding: 10px 16px;
         }
     }
 </style>
 
-<h1>Қазақстан тарихы бойынша интернет-ресурстар мен виртуалды турлар</h1>
+<div class="list-web-page">
+    <div class="list-web-card">
+        <h1 class="list-web-title">Қазақстан тарихы бойынша интернет-ресурстар мен виртуалды турлар</h1>
+        <p class="list-web-subtitle">Төменде Қазақстан тарихын жақсы түсінуге көмектесетін сапалы онлайн-сайттар мен виртуалды турлар жинақталған.</p>
 
-<div class="filters">
-    <a href="{% url 'list_web' %}">Барлығы</a>
-    <a href="{% url 'list_web' %}?type=website">Интернет-сайттар</a>
-    <a href="{% url 'list_web' %}?type=virtual_tour">3Д видеотур иесі</a>
-</div>
+        <div class="filters">
+            <a href="{% url 'list_web' %}" class="{% if not request.GET.type %}active{% endif %}">Барлығы</a>
+            <a href="{% url 'list_web' %}?type=website" class="{% if request.GET.type == 'website' %}active{% endif %}">Интернет-сайттар</a>
+            <a href="{% url 'list_web' %}?type=virtual_tour" class="{% if request.GET.type == 'virtual_tour' %}active{% endif %}">Виртуалды турлар</a>
+        </div>
 
-{% for resource in resources %}
-    <div class="resource">
-        <h2>{{ resource.title }}</h2>
-        <p><strong>Түрі:</strong> 
-            {% if resource.resource_type == 'website' %}
-                Интернет-сайт
-            {% elif resource.resource_type == 'virtual_tour' %}
-                Виртуалды тур
-            {% endif %}
-        </p>
-        {% if resource.description %}
-            <p>{{ resource.description }}</p>
-        {% endif %}
-        <p><a href="{{ resource.url }}" target="_blank">Сайтқа өту</a></p>
+        <div class="resources-grid">
+            {% for resource in resources %}
+                <article class="resource-card">
+                    <div>
+                        <div class="resource-label">
+                            {% if resource.resource_type == 'website' %}
+                                Интернет-сайт
+                            {% elif resource.resource_type == 'virtual_tour' %}
+                                Виртуалды тур
+                            {% endif %}
+                        </div>
+                        <h2>{{ resource.title }}</h2>
+                        {% if resource.description %}
+                            <p>{{ resource.description }}</p>
+                        {% else %}
+                            <p>Осы ресурс туралы қосымша ақпарат қолжетімді емес.</p>
+                        {% endif %}
+                    </div>
+                    <a href="{{ resource.url }}" target="_blank" class="resource-link">Сайтқа өту <span>↗</span></a>
+                </article>
+            {% empty %}
+                <p class="empty-message">Қазіргі уақытта ресурстар қосылмаған.</p>
+            {% endfor %}
+        </div>
     </div>
-{% empty %}
-    <p style="text-align:center;">Қазіргі уақытта ресурстар қосылмаған.</p>
-{% endfor %}
+</div>
 {% endblock %}
